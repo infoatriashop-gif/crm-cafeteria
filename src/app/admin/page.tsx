@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import {
@@ -20,12 +20,19 @@ import {
   RefreshCw,
   Play,
   Zap,
+  Settings,
+  Eye,
+  EyeOff,
+  Wifi,
+  WifiOff,
+  Loader2,
+  AlertCircle,
 } from "lucide-react";
 import { mesas, reservasDemo, infoNegocio } from "@/lib/datos-demo";
 import type { Mesa } from "@/tipos";
 
 // ── Tipos locales ──────────────────────────────────────────────
-type TabAdmin = "resumen" | "mesas" | "reservas";
+type TabAdmin = "resumen" | "mesas" | "reservas" | "config";
 type FiltroReservas = "hoy" | "proximas" | "todas";
 type EstadoReserva = "pendiente" | "confirmada" | "cancelada";
 
@@ -215,6 +222,7 @@ export default function AdminPage() {
               { valor: "resumen", etiqueta: "Resumen", icon: LayoutDashboard },
               { valor: "mesas", etiqueta: "Mesas", icon: UtensilsCrossed },
               { valor: "reservas", etiqueta: "Reservas", icon: CalendarDays },
+              { valor: "config", etiqueta: "Config.", icon: Settings },
             ] as const
           ).map(({ valor, etiqueta, icon: Icon }) => (
             <button
@@ -462,6 +470,9 @@ export default function AdminPage() {
           </>
         )}
 
+        {/* ── TAB: CONFIGURACIÓN ──────────────────────────── */}
+        {tab === "config" && <TabConfiguracion />}
+
         {/* ── TAB: RESERVAS ───────────────────────────────── */}
         {tab === "reservas" && (
           <>
@@ -520,6 +531,234 @@ export default function AdminPage() {
           </>
         )}
       </main>
+    </div>
+  );
+}
+
+// ── TAB CONFIGURACIÓN ──────────────────────────────────────────
+
+function TabConfiguracion() {
+  const [apiKey, setApiKey] = useState("");
+  const [shopId, setShopId] = useState("");
+  const [mostrarKey, setMostrarKey] = useState(false);
+  const [guardando, setGuardando] = useState(false);
+  const [probando, setProbando] = useState(false);
+  const [guardadoOk, setGuardadoOk] = useState(false);
+  const [estado, setEstado] = useState<{
+    tipo: "exito" | "error" | null;
+    mensaje: string;
+  }>({ tipo: null, mensaje: "" });
+  const [configActual, setConfigActual] = useState<{
+    configurado: boolean;
+    pancakeShopId: string;
+    pancakeApiKeyPreview: string;
+  } | null>(null);
+
+  const cargarConfig = useCallback(async () => {
+    try {
+      const res = await fetch("/api/admin/configuracion");
+      if (res.ok) setConfigActual(await res.json());
+    } catch { /* ignorar */ }
+  }, []);
+
+  useEffect(() => { cargarConfig(); }, [cargarConfig]);
+
+  const guardar = async () => {
+    if (!apiKey.trim() || !shopId.trim()) {
+      setEstado({ tipo: "error", mensaje: "Completa la API Key y el Shop ID." });
+      return;
+    }
+    setGuardando(true);
+    setEstado({ tipo: null, mensaje: "" });
+    try {
+      const res = await fetch("/api/admin/configuracion", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ pancakeApiKey: apiKey, pancakeShopId: shopId }),
+      });
+      if (res.ok) {
+        setGuardadoOk(true);
+        setApiKey("");
+        setShopId("");
+        await cargarConfig();
+        setTimeout(() => setGuardadoOk(false), 2500);
+      } else {
+        setEstado({ tipo: "error", mensaje: "Error al guardar." });
+      }
+    } catch {
+      setEstado({ tipo: "error", mensaje: "Error de conexión." });
+    } finally {
+      setGuardando(false);
+    }
+  };
+
+  const probarConexion = async () => {
+    setProbando(true);
+    setEstado({ tipo: null, mensaje: "" });
+    try {
+      const res = await fetch("/api/admin/pancake/test");
+      const datos = await res.json();
+      if (datos.ok) {
+        setEstado({
+          tipo: "exito",
+          mensaje: `✓ Conectado — Shop: ${datos.shopId} · ${datos.totalClientes} clientes`,
+        });
+      } else {
+        setEstado({ tipo: "error", mensaje: datos.error ?? "Error desconocido" });
+      }
+    } catch {
+      setEstado({ tipo: "error", mensaje: "Error de red al probar la conexión." });
+    } finally {
+      setProbando(false);
+    }
+  };
+
+  return (
+    <div className="space-y-5">
+      {/* Estado actual */}
+      <div className={`rounded-2xl border p-4 flex items-center gap-3 ${
+        configActual?.configurado
+          ? "bg-green-50 border-green-200"
+          : "bg-[#C8852A]/8 border-[#C8852A]/25"
+      }`}>
+        {configActual?.configurado ? (
+          <Wifi className="w-5 h-5 text-green-600 flex-shrink-0" />
+        ) : (
+          <WifiOff className="w-5 h-5 text-[#C8852A] flex-shrink-0" />
+        )}
+        <div className="flex-1 min-w-0">
+          <p className={`text-sm font-bold ${configActual?.configurado ? "text-green-700" : "text-[#C8852A]"}`}>
+            {configActual?.configurado ? "Pancake CRM conectado" : "Pancake CRM no configurado"}
+          </p>
+          {configActual?.configurado && (
+            <p className="text-xs text-[#7A5C44] mt-0.5 font-medium">
+              Shop: <span className="font-bold">{configActual.pancakeShopId}</span>
+              {" · "}Key: <span className="font-mono">{configActual.pancakeApiKeyPreview}</span>
+            </p>
+          )}
+        </div>
+        {configActual?.configurado && (
+          <button
+            onClick={probarConexion}
+            disabled={probando}
+            className="flex items-center gap-1.5 text-xs font-bold text-green-700 bg-green-100 hover:bg-green-200 px-3 py-2 rounded-xl transition-colors disabled:opacity-60"
+          >
+            {probando ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <RefreshCw className="w-3.5 h-3.5" />}
+            Probar
+          </button>
+        )}
+      </div>
+
+      {/* Resultado del test */}
+      {estado.tipo && (
+        <div className={`rounded-2xl border px-4 py-3 flex items-start gap-2.5 ${
+          estado.tipo === "exito"
+            ? "bg-green-50 border-green-200"
+            : "bg-red-50 border-red-200"
+        }`}>
+          {estado.tipo === "exito"
+            ? <CheckCircle2 className="w-4 h-4 text-green-600 flex-shrink-0 mt-0.5" />
+            : <AlertCircle className="w-4 h-4 text-red-500 flex-shrink-0 mt-0.5" />
+          }
+          <p className={`text-sm font-medium ${estado.tipo === "exito" ? "text-green-700" : "text-red-600"}`}>
+            {estado.mensaje}
+          </p>
+        </div>
+      )}
+
+      {/* Formulario */}
+      <div className="bg-white rounded-2xl border border-[#E8D5B7]/80 shadow-sm overflow-hidden">
+        <div className="px-5 py-4 border-b border-[#E8D5B7]/50">
+          <h2 className="text-sm font-extrabold text-[#2C1810]">Configurar Pancake CRM</h2>
+          <p className="text-xs text-[#7A5C44] mt-0.5">
+            Obtén tu API Key en Pancake → Configuración → Aplicación
+          </p>
+        </div>
+
+        <div className="px-5 py-4 space-y-4">
+          {/* Shop ID */}
+          <div>
+            <label className="block text-xs font-bold text-[#7A5C44] uppercase tracking-wider mb-1.5">
+              Shop ID
+            </label>
+            <input
+              type="text"
+              value={shopId}
+              onChange={(e) => setShopId(e.target.value)}
+              placeholder={configActual?.pancakeShopId ? `Actual: ${configActual.pancakeShopId}` : "ej. 123456"}
+              className="w-full px-4 py-3 bg-[#FDF6EC] border border-[#E8D5B7] rounded-xl text-sm font-medium text-[#2C1810] placeholder:text-[#2C1810]/25 outline-none focus:border-[#C8852A] focus:ring-2 focus:ring-[#C8852A]/20 transition-all"
+            />
+          </div>
+
+          {/* API Key */}
+          <div>
+            <label className="block text-xs font-bold text-[#7A5C44] uppercase tracking-wider mb-1.5">
+              API Key
+            </label>
+            <div className="relative">
+              <input
+                type={mostrarKey ? "text" : "password"}
+                value={apiKey}
+                onChange={(e) => setApiKey(e.target.value)}
+                placeholder={configActual?.pancakeApiKeyPreview ? `Actual: ${configActual.pancakeApiKeyPreview}` : "••••••••••••••••"}
+                className="w-full px-4 py-3 pr-11 bg-[#FDF6EC] border border-[#E8D5B7] rounded-xl text-sm font-medium text-[#2C1810] placeholder:text-[#2C1810]/25 outline-none focus:border-[#C8852A] focus:ring-2 focus:ring-[#C8852A]/20 transition-all"
+              />
+              <button
+                type="button"
+                onClick={() => setMostrarKey(!mostrarKey)}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-[#2C1810]/40 hover:text-[#2C1810]/70 transition-colors"
+              >
+                {mostrarKey ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+              </button>
+            </div>
+          </div>
+
+          {/* Botones */}
+          <div className="flex gap-3 pt-1">
+            <button
+              onClick={guardar}
+              disabled={guardando || guardadoOk}
+              className={`flex-1 py-3 rounded-xl text-sm font-bold flex items-center justify-center gap-2 transition-all ${
+                guardadoOk
+                  ? "bg-green-600 text-white"
+                  : "bg-[#2C1810] text-[#FDF6EC] hover:bg-[#3d2410] disabled:opacity-60"
+              }`}
+            >
+              {guardando
+                ? <><Loader2 className="w-4 h-4 animate-spin" /> Guardando...</>
+                : guardadoOk
+                ? <><CheckCircle2 className="w-4 h-4" /> Guardado</>
+                : "Guardar credenciales"
+              }
+            </button>
+            {!configActual?.configurado && (
+              <button
+                onClick={probarConexion}
+                disabled={probando}
+                className="px-4 py-3 rounded-xl text-sm font-bold bg-[#FDF6EC] border border-[#E8D5B7] text-[#2C1810] hover:bg-[#F5EAD7] flex items-center gap-2 transition-colors disabled:opacity-60"
+              >
+                {probando ? <Loader2 className="w-4 h-4 animate-spin" /> : <Wifi className="w-4 h-4" />}
+                Probar
+              </button>
+            )}
+          </div>
+        </div>
+      </div>
+
+      {/* Nota sobre producción */}
+      <div className="bg-[#2C1810]/5 rounded-2xl border border-[#2C1810]/10 px-4 py-3.5 flex items-start gap-3">
+        <AlertCircle className="w-4 h-4 text-[#7A5C44] flex-shrink-0 mt-0.5" />
+        <div>
+          <p className="text-xs font-bold text-[#2C1810] mb-1">Para producción (Vercel)</p>
+          <p className="text-xs text-[#7A5C44] leading-relaxed">
+            Esta configuración es temporal (se resetea al reiniciar el servidor).
+            Para producción estable, agrega{" "}
+            <span className="font-mono font-bold text-[#2C1810]">PANCAKE_API_KEY</span>{" "}y{" "}
+            <span className="font-mono font-bold text-[#2C1810]">PANCAKE_SHOP_ID</span>{" "}
+            en Vercel → Settings → Environment Variables.
+          </p>
+        </div>
+      </div>
     </div>
   );
 }

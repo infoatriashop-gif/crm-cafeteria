@@ -3,9 +3,9 @@
 // Auth: api_key como query param en todas las peticiones
 // Base URL: https://pos.pages.fm/api/v1
 
+import { obtenerConfigRuntime, pancakeEstaConfigurado } from "@/lib/config-runtime";
+
 const BASE_URL = "https://pos.pages.fm/api/v1";
-const API_KEY = process.env.PANCAKE_API_KEY ?? "";
-const SHOP_ID = process.env.PANCAKE_SHOP_ID ?? "";
 
 // ─── Tipos ───────────────────────────────────────────────────────────────────
 
@@ -54,22 +54,20 @@ export interface DatosReservaParaPancake {
 
 // ─── Cliente HTTP interno ────────────────────────────────────────────────────
 
-function estaConfigurado(): boolean {
-  return Boolean(API_KEY && SHOP_ID);
-}
-
 async function llamarAPI<T>(
   metodo: "GET" | "POST" | "PUT",
   ruta: string,
   cuerpo?: unknown
 ): Promise<T | null> {
-  if (!estaConfigurado()) {
-    console.warn("[Pancake] No configurado (PANCAKE_API_KEY o PANCAKE_SHOP_ID faltante). Omitiendo.");
+  if (!pancakeEstaConfigurado()) {
+    console.warn("[Pancake] No configurado (API key o Shop ID faltante). Omitiendo.");
     return null;
   }
 
+  const { pancakeApiKey } = obtenerConfigRuntime();
+
   const url = new URL(`${BASE_URL}${ruta}`);
-  url.searchParams.set("api_key", API_KEY);
+  url.searchParams.set("api_key", pancakeApiKey);
 
   try {
     const res = await fetch(url.toString(), {
@@ -93,6 +91,11 @@ async function llamarAPI<T>(
   }
 }
 
+function shopRuta(sufijo: string): string {
+  const { pancakeShopId } = obtenerConfigRuntime();
+  return `/shops/${pancakeShopId}${sufijo}`;
+}
+
 // ─── Clientes ────────────────────────────────────────────────────────────────
 
 /**
@@ -104,7 +107,7 @@ export async function buscarClientePorTelefono(
 ): Promise<ClientePancake | null> {
   const respuesta = await llamarAPI<RespuestaListaClientes>(
     "GET",
-    `/shops/${SHOP_ID}/customers?search=${encodeURIComponent(telefono)}&page_size=5`
+    shopRuta(`/customers?search=${encodeURIComponent(telefono)}&page_size=5`)
   );
   if (!respuesta?.data?.length) return null;
 
@@ -130,7 +133,7 @@ export async function crearCliente(datos: {
   };
 
   interface RespuestaCliente { data: ClientePancake }
-  const respuesta = await llamarAPI<RespuestaCliente>("POST", `/shops/${SHOP_ID}/customers`, cuerpo);
+  const respuesta = await llamarAPI<RespuestaCliente>("POST", shopRuta("/customers"), cuerpo);
   return respuesta?.data ?? null;
 }
 
@@ -143,7 +146,7 @@ export async function actualizarCliente(
 ): Promise<boolean> {
   const respuesta = await llamarAPI(
     "PUT",
-    `/shops/${SHOP_ID}/customers/${clienteId}`,
+    shopRuta(`/customers/${clienteId}`),
     { customer: datos }
   );
   return respuesta !== null;
@@ -184,7 +187,7 @@ export async function agregarNotaACliente(
 ): Promise<boolean> {
   const respuesta = await llamarAPI(
     "POST",
-    `/shops/${SHOP_ID}/customers/${clienteId}/create_note`,
+    shopRuta(`/customers/${clienteId}/create_note`),
     { message: mensaje }
   );
   return respuesta !== null;
@@ -203,7 +206,7 @@ export async function agregarNotaACliente(
 export async function registrarReservaEnPancake(
   datos: DatosReservaParaPancake
 ): Promise<{ clienteId: number | null; ok: boolean }> {
-  if (!estaConfigurado()) {
+  if (!pancakeEstaConfigurado()) {
     return { clienteId: null, ok: false };
   }
 
