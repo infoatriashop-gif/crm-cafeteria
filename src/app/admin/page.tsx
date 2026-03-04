@@ -18,6 +18,8 @@ import {
   Phone,
   Mail,
   RefreshCw,
+  Play,
+  Zap,
 } from "lucide-react";
 import { mesas, reservasDemo, infoNegocio } from "@/lib/datos-demo";
 import type { Mesa } from "@/tipos";
@@ -295,6 +297,22 @@ export default function AdminPage() {
                 </div>
               )}
             </div>
+
+            {/* Demo del sistema — destacado */}
+            <Link
+              href="/admin/demo"
+              className="flex items-center gap-4 bg-gradient-to-r from-[#C8852A] to-[#b5741f] text-white rounded-2xl p-4 shadow-md hover:opacity-90 transition-opacity"
+            >
+              <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center flex-shrink-0">
+                <Play className="w-6 h-6 text-white ml-0.5" />
+              </div>
+              <div className="flex-1 min-w-0">
+                <p className="text-xs text-white/70 font-semibold">🎬 Presentación animada</p>
+                <p className="text-sm font-extrabold">Ver demo del sistema</p>
+                <p className="text-xs text-white/60 mt-0.5">Cómo funciona tu cafetería 24/7</p>
+              </div>
+              <Zap className="w-5 h-5 text-white/60 flex-shrink-0" />
+            </Link>
 
             {/* Acceso rápido */}
             <div className="grid grid-cols-2 gap-3">
