@@ -28,7 +28,6 @@ import { mesas, infoNegocio } from "@/lib/datos-demo";
 import type { Mesa } from "@/tipos";
 
 type Paso = 1 | 2 | 3 | "exito";
-
 type FiltroUbicacion = "todas" | "interior" | "terraza";
 
 function formatearFecha(dateStr: string): string {
@@ -130,45 +129,42 @@ export default function ReservasPage() {
   // ── PANTALLA ÉXITO ────────────────────────────────────────────
   if (paso === "exito") {
     return (
-      <div className="min-h-screen bg-[#FDF6EC] font-sans flex items-center justify-center px-5">
+      <div className="min-h-screen bg-[#0F0B08] font-sans flex items-center justify-center px-5">
         <div className="w-full max-w-md text-center">
-          {/* Checkmark animado */}
-          <div className="w-24 h-24 bg-[#1A5C3A]/12 rounded-full flex items-center justify-center mx-auto mb-6">
-            <div className="w-16 h-16 bg-[#1A5C3A]/20 rounded-full flex items-center justify-center">
-              <CheckCircle2 className="w-10 h-10 text-[#1A5C3A]" strokeWidth={2} />
+          <div className="w-24 h-24 bg-green-500/10 rounded-full flex items-center justify-center mx-auto mb-6 border border-green-500/20">
+            <div className="w-16 h-16 bg-green-500/15 rounded-full flex items-center justify-center">
+              <CheckCircle2 className="w-10 h-10 text-green-400" strokeWidth={2} />
             </div>
           </div>
 
-          <h1 className="text-3xl font-extrabold text-[#2C1810] mb-3">
+          <h1 className="text-3xl font-extrabold text-[#F0E6D3] mb-3">
             ¡Reserva confirmada!
           </h1>
-          <p className="text-[#7A5C44] mb-6">
+          <p className="text-[#8A6650] mb-6">
             Te hemos enviado los detalles a tu email
             {whatsapp ? " y WhatsApp" : ""}.
           </p>
 
-          {/* Número de reserva */}
-          <div className="inline-flex items-center gap-2 bg-[#C8852A]/15 text-[#C8852A] font-bold px-5 py-2.5 rounded-full text-lg mb-7">
+          <div className="inline-flex items-center gap-2 bg-[#C8852A]/15 text-[#C8852A] font-bold px-5 py-2.5 rounded-full text-lg mb-7 border border-[#C8852A]/25">
             #{numeroReserva}
           </div>
 
-          {/* Resumen mini */}
-          <div className="bg-white rounded-2xl border border-[#E8D5B7] shadow-sm p-5 mb-7 text-left space-y-3">
+          <div className="bg-[#1A1108] rounded-2xl border border-[#2E1E0E] p-5 mb-7 text-left space-y-3">
             <div className="flex items-center gap-3">
               <Calendar className="w-4 h-4 text-[#C8852A] flex-shrink-0" />
-              <span className="text-sm text-[#2C1810] font-medium capitalize">
+              <span className="text-sm text-[#F0E6D3] font-medium capitalize">
                 {formatearFecha(fecha)}
               </span>
             </div>
             <div className="flex items-center gap-3">
               <Clock className="w-4 h-4 text-[#C8852A] flex-shrink-0" />
-              <span className="text-sm text-[#2C1810] font-medium">
+              <span className="text-sm text-[#F0E6D3] font-medium">
                 {hora} · {infoNegocio.reservas.duracionMinutos} min
               </span>
             </div>
             <div className="flex items-center gap-3">
               <MapPin className="w-4 h-4 text-[#C8852A] flex-shrink-0" />
-              <span className="text-sm text-[#2C1810] font-medium capitalize">
+              <span className="text-sm text-[#F0E6D3] font-medium capitalize">
                 {mesaSeleccionada
                   ? `Mesa ${mesaSeleccionada.numero} · ${mesaSeleccionada.ubicacion}`
                   : "Mesa asignada"}
@@ -176,7 +172,6 @@ export default function ReservasPage() {
             </div>
           </div>
 
-          {/* Acciones */}
           <div className="flex flex-col gap-3">
             <Link
               href="/reservas"
@@ -186,7 +181,7 @@ export default function ReservasPage() {
             </Link>
             <Link
               href="/"
-              className="w-full py-4 border-2 border-[#2C1810]/20 text-[#2C1810] font-semibold rounded-full hover:bg-[#2C1810]/5 transition-colors text-center"
+              className="w-full py-4 border border-white/12 text-[#F0E6D3]/75 font-semibold rounded-full hover:bg-white/5 transition-colors text-center"
             >
               Volver al inicio
             </Link>
@@ -198,28 +193,27 @@ export default function ReservasPage() {
 
   // ── LAYOUT PRINCIPAL ──────────────────────────────────────────
   return (
-    <div className="min-h-screen bg-[#FDF6EC] font-sans">
+    <div className="min-h-screen bg-[#0F0B08] font-sans">
 
       {/* Header sticky */}
-      <header className="sticky top-0 z-50 bg-[#FDF6EC]/95 backdrop-blur-md border-b border-[#2C1810]/10">
+      <header className="sticky top-0 z-50 bg-[#0F0B08]/95 backdrop-blur-md border-b border-white/6">
         <div className="max-w-2xl mx-auto px-5 py-3.5 flex items-center justify-between">
-          {/* Botón atrás */}
           {paso === 1 ? (
             <Link href="/">
-              <ArrowLeft className="w-5 h-5 text-[#2C1810]" />
+              <ArrowLeft className="w-5 h-5 text-[#F0E6D3]" />
             </Link>
           ) : (
             <button onClick={() => setPaso((paso as number) - 1 as Paso)}>
-              <ArrowLeft className="w-5 h-5 text-[#2C1810]" />
+              <ArrowLeft className="w-5 h-5 text-[#F0E6D3]" />
             </button>
           )}
 
-          <h1 className="text-base font-bold text-[#2C1810]">
+          <h1 className="text-base font-bold text-[#F0E6D3]">
             {paso === 1 ? "Nueva Reserva" : paso === 2 ? "Elegir Mesa" : "Confirmar Reserva"}
           </h1>
 
           <Link href="/">
-            <X className="w-5 h-5 text-[#2C1810]/50" />
+            <X className="w-5 h-5 text-[#F0E6D3]/40" />
           </Link>
         </div>
 
@@ -230,21 +224,15 @@ export default function ReservasPage() {
               <div
                 key={p}
                 className={`h-1.5 flex-1 rounded-full transition-all duration-500 ${
-                  (paso as number) >= p ? "bg-[#C8852A]" : "bg-[#2C1810]/12"
+                  (paso as number) >= p ? "bg-[#C8852A]" : "bg-white/10"
                 }`}
               />
             ))}
           </div>
           <div className="flex justify-between text-[10px] font-semibold">
-            <span className={(paso as number) >= 1 ? "text-[#C8852A]" : "text-[#2C1810]/35"}>
-              1 · Datos
-            </span>
-            <span className={(paso as number) >= 2 ? "text-[#C8852A]" : "text-[#2C1810]/35"}>
-              2 · Mesa
-            </span>
-            <span className={(paso as number) >= 3 ? "text-[#C8852A]" : "text-[#2C1810]/35"}>
-              3 · Confirmar
-            </span>
+            <span className={(paso as number) >= 1 ? "text-[#C8852A]" : "text-[#F0E6D3]/30"}>1 · Datos</span>
+            <span className={(paso as number) >= 2 ? "text-[#C8852A]" : "text-[#F0E6D3]/30"}>2 · Mesa</span>
+            <span className={(paso as number) >= 3 ? "text-[#C8852A]" : "text-[#F0E6D3]/30"}>3 · Confirmar</span>
           </div>
         </div>
       </header>
@@ -253,90 +241,88 @@ export default function ReservasPage() {
       {paso === 1 && (
         <main className="max-w-2xl mx-auto px-5 py-6 pb-32 md:pb-10 space-y-5">
 
-          {/* Tu información */}
           <div>
-            <p className="text-xs font-bold text-[#7A5C44] uppercase tracking-wider mb-3 flex items-center gap-2">
+            <p className="text-xs font-bold text-[#8A6650] uppercase tracking-wider mb-3 flex items-center gap-2">
               <User className="w-3.5 h-3.5" /> Tu información
             </p>
-            <div className="bg-white rounded-2xl border border-[#E8D5B7]/80 shadow-sm overflow-hidden">
+            <div className="bg-[#1A1108] rounded-2xl border border-[#2E1E0E] overflow-hidden">
               {/* Nombre */}
               <div className="px-4 py-3.5">
                 <label className="flex items-center gap-3">
                   <User className="w-4 h-4 text-[#C8852A] flex-shrink-0" />
                   <div className="flex-1">
-                    <div className="text-[10px] font-semibold text-[#7A5C44] uppercase tracking-wider mb-0.5">
+                    <div className="text-[10px] font-semibold text-[#8A6650] uppercase tracking-wider mb-0.5">
                       Nombre completo
                     </div>
                     <input
                       {...register("nombreCliente")}
                       placeholder="Juan Pérez"
-                      className="w-full text-sm font-medium text-[#2C1810] bg-transparent outline-none placeholder:text-[#2C1810]/25"
+                      className="w-full text-sm font-medium text-[#F0E6D3] bg-transparent outline-none placeholder:text-[#F0E6D3]/20"
                     />
                   </div>
                 </label>
                 {errors.nombreCliente && (
-                  <p className="text-red-500 text-xs mt-1 ml-7">{errors.nombreCliente.message}</p>
+                  <p className="text-red-400 text-xs mt-1 ml-7">{errors.nombreCliente.message}</p>
                 )}
               </div>
-              <div className="h-px bg-[#E8D5B7]/60 mx-4" />
+              <div className="h-px bg-[#2E1E0E] mx-4" />
 
               {/* Email */}
               <div className="px-4 py-3.5">
                 <label className="flex items-center gap-3">
                   <Mail className="w-4 h-4 text-[#C8852A] flex-shrink-0" />
                   <div className="flex-1">
-                    <div className="text-[10px] font-semibold text-[#7A5C44] uppercase tracking-wider mb-0.5">
+                    <div className="text-[10px] font-semibold text-[#8A6650] uppercase tracking-wider mb-0.5">
                       Email
                     </div>
                     <input
                       {...register("email")}
                       type="email"
                       placeholder="juan@email.com"
-                      className="w-full text-sm font-medium text-[#2C1810] bg-transparent outline-none placeholder:text-[#2C1810]/25"
+                      className="w-full text-sm font-medium text-[#F0E6D3] bg-transparent outline-none placeholder:text-[#F0E6D3]/20"
                     />
                   </div>
                 </label>
                 {errors.email && (
-                  <p className="text-red-500 text-xs mt-1 ml-7">{errors.email.message}</p>
+                  <p className="text-red-400 text-xs mt-1 ml-7">{errors.email.message}</p>
                 )}
               </div>
-              <div className="h-px bg-[#E8D5B7]/60 mx-4" />
+              <div className="h-px bg-[#2E1E0E] mx-4" />
 
               {/* Teléfono */}
               <div className="px-4 py-3.5">
                 <label className="flex items-center gap-3">
                   <Phone className="w-4 h-4 text-[#C8852A] flex-shrink-0" />
                   <div className="flex-1">
-                    <div className="text-[10px] font-semibold text-[#7A5C44] uppercase tracking-wider mb-0.5">
+                    <div className="text-[10px] font-semibold text-[#8A6650] uppercase tracking-wider mb-0.5">
                       Teléfono
                     </div>
                     <input
                       {...register("telefono")}
                       type="tel"
-                      placeholder="+52 55 1234 5678"
-                      className="w-full text-sm font-medium text-[#2C1810] bg-transparent outline-none placeholder:text-[#2C1810]/25"
+                      placeholder="+57 300 123 4567"
+                      className="w-full text-sm font-medium text-[#F0E6D3] bg-transparent outline-none placeholder:text-[#F0E6D3]/20"
                     />
                   </div>
                 </label>
                 {errors.telefono && (
-                  <p className="text-red-500 text-xs mt-1 ml-7">{errors.telefono.message}</p>
+                  <p className="text-red-400 text-xs mt-1 ml-7">{errors.telefono.message}</p>
                 )}
               </div>
             </div>
           </div>
 
-          {/* Detalles de la visita */}
           <div>
-            <p className="text-xs font-bold text-[#7A5C44] uppercase tracking-wider mb-3 flex items-center gap-2">
+            <p className="text-xs font-bold text-[#8A6650] uppercase tracking-wider mb-3 flex items-center gap-2">
               <Calendar className="w-3.5 h-3.5" /> Detalles de la visita
             </p>
-            <div className="bg-white rounded-2xl border border-[#E8D5B7]/80 shadow-sm overflow-hidden">
+            <div className="bg-[#1A1108] rounded-2xl border border-[#2E1E0E] overflow-hidden">
               {/* Fecha */}
               <div className="px-4 py-3.5">
                 <label className="flex items-center gap-3">
                   <Calendar className="w-4 h-4 text-[#C8852A] flex-shrink-0" />
                   <div className="flex-1">
-                    <div className="text-[10px] font-semibold text-[#7A5C44] uppercase tracking-wider mb-0.5">
+                    <div className="text-[10px] font-semibold text-[#8A6650] uppercase tracking-wider mb-0.5">
                       Fecha
                     </div>
                     <input
@@ -344,58 +330,58 @@ export default function ReservasPage() {
                       type="date"
                       min={obtenerHoy()}
                       max={obtenerMaxFecha()}
-                      className="w-full text-sm font-medium text-[#2C1810] bg-transparent outline-none"
+                      className="w-full text-sm font-medium text-[#F0E6D3] bg-transparent outline-none [color-scheme:dark]"
                     />
                   </div>
                 </label>
                 {errors.fecha && (
-                  <p className="text-red-500 text-xs mt-1 ml-7">{errors.fecha.message}</p>
+                  <p className="text-red-400 text-xs mt-1 ml-7">{errors.fecha.message}</p>
                 )}
               </div>
-              <div className="h-px bg-[#E8D5B7]/60 mx-4" />
+              <div className="h-px bg-[#2E1E0E] mx-4" />
 
               {/* Hora */}
               <div className="px-4 py-3.5">
                 <label className="flex items-center gap-3">
                   <Clock className="w-4 h-4 text-[#C8852A] flex-shrink-0" />
                   <div className="flex-1">
-                    <div className="text-[10px] font-semibold text-[#7A5C44] uppercase tracking-wider mb-0.5">
+                    <div className="text-[10px] font-semibold text-[#8A6650] uppercase tracking-wider mb-0.5">
                       Hora
                     </div>
                     <select
                       {...register("hora")}
-                      className="w-full text-sm font-medium text-[#2C1810] bg-transparent outline-none appearance-none"
+                      className="w-full text-sm font-medium text-[#F0E6D3] bg-transparent outline-none appearance-none [color-scheme:dark]"
                     >
-                      <option value="">Selecciona un horario</option>
+                      <option value="" className="bg-[#1A1108]">Selecciona un horario</option>
                       {infoNegocio.reservas.horariosDisponibles.map((h) => (
-                        <option key={h} value={h}>{h}</option>
+                        <option key={h} value={h} className="bg-[#1A1108]">{h}</option>
                       ))}
                     </select>
                   </div>
                 </label>
                 {errors.hora && (
-                  <p className="text-red-500 text-xs mt-1 ml-7">{errors.hora.message}</p>
+                  <p className="text-red-400 text-xs mt-1 ml-7">{errors.hora.message}</p>
                 )}
               </div>
-              <div className="h-px bg-[#E8D5B7]/60 mx-4" />
+              <div className="h-px bg-[#2E1E0E] mx-4" />
 
               {/* Personas */}
               <div className="px-4 py-3.5">
                 <div className="flex items-center gap-3">
                   <Users className="w-4 h-4 text-[#C8852A] flex-shrink-0" />
                   <div className="flex-1">
-                    <div className="text-[10px] font-semibold text-[#7A5C44] uppercase tracking-wider mb-0.5">
+                    <div className="text-[10px] font-semibold text-[#8A6650] uppercase tracking-wider mb-0.5">
                       Número de personas
                     </div>
                     <div className="flex items-center gap-4">
                       <button
                         type="button"
                         onClick={() => setValue("numPersonas", Math.max(numPersonas - 1, 1))}
-                        className="w-8 h-8 bg-[#F5EAD7] rounded-full flex items-center justify-center hover:bg-[#E8D5B7] transition-colors"
+                        className="w-8 h-8 bg-[#2C1C12] rounded-full flex items-center justify-center hover:bg-[#3A2418] transition-colors border border-[#2E1E0E]"
                       >
-                        <Minus className="w-3.5 h-3.5 text-[#2C1810]" />
+                        <Minus className="w-3.5 h-3.5 text-[#F0E6D3]" />
                       </button>
-                      <span className="text-xl font-bold text-[#2C1810] w-6 text-center">
+                      <span className="text-xl font-bold text-[#F0E6D3] w-6 text-center">
                         {numPersonas}
                       </span>
                       <button
@@ -410,7 +396,7 @@ export default function ReservasPage() {
                       >
                         <Plus className="w-3.5 h-3.5 text-white" />
                       </button>
-                      <span className="text-xs text-[#7A5C44]">personas</span>
+                      <span className="text-xs text-[#8A6650]">personas</span>
                     </div>
                   </div>
                 </div>
@@ -418,17 +404,15 @@ export default function ReservasPage() {
             </div>
           </div>
 
-          {/* Info duración */}
           <div className="flex items-center gap-3 bg-[#C8852A]/10 border border-[#C8852A]/20 rounded-xl px-4 py-3">
             <Clock className="w-4 h-4 text-[#C8852A] flex-shrink-0" />
-            <p className="text-sm text-[#7A5C44]">
-              <span className="font-semibold text-[#2C1810]">Duración estimada:</span>{" "}
+            <p className="text-sm text-[#8A6650]">
+              <span className="font-semibold text-[#F0E6D3]">Duración estimada:</span>{" "}
               {infoNegocio.reservas.duracionMinutos} minutos por reserva
             </p>
           </div>
 
-          {/* CTA */}
-          <div className="fixed md:static bottom-20 left-0 right-0 md:bottom-auto px-5 md:px-0 pb-safe md:pb-0 bg-[#FDF6EC]/95 md:bg-transparent backdrop-blur-md md:backdrop-blur-none pt-3 md:pt-0">
+          <div className="fixed md:static bottom-20 left-0 right-0 md:bottom-auto px-5 md:px-0 pb-safe md:pb-0 bg-[#0F0B08]/95 md:bg-transparent backdrop-blur-md md:backdrop-blur-none pt-3 md:pt-0">
             <button
               type="button"
               onClick={avanzarAPaso2}
@@ -457,8 +441,8 @@ export default function ReservasPage() {
                 onClick={() => setFiltroUbicacion(valor)}
                 className={`flex-shrink-0 px-4 py-2 rounded-full text-sm font-semibold transition-all ${
                   filtroUbicacion === valor
-                    ? "bg-[#2C1810] text-white shadow-sm"
-                    : "bg-white text-[#2C1810]/60 border border-[#E8D5B7]"
+                    ? "bg-[#F0E6D3] text-[#0F0B08] shadow-sm"
+                    : "bg-[#1A1108] text-[#F0E6D3]/55 border border-[#2E1E0E]"
                 }`}
               >
                 {etiqueta}
@@ -472,7 +456,7 @@ export default function ReservasPage() {
                 className={`flex-shrink-0 px-4 py-2 rounded-full text-sm font-semibold transition-all ${
                   filtroPax === pax
                     ? "bg-[#C8852A] text-white shadow-sm"
-                    : "bg-white text-[#2C1810]/60 border border-[#E8D5B7]"
+                    : "bg-[#1A1108] text-[#F0E6D3]/55 border border-[#2E1E0E]"
                 }`}
               >
                 {pax}+ pax
@@ -481,7 +465,7 @@ export default function ReservasPage() {
           </div>
 
           {/* Leyenda */}
-          <div className="flex items-center gap-4 text-xs font-medium text-[#7A5C44]">
+          <div className="flex items-center gap-4 text-xs font-medium text-[#8A6650]">
             <span className="flex items-center gap-1.5">
               <span className="w-2.5 h-2.5 rounded-full bg-green-400" /> Disponible
             </span>
@@ -494,12 +478,11 @@ export default function ReservasPage() {
           </div>
 
           {/* Plano visual */}
-          <div className="bg-white rounded-2xl border border-[#E8D5B7]/80 shadow-sm overflow-hidden">
+          <div className="bg-[#1A1108] rounded-2xl border border-[#2E1E0E] overflow-hidden">
 
-            {/* Interior */}
             {(filtroUbicacion === "todas" || filtroUbicacion === "interior") && mesasInterior.length > 0 && (
               <div className="p-4">
-                <p className="text-[10px] font-bold text-[#7A5C44] uppercase tracking-widest mb-3">
+                <p className="text-[10px] font-bold text-[#8A6650] uppercase tracking-widest mb-3">
                   Interior
                 </p>
                 <div className="grid grid-cols-3 md:grid-cols-4 gap-2.5">
@@ -518,15 +501,13 @@ export default function ReservasPage() {
               </div>
             )}
 
-            {/* Divisor */}
             {filtroUbicacion === "todas" && mesasTerraza.length > 0 && (
-              <div className="h-px bg-[#E8D5B7]/60 mx-4" />
+              <div className="h-px bg-[#2E1E0E] mx-4" />
             )}
 
-            {/* Terraza */}
             {(filtroUbicacion === "todas" || filtroUbicacion === "terraza") && mesasTerraza.length > 0 && (
               <div className="p-4">
-                <p className="text-[10px] font-bold text-[#7A5C44] uppercase tracking-widest mb-3">
+                <p className="text-[10px] font-bold text-[#8A6650] uppercase tracking-widest mb-3">
                   Terraza
                 </p>
                 <div className="grid grid-cols-3 md:grid-cols-4 gap-2.5">
@@ -546,30 +527,27 @@ export default function ReservasPage() {
             )}
           </div>
 
-          {/* Error si no seleccionó */}
           {errorMesa && (
-            <p className="text-red-500 text-sm font-medium text-center">
+            <p className="text-red-400 text-sm font-medium text-center">
               Por favor selecciona una mesa para continuar
             </p>
           )}
 
-          {/* Resumen selección */}
           {mesaSeleccionada && (
             <div className="flex items-center gap-3 bg-[#C8852A]/12 border border-[#C8852A]/25 rounded-xl px-4 py-3">
               <CheckCircle2 className="w-5 h-5 text-[#C8852A] flex-shrink-0" />
               <div>
-                <p className="text-sm font-bold text-[#2C1810]">
+                <p className="text-sm font-bold text-[#F0E6D3]">
                   Mesa {mesaSeleccionada.numero} seleccionada
                 </p>
-                <p className="text-xs text-[#7A5C44] capitalize">
+                <p className="text-xs text-[#8A6650] capitalize">
                   {mesaSeleccionada.ubicacion} · Hasta {mesaSeleccionada.capacidad} personas
                 </p>
               </div>
             </div>
           )}
 
-          {/* CTA */}
-          <div className="fixed md:static bottom-20 left-0 right-0 md:bottom-auto px-5 md:px-0 pb-safe md:pb-0 bg-[#FDF6EC]/95 md:bg-transparent backdrop-blur-md md:backdrop-blur-none pt-3 md:pt-0">
+          <div className="fixed md:static bottom-20 left-0 right-0 md:bottom-auto px-5 md:px-0 pb-safe md:pb-0 bg-[#0F0B08]/95 md:bg-transparent backdrop-blur-md md:backdrop-blur-none pt-3 md:pt-0">
             <button
               type="button"
               onClick={avanzarAPaso3}
@@ -586,12 +564,11 @@ export default function ReservasPage() {
         <form onSubmit={handleSubmit(onSubmit)}>
           <main className="max-w-2xl mx-auto px-5 py-6 pb-32 md:pb-10 space-y-5">
 
-            {/* Resumen */}
             <div>
-              <p className="text-xs font-bold text-[#7A5C44] uppercase tracking-wider mb-3">
+              <p className="text-xs font-bold text-[#8A6650] uppercase tracking-wider mb-3">
                 Resumen de tu reserva
               </p>
-              <div className="bg-white rounded-2xl border border-[#E8D5B7]/80 shadow-sm overflow-hidden">
+              <div className="bg-[#1A1108] rounded-2xl border border-[#2E1E0E] overflow-hidden">
                 {[
                   {
                     icon: User,
@@ -618,38 +595,37 @@ export default function ReservasPage() {
                 ].map(({ icon: Icon, titulo, sub }, idx, arr) => (
                   <div key={idx}>
                     <div className="px-4 py-4 flex items-start gap-3">
-                      <div className="w-9 h-9 bg-[#C8852A]/12 rounded-xl flex items-center justify-center flex-shrink-0 mt-0.5">
+                      <div className="w-9 h-9 bg-[#C8852A]/12 rounded-xl flex items-center justify-center flex-shrink-0 mt-0.5 border border-[#C8852A]/15">
                         <Icon className="w-4 h-4 text-[#C8852A]" />
                       </div>
                       <div className="flex-1 min-w-0">
-                        <p className="text-sm font-semibold text-[#2C1810] truncate capitalize">{titulo}</p>
-                        <p className="text-xs text-[#7A5C44] truncate mt-0.5">{sub}</p>
+                        <p className="text-sm font-semibold text-[#F0E6D3] truncate capitalize">{titulo}</p>
+                        <p className="text-xs text-[#8A6650] truncate mt-0.5">{sub}</p>
                       </div>
                     </div>
-                    {idx < arr.length - 1 && <div className="h-px bg-[#E8D5B7]/60 mx-4" />}
+                    {idx < arr.length - 1 && <div className="h-px bg-[#2E1E0E] mx-4" />}
                   </div>
                 ))}
               </div>
             </div>
 
-            {/* Política de cancelación */}
             <div className="bg-[#C8852A]/10 border border-[#C8852A]/20 rounded-xl px-4 py-4">
-              <p className="text-sm font-bold text-[#2C1810] mb-1">
+              <p className="text-sm font-bold text-[#F0E6D3] mb-1">
                 📋 Política de cancelación
               </p>
-              <p className="text-xs text-[#7A5C44] leading-relaxed">
+              <p className="text-xs text-[#8A6650] leading-relaxed">
                 {infoNegocio.politicaCancelacion.descripcion}
               </p>
             </div>
 
             {/* Toggle WhatsApp */}
-            <div className="bg-white rounded-2xl border border-[#E8D5B7]/80 shadow-sm px-4 py-4">
+            <div className="bg-[#1A1108] rounded-2xl border border-[#2E1E0E] px-4 py-4">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-semibold text-[#2C1810]">
+                  <p className="text-sm font-semibold text-[#F0E6D3]">
                     Confirmación por WhatsApp
                   </p>
-                  <p className="text-xs text-[#7A5C44] mt-0.5">
+                  <p className="text-xs text-[#8A6650] mt-0.5">
                     Recibe el resumen en tu teléfono
                   </p>
                 </div>
@@ -657,7 +633,7 @@ export default function ReservasPage() {
                   type="button"
                   onClick={() => setWhatsapp(!whatsapp)}
                   className={`relative w-12 h-6 rounded-full transition-colors ${
-                    whatsapp ? "bg-[#C8852A]" : "bg-[#2C1810]/20"
+                    whatsapp ? "bg-[#C8852A]" : "bg-white/15"
                   }`}
                 >
                   <div
@@ -669,8 +645,7 @@ export default function ReservasPage() {
               </div>
             </div>
 
-            {/* CTA final */}
-            <div className="fixed md:static bottom-20 left-0 right-0 md:bottom-auto px-5 md:px-0 pb-safe md:pb-0 bg-[#FDF6EC]/95 md:bg-transparent backdrop-blur-md md:backdrop-blur-none pt-3 md:pt-0 space-y-2">
+            <div className="fixed md:static bottom-20 left-0 right-0 md:bottom-auto px-5 md:px-0 pb-safe md:pb-0 bg-[#0F0B08]/95 md:bg-transparent backdrop-blur-md md:backdrop-blur-none pt-3 md:pt-0 space-y-2">
               <button
                 type="submit"
                 disabled={cargando}
@@ -683,7 +658,7 @@ export default function ReservasPage() {
                 )}
                 {cargando ? "Confirmando..." : "Confirmar reserva"}
               </button>
-              <p className="text-center text-xs text-[#7A5C44]">
+              <p className="text-center text-xs text-[#8A6650]">
                 Al confirmar aceptas nuestras condiciones de uso
               </p>
             </div>
@@ -692,7 +667,7 @@ export default function ReservasPage() {
       )}
 
       {/* Bottom nav mobile */}
-      <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-[#E8D5B7]/80 pb-safe z-40">
+      <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-[#1A1108] border-t border-[#2E1E0E] pb-safe z-40">
         <div className="flex justify-around py-2.5 max-w-lg mx-auto">
           {[
             { icon: Home, etiqueta: "Inicio", activo: false, href: "/" },
@@ -702,10 +677,10 @@ export default function ReservasPage() {
           ].map(({ icon: Icon, etiqueta, activo, href }) => (
             <Link key={etiqueta} href={href} className="flex flex-col items-center gap-1 px-3 py-1">
               <Icon
-                className={`w-5 h-5 ${activo ? "text-[#C8852A]" : "text-[#2C1810]/35"}`}
+                className={`w-5 h-5 ${activo ? "text-[#C8852A]" : "text-[#F0E6D3]/30"}`}
                 strokeWidth={activo ? 2.5 : 1.75}
               />
-              <span className={`text-[10px] font-semibold ${activo ? "text-[#C8852A]" : "text-[#2C1810]/35"}`}>
+              <span className={`text-[10px] font-semibold ${activo ? "text-[#C8852A]" : "text-[#F0E6D3]/30"}`}>
                 {etiqueta}
               </span>
             </Link>
@@ -733,24 +708,24 @@ function TarjetaMesa({
       disabled={!mesa.disponible}
       className={`p-3 rounded-xl border-2 text-left transition-all w-full ${
         seleccionada
-          ? "border-[#C8852A] bg-[#C8852A]/10 shadow-sm"
+          ? "border-[#C8852A] bg-[#C8852A]/12 shadow-sm"
           : mesa.disponible
-          ? "border-[#E8D5B7] bg-[#FDF6EC] hover:border-green-300 hover:bg-green-50/50 active:scale-[0.97]"
-          : "border-red-100 bg-red-50/50 opacity-55 cursor-not-allowed"
+          ? "border-[#2E1E0E] bg-[#221610] hover:border-green-800 hover:bg-green-900/15 active:scale-[0.97]"
+          : "border-red-900/30 bg-red-900/10 opacity-50 cursor-not-allowed"
       }`}
     >
-      <div className="text-xs font-bold text-[#2C1810]">Mesa {mesa.numero}</div>
+      <div className="text-xs font-bold text-[#F0E6D3]">Mesa {mesa.numero}</div>
       <div className="flex items-center gap-0.5 mt-0.5">
-        <Users className="w-2.5 h-2.5 text-[#7A5C44]" />
-        <span className="text-[10px] text-[#7A5C44]">{mesa.capacidad}</span>
+        <Users className="w-2.5 h-2.5 text-[#8A6650]" />
+        <span className="text-[10px] text-[#8A6650]">{mesa.capacidad}</span>
       </div>
       <div
         className={`text-[10px] font-bold mt-1.5 ${
           seleccionada
             ? "text-[#C8852A]"
             : mesa.disponible
-            ? "text-green-600"
-            : "text-red-400"
+            ? "text-green-400"
+            : "text-red-400/70"
         }`}
       >
         {seleccionada ? "✓ Elegida" : mesa.disponible ? "Libre" : "Ocupada"}

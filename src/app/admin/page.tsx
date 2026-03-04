@@ -179,7 +179,7 @@ export default function AdminPage() {
   );
 
   return (
-    <div className="min-h-screen bg-[#FDF6EC] font-sans">
+    <div className="min-h-screen bg-[#0F0B08] font-sans">
 
       {/* ── HEADER ──────────────────────────────────────── */}
       <header className="sticky top-0 z-50 bg-[#2C1810]">
@@ -248,10 +248,10 @@ export default function AdminPage() {
           <>
             {/* Stats */}
             <div className="grid grid-cols-2 gap-3">
-              <StatCard valor={reservasHoy.length} etiqueta="Reservas hoy" color="text-[#2C1810]" bg="bg-white" />
-              <StatCard valor={reservasHoy.filter((r) => r.estado === "confirmada").length} etiqueta="Confirmadas hoy" color="text-[#1A5C3A]" bg="bg-green-50" borde="border-green-100" />
-              <StatCard valor={pendientesTotal} etiqueta="Pendientes" color="text-[#C8852A]" bg="bg-[#C8852A]/8" borde="border-[#C8852A]/15" />
-              <StatCard valor={mesasLibres} etiqueta="Mesas libres" color="text-[#2C1810]" bg="bg-white" />
+              <StatCard valor={reservasHoy.length} etiqueta="Reservas hoy" color="text-[#F0E6D3]" bg="bg-[#1A1108]" />
+              <StatCard valor={reservasHoy.filter((r) => r.estado === "confirmada").length} etiqueta="Confirmadas hoy" color="text-[#1A5C3A]" bg="bg-green-900/20" borde="border-green-800/30" />
+              <StatCard valor={pendientesTotal} etiqueta="Pendientes" color="text-[#C8852A]" bg="bg-[#C8852A]/10" borde="border-[#C8852A]/15" />
+              <StatCard valor={mesasLibres} etiqueta="Mesas libres" color="text-[#F0E6D3]" bg="bg-[#1A1108]" />
             </div>
 
             {/* Alerta de pendientes */}
@@ -259,7 +259,7 @@ export default function AdminPage() {
               <div className="bg-[#C8852A]/12 border border-[#C8852A]/25 rounded-2xl px-4 py-3.5 flex items-start gap-3">
                 <div className="w-2 h-2 rounded-full bg-[#C8852A] mt-1 flex-shrink-0 animate-pulse" />
                 <div>
-                  <p className="text-sm font-bold text-[#2C1810]">
+                  <p className="text-sm font-bold text-[#F0E6D3]">
                     {pendientesTotal} reserva{pendientesTotal > 1 ? "s" : ""} pendiente{pendientesTotal > 1 ? "s" : ""}
                   </p>
                   <button
@@ -275,7 +275,7 @@ export default function AdminPage() {
             {/* Próximas reservas */}
             <div>
               <div className="flex items-center justify-between mb-3">
-                <h2 className="text-sm font-extrabold text-[#2C1810]">Próximas reservas</h2>
+                <h2 className="text-sm font-extrabold text-[#F0E6D3]">Próximas reservas</h2>
                 <button
                   onClick={() => setTab("reservas")}
                   className="text-xs text-[#C8852A] font-semibold flex items-center gap-0.5"
@@ -284,7 +284,7 @@ export default function AdminPage() {
                 </button>
               </div>
               {proximasReservas.length === 0 ? (
-                <div className="text-center py-8 text-[#7A5C44]">
+                <div className="text-center py-8 text-[#8A6650]">
                   <CalendarDays className="w-8 h-8 mx-auto mb-2 opacity-30" />
                   <p className="text-sm">Sin reservas próximas</p>
                 </div>
@@ -334,11 +334,11 @@ export default function AdminPage() {
               </button>
               <Link
                 href="/"
-                className="bg-white border border-[#E8D5B7] rounded-2xl p-4 text-left hover:bg-[#F5EAD7] transition-colors"
+                className="bg-[#1A1108] border border-[#2E1E0E] rounded-2xl p-4 text-left hover:bg-[#2C1C12] transition-colors"
               >
                 <ChevronRight className="w-5 h-5 text-[#C8852A] mb-2" />
-                <p className="text-xs text-[#7A5C44]">Ver como</p>
-                <p className="text-sm font-bold text-[#2C1810]">cliente</p>
+                <p className="text-xs text-[#8A6650]">Ver como</p>
+                <p className="text-sm font-bold text-[#F0E6D3]">cliente</p>
               </Link>
             </div>
           </>
@@ -354,7 +354,7 @@ export default function AdminPage() {
                 { color: "bg-red-400", texto: "Ocupada ahora" },
                 { color: "bg-[#C8852A]", texto: "Próxima reserva" },
               ].map(({ color, texto }) => (
-                <span key={texto} className="flex items-center gap-1.5 text-xs font-semibold text-[#7A5C44]">
+                <span key={texto} className="flex items-center gap-1.5 text-xs font-semibold text-[#8A6650]">
                   <span className={`w-2.5 h-2.5 rounded-full ${color}`} />
                   {texto}
                 </span>
@@ -368,24 +368,24 @@ export default function AdminPage() {
                   (m) => calcularEstadoMesa(m.id, reservas) === e
                 ).length;
                 const cfg = {
-                  libre: { color: "text-green-700", bg: "bg-green-50", borde: "border-green-100", etiq: "Libres" },
-                  ocupada: { color: "text-red-600", bg: "bg-red-50", borde: "border-red-100", etiq: "Ocupadas" },
-                  proxima: { color: "text-[#C8852A]", bg: "bg-[#C8852A]/8", borde: "border-[#C8852A]/15", etiq: "Próximas" },
+                  libre: { color: "text-green-400", bg: "bg-green-900/20", borde: "border-green-800/30", etiq: "Libres" },
+                  ocupada: { color: "text-red-400", bg: "bg-red-900/20", borde: "border-red-800/30", etiq: "Ocupadas" },
+                  proxima: { color: "text-[#C8852A]", bg: "bg-[#C8852A]/10", borde: "border-[#C8852A]/15", etiq: "Próximas" },
                 }[e];
                 return (
                   <div key={e} className={`${cfg.bg} border ${cfg.borde} rounded-2xl p-4 text-center shadow-sm`}>
                     <div className={`text-3xl font-extrabold ${cfg.color}`}>{count}</div>
-                    <div className="text-[10px] text-[#7A5C44] font-semibold mt-0.5">{cfg.etiq}</div>
+                    <div className="text-[10px] text-[#8A6650] font-semibold mt-0.5">{cfg.etiq}</div>
                   </div>
                 );
               })}
             </div>
 
             {/* Plano visual */}
-            <div className="bg-white rounded-2xl border border-[#E8D5B7]/80 shadow-sm overflow-hidden">
+            <div className="bg-[#1A1108] rounded-2xl border border-[#2E1E0E] shadow-sm overflow-hidden">
               {/* Interior */}
               <div className="p-4">
-                <p className="text-[10px] font-extrabold text-[#7A5C44] uppercase tracking-widest mb-3">
+                <p className="text-[10px] font-extrabold text-[#8A6650] uppercase tracking-widest mb-3">
                   Interior — {mesas.filter(m => m.ubicacion === "interior").length} mesas
                 </p>
                 <div className="grid grid-cols-4 gap-2">
@@ -411,11 +411,11 @@ export default function AdminPage() {
                 </div>
               </div>
 
-              <div className="h-px bg-[#E8D5B7]/60 mx-4" />
+              <div className="h-px bg-[#2E1E0E] mx-4" />
 
               {/* Terraza */}
               <div className="p-4">
-                <p className="text-[10px] font-extrabold text-[#7A5C44] uppercase tracking-widest mb-3">
+                <p className="text-[10px] font-extrabold text-[#8A6650] uppercase tracking-widest mb-3">
                   Terraza — {mesas.filter(m => m.ubicacion === "terraza").length} mesas
                 </p>
                 <div className="grid grid-cols-4 gap-2">
@@ -445,7 +445,7 @@ export default function AdminPage() {
             {/* Detalle reservas activas hoy */}
             {reservasHoy.filter((r) => r.estado !== "cancelada").length > 0 && (
               <div>
-                <h3 className="text-sm font-extrabold text-[#2C1810] mb-3">
+                <h3 className="text-sm font-extrabold text-[#F0E6D3] mb-3">
                   Ocupación de hoy
                 </h3>
                 <div className="space-y-2.5">
@@ -490,14 +490,14 @@ export default function AdminPage() {
                   onClick={() => setFiltroReservas(valor)}
                   className={`flex-shrink-0 px-4 py-2 rounded-full text-sm font-bold transition-all ${
                     filtroReservas === valor
-                      ? "bg-[#2C1810] text-white shadow-sm"
-                      : "bg-white text-[#2C1810]/60 border border-[#E8D5B7]"
+                      ? "bg-[#F0E6D3] text-[#0F0B08] shadow-sm"
+                      : "bg-[#1A1108] text-[#F0E6D3]/60 border border-[#2E1E0E]"
                   }`}
                 >
                   {etiqueta}
                   {valor === "hoy" && reservasHoy.length > 0 && (
                     <span className={`ml-1.5 text-[10px] font-extrabold px-1.5 py-0.5 rounded-full ${
-                      filtroReservas === valor ? "bg-[#C8852A] text-white" : "bg-[#2C1810]/10 text-[#2C1810]"
+                      filtroReservas === valor ? "bg-[#C8852A] text-white" : "bg-white/6 text-[#F0E6D3]"
                     }`}>
                       {reservasHoy.length}
                     </span>
@@ -508,7 +508,7 @@ export default function AdminPage() {
 
             {/* Lista */}
             {reservasFiltradas.length === 0 ? (
-              <div className="text-center py-12 text-[#7A5C44]">
+              <div className="text-center py-12 text-[#8A6650]">
                 <CalendarDays className="w-8 h-8 mx-auto mb-2 opacity-30" />
                 <p className="text-sm font-medium">No hay reservas para mostrar</p>
               </div>
@@ -641,18 +641,18 @@ function TabConfiguracion() {
 
       {/* ── Estado de conexión ── */}
       <div className={`rounded-2xl border p-4 flex items-center gap-3 ${
-        configActual?.configurado ? "bg-green-50 border-green-200" : "bg-[#C8852A]/8 border-[#C8852A]/25"
+        configActual?.configurado ? "bg-green-900/20 border-green-800/40" : "bg-[#C8852A]/10 border-[#C8852A]/25"
       }`}>
         {configActual?.configurado
-          ? <Wifi className="w-5 h-5 text-green-600 flex-shrink-0" />
+          ? <Wifi className="w-5 h-5 text-green-400 flex-shrink-0" />
           : <WifiOff className="w-5 h-5 text-[#C8852A] flex-shrink-0" />
         }
         <div className="flex-1 min-w-0">
-          <p className={`text-sm font-bold ${configActual?.configurado ? "text-green-700" : "text-[#C8852A]"}`}>
+          <p className={`text-sm font-bold ${configActual?.configurado ? "text-green-400" : "text-[#C8852A]"}`}>
             {configActual?.configurado ? "Pancake CRM conectado" : "Pancake CRM no configurado"}
           </p>
           {configActual?.configurado && (
-            <p className="text-xs text-[#7A5C44] mt-0.5 font-medium">
+            <p className="text-xs text-[#8A6650] mt-0.5 font-medium">
               Shop: <span className="font-bold">{configActual.pancakeShopId}</span>
               {" · "}Key: <span className="font-mono">{configActual.pancakeApiKeyPreview}</span>
             </p>
@@ -662,7 +662,7 @@ function TabConfiguracion() {
           <button
             onClick={probarConexion}
             disabled={probando}
-            className="flex items-center gap-1.5 text-xs font-bold text-green-700 bg-green-100 hover:bg-green-200 px-3 py-2 rounded-xl transition-colors disabled:opacity-60"
+            className="flex items-center gap-1.5 text-xs font-bold text-green-400 bg-green-900/20 hover:bg-green-900/30 px-3 py-2 rounded-xl transition-colors disabled:opacity-60"
           >
             {probando ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <RefreshCw className="w-3.5 h-3.5" />}
             Probar
@@ -673,50 +673,50 @@ function TabConfiguracion() {
       {/* Alerta resultado test */}
       {estado.tipo && (
         <div className={`rounded-2xl border px-4 py-3 flex items-start gap-2.5 ${
-          estado.tipo === "exito" ? "bg-green-50 border-green-200" : "bg-red-50 border-red-200"
+          estado.tipo === "exito" ? "bg-green-900/20 border-green-800/40" : "bg-red-900/20 border-red-800/40"
         }`}>
           {estado.tipo === "exito"
-            ? <CheckCircle2 className="w-4 h-4 text-green-600 flex-shrink-0 mt-0.5" />
-            : <AlertCircle className="w-4 h-4 text-red-500 flex-shrink-0 mt-0.5" />}
-          <p className={`text-sm font-medium ${estado.tipo === "exito" ? "text-green-700" : "text-red-600"}`}>
+            ? <CheckCircle2 className="w-4 h-4 text-green-400 flex-shrink-0 mt-0.5" />
+            : <AlertCircle className="w-4 h-4 text-red-400 flex-shrink-0 mt-0.5" />}
+          <p className={`text-sm font-medium ${estado.tipo === "exito" ? "text-green-400" : "text-red-400"}`}>
             {estado.mensaje}
           </p>
         </div>
       )}
 
       {/* ── Credenciales ── */}
-      <div className="bg-white rounded-2xl border border-[#E8D5B7]/80 shadow-sm overflow-hidden">
-        <div className="px-5 py-4 border-b border-[#E8D5B7]/50">
-          <h2 className="text-sm font-extrabold text-[#2C1810]">Credenciales Pancake</h2>
-          <p className="text-xs text-[#7A5C44] mt-0.5">
+      <div className="bg-[#1A1108] rounded-2xl border border-[#2E1E0E] shadow-sm overflow-hidden">
+        <div className="px-5 py-4 border-b border-[#2E1E0E]/60">
+          <h2 className="text-sm font-extrabold text-[#F0E6D3]">Credenciales Pancake</h2>
+          <p className="text-xs text-[#8A6650] mt-0.5">
             Pancake → Configuración → Aplicación → API KEY
           </p>
         </div>
         <div className="px-5 py-4 space-y-4">
           <div>
-            <label className="block text-xs font-bold text-[#7A5C44] uppercase tracking-wider mb-1.5">Shop ID</label>
+            <label className="block text-xs font-bold text-[#8A6650] uppercase tracking-wider mb-1.5">Shop ID</label>
             <input
               type="text"
               value={shopId}
               onChange={(e) => setShopId(e.target.value)}
               placeholder={configActual?.pancakeShopId ? `Actual: ${configActual.pancakeShopId}` : "ej. 123456"}
-              className="w-full px-4 py-3 bg-[#FDF6EC] border border-[#E8D5B7] rounded-xl text-sm font-medium text-[#2C1810] placeholder:text-[#2C1810]/25 outline-none focus:border-[#C8852A] focus:ring-2 focus:ring-[#C8852A]/20 transition-all"
+              className="w-full px-4 py-3 bg-[#221610] border border-[#2E1E0E] rounded-xl text-sm font-medium text-[#F0E6D3] placeholder:text-[#F0E6D3]/20 outline-none focus:border-[#C8852A] focus:ring-2 focus:ring-[#C8852A]/20 transition-all"
             />
           </div>
           <div>
-            <label className="block text-xs font-bold text-[#7A5C44] uppercase tracking-wider mb-1.5">API Key</label>
+            <label className="block text-xs font-bold text-[#8A6650] uppercase tracking-wider mb-1.5">API Key</label>
             <div className="relative">
               <input
                 type={mostrarKey ? "text" : "password"}
                 value={apiKey}
                 onChange={(e) => setApiKey(e.target.value)}
                 placeholder={configActual?.pancakeApiKeyPreview ? `Actual: ${configActual.pancakeApiKeyPreview}` : "••••••••••••••••"}
-                className="w-full px-4 py-3 pr-11 bg-[#FDF6EC] border border-[#E8D5B7] rounded-xl text-sm font-medium text-[#2C1810] placeholder:text-[#2C1810]/25 outline-none focus:border-[#C8852A] focus:ring-2 focus:ring-[#C8852A]/20 transition-all"
+                className="w-full px-4 py-3 pr-11 bg-[#221610] border border-[#2E1E0E] rounded-xl text-sm font-medium text-[#F0E6D3] placeholder:text-[#F0E6D3]/20 outline-none focus:border-[#C8852A] focus:ring-2 focus:ring-[#C8852A]/20 transition-all"
               />
               <button
                 type="button"
                 onClick={() => setMostrarKey(!mostrarKey)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-[#2C1810]/40 hover:text-[#2C1810]/70 transition-colors"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-[#F0E6D3]/40 hover:text-[#F0E6D3]/70 transition-colors"
               >
                 {mostrarKey ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
               </button>
@@ -727,7 +727,7 @@ function TabConfiguracion() {
               onClick={guardar}
               disabled={guardando || guardadoOk}
               className={`flex-1 py-3 rounded-xl text-sm font-bold flex items-center justify-center gap-2 transition-all ${
-                guardadoOk ? "bg-green-600 text-white" : "bg-[#2C1810] text-[#FDF6EC] hover:bg-[#3d2410] disabled:opacity-60"
+                guardadoOk ? "bg-green-600 text-white" : "bg-[#221610] border border-[#2E1E0E] text-[#F0E6D3] hover:bg-[#2C1C12] disabled:opacity-60"
               }`}
             >
               {guardando ? <><Loader2 className="w-4 h-4 animate-spin" />Guardando...</>
@@ -738,7 +738,7 @@ function TabConfiguracion() {
               <button
                 onClick={probarConexion}
                 disabled={probando}
-                className="px-4 py-3 rounded-xl text-sm font-bold bg-[#FDF6EC] border border-[#E8D5B7] text-[#2C1810] hover:bg-[#F5EAD7] flex items-center gap-2 transition-colors disabled:opacity-60"
+                className="px-4 py-3 rounded-xl text-sm font-bold bg-[#221610] border border-[#2E1E0E] text-[#F0E6D3] hover:bg-[#2C1C12] flex items-center gap-2 transition-colors disabled:opacity-60"
               >
                 {probando ? <Loader2 className="w-4 h-4 animate-spin" /> : <Wifi className="w-4 h-4" />}
                 Probar
@@ -749,10 +749,10 @@ function TabConfiguracion() {
       </div>
 
       {/* ── Canales de comunicación ── */}
-      <div className="bg-white rounded-2xl border border-[#E8D5B7]/80 shadow-sm overflow-hidden">
-        <div className="px-5 py-4 border-b border-[#E8D5B7]/50">
-          <h2 className="text-sm font-extrabold text-[#2C1810]">Canales de comunicación</h2>
-          <p className="text-xs text-[#7A5C44] mt-0.5">
+      <div className="bg-[#1A1108] rounded-2xl border border-[#2E1E0E] shadow-sm overflow-hidden">
+        <div className="px-5 py-4 border-b border-[#2E1E0E]/60">
+          <h2 className="text-sm font-extrabold text-[#F0E6D3]">Canales de comunicación</h2>
+          <p className="text-xs text-[#8A6650] mt-0.5">
             WhatsApp · Instagram · Messenger · TikTok
           </p>
         </div>
@@ -764,20 +764,20 @@ function TabConfiguracion() {
               { icono: "💬", texto: "Cliente escribe por WhatsApp / Instagram / etc.", sub: "El mensaje llega al inbox de Pancake con su historial de reservas" },
               { icono: "✅", texto: "Tú respondes desde Pancake", sub: "Desde tu celular, en el canal que el cliente prefiera" },
             ].map(({ icono, texto, sub }) => (
-              <div key={texto} className="flex items-start gap-3 py-2 border-b border-[#E8D5B7]/40 last:border-0">
+              <div key={texto} className="flex items-start gap-3 py-2 border-b border-[#2E1E0E] last:border-0">
                 <span className="text-lg leading-none mt-0.5 flex-shrink-0">{icono}</span>
                 <div>
-                  <p className="text-xs font-bold text-[#2C1810]">{texto}</p>
-                  <p className="text-xs text-[#7A5C44] mt-0.5">{sub}</p>
+                  <p className="text-xs font-bold text-[#F0E6D3]">{texto}</p>
+                  <p className="text-xs text-[#8A6650] mt-0.5">{sub}</p>
                 </div>
               </div>
             ))}
           </div>
 
           {/* Conectar canales */}
-          <div className="bg-[#C8852A]/8 border border-[#C8852A]/20 rounded-xl px-4 py-3">
-            <p className="text-xs font-bold text-[#2C1810] mb-1">Para conectar los canales</p>
-            <p className="text-xs text-[#7A5C44] leading-relaxed">
+          <div className="bg-[#C8852A]/10 border border-[#C8852A]/20 rounded-xl px-4 py-3">
+            <p className="text-xs font-bold text-[#F0E6D3] mb-1">Para conectar los canales</p>
+            <p className="text-xs text-[#8A6650] leading-relaxed">
               En Pancake → <span className="font-bold">Cuentas conectadas</span> → agrega tu WhatsApp Business, página de Facebook, Instagram o TikTok.
               Una vez conectados, todas las conversaciones llegan a tu inbox de Pancake.
             </p>
@@ -786,28 +786,28 @@ function TabConfiguracion() {
       </div>
 
       {/* ── Webhook ── */}
-      <div className="bg-white rounded-2xl border border-[#E8D5B7]/80 shadow-sm overflow-hidden">
-        <div className="px-5 py-4 border-b border-[#E8D5B7]/50">
-          <h2 className="text-sm font-extrabold text-[#2C1810]">Notificaciones en tiempo real</h2>
-          <p className="text-xs text-[#7A5C44] mt-0.5">
+      <div className="bg-[#1A1108] rounded-2xl border border-[#2E1E0E] shadow-sm overflow-hidden">
+        <div className="px-5 py-4 border-b border-[#2E1E0E]/60">
+          <h2 className="text-sm font-extrabold text-[#F0E6D3]">Notificaciones en tiempo real</h2>
+          <p className="text-xs text-[#8A6650] mt-0.5">
             Pancake avisa a esta app cuando hay cambios
           </p>
         </div>
         <div className="px-5 py-4 space-y-4">
           {/* URL del webhook */}
           <div>
-            <label className="block text-xs font-bold text-[#7A5C44] uppercase tracking-wider mb-1.5">
+            <label className="block text-xs font-bold text-[#8A6650] uppercase tracking-wider mb-1.5">
               URL del Webhook
             </label>
             <div className="flex items-center gap-2">
               <input
                 readOnly
                 value={webhookUrl}
-                className="flex-1 px-3 py-2.5 bg-[#2C1810]/5 border border-[#E8D5B7] rounded-xl text-xs font-mono text-[#2C1810] outline-none"
+                className="flex-1 px-3 py-2.5 bg-white/4 border border-[#2E1E0E] rounded-xl text-xs font-mono text-[#F0E6D3] outline-none"
               />
               <button
                 onClick={() => navigator.clipboard?.writeText(webhookUrl)}
-                className="px-3 py-2.5 bg-[#FDF6EC] border border-[#E8D5B7] rounded-xl text-xs font-bold text-[#7A5C44] hover:bg-[#F5EAD7] transition-colors flex-shrink-0"
+                className="px-3 py-2.5 bg-[#221610] border border-[#2E1E0E] rounded-xl text-xs font-bold text-[#8A6650] hover:bg-[#2C1C12] transition-colors flex-shrink-0"
               >
                 Copiar
               </button>
@@ -815,7 +815,7 @@ function TabConfiguracion() {
           </div>
 
           {/* Qué recibimos */}
-          <div className="text-xs text-[#7A5C44] leading-relaxed">
+          <div className="text-xs text-[#8A6650] leading-relaxed">
             Pancake enviará notificaciones cuando un cliente escriba por WhatsApp, Instagram, Messenger o TikTok.
             Así esta app puede mostrar el historial de chats en el perfil del cliente.
           </div>
@@ -825,7 +825,7 @@ function TabConfiguracion() {
             <button
               onClick={activarWebhook}
               disabled={activandoWh}
-              className="w-full py-3 rounded-xl text-sm font-bold bg-[#2C1810] text-[#FDF6EC] hover:bg-[#3d2410] flex items-center justify-center gap-2 transition-colors disabled:opacity-60"
+              className="w-full py-3 rounded-xl text-sm font-bold bg-[#221610] border border-[#2E1E0E] text-[#F0E6D3] hover:bg-[#2C1C12] flex items-center justify-center gap-2 transition-colors disabled:opacity-60"
             >
               {activandoWh
                 ? <><Loader2 className="w-4 h-4 animate-spin" />Registrando...</>
@@ -841,12 +841,12 @@ function TabConfiguracion() {
 
           {estadoWh.tipo && (
             <div className={`rounded-xl border px-4 py-3 flex items-start gap-2 ${
-              estadoWh.tipo === "exito" ? "bg-green-50 border-green-200" : "bg-red-50 border-red-200"
+              estadoWh.tipo === "exito" ? "bg-green-900/20 border-green-800/40" : "bg-red-900/20 border-red-800/40"
             }`}>
               {estadoWh.tipo === "exito"
-                ? <CheckCircle2 className="w-4 h-4 text-green-600 flex-shrink-0 mt-0.5" />
-                : <AlertCircle className="w-4 h-4 text-red-500 flex-shrink-0 mt-0.5" />}
-              <p className={`text-xs font-medium ${estadoWh.tipo === "exito" ? "text-green-700" : "text-red-600"}`}>
+                ? <CheckCircle2 className="w-4 h-4 text-green-400 flex-shrink-0 mt-0.5" />
+                : <AlertCircle className="w-4 h-4 text-red-400 flex-shrink-0 mt-0.5" />}
+              <p className={`text-xs font-medium ${estadoWh.tipo === "exito" ? "text-green-400" : "text-red-400"}`}>
                 {estadoWh.mensaje}
               </p>
             </div>
@@ -855,14 +855,14 @@ function TabConfiguracion() {
       </div>
 
       {/* Nota producción */}
-      <div className="bg-[#2C1810]/5 rounded-2xl border border-[#2C1810]/10 px-4 py-3.5 flex items-start gap-3">
-        <AlertCircle className="w-4 h-4 text-[#7A5C44] flex-shrink-0 mt-0.5" />
+      <div className="bg-white/4 rounded-2xl border border-white/8 px-4 py-3.5 flex items-start gap-3">
+        <AlertCircle className="w-4 h-4 text-[#8A6650] flex-shrink-0 mt-0.5" />
         <div>
-          <p className="text-xs font-bold text-[#2C1810] mb-1">Para producción (Vercel)</p>
-          <p className="text-xs text-[#7A5C44] leading-relaxed">
+          <p className="text-xs font-bold text-[#F0E6D3] mb-1">Para producción (Vercel)</p>
+          <p className="text-xs text-[#8A6650] leading-relaxed">
             La config en memoria es temporal. Para producción estable agrega{" "}
-            <span className="font-mono font-bold text-[#2C1810]">PANCAKE_API_KEY</span>{" "}y{" "}
-            <span className="font-mono font-bold text-[#2C1810]">PANCAKE_SHOP_ID</span>{" "}
+            <span className="font-mono font-bold text-[#F0E6D3]">PANCAKE_API_KEY</span>{" "}y{" "}
+            <span className="font-mono font-bold text-[#F0E6D3]">PANCAKE_SHOP_ID</span>{" "}
             en Vercel → Settings → Environment Variables.
           </p>
         </div>
@@ -878,7 +878,7 @@ function StatCard({
   etiqueta,
   color,
   bg,
-  borde = "border-[#E8D5B7]/60",
+  borde = "border-[#2E1E0E]",
 }: {
   valor: number;
   etiqueta: string;
@@ -889,7 +889,7 @@ function StatCard({
   return (
     <div className={`${bg} border ${borde} rounded-2xl p-4 shadow-sm`}>
       <div className={`text-4xl font-extrabold ${color} leading-none`}>{valor}</div>
-      <div className="text-xs text-[#7A5C44] font-semibold mt-1.5">{etiqueta}</div>
+      <div className="text-xs text-[#8A6650] font-semibold mt-1.5">{etiqueta}</div>
     </div>
   );
 }
@@ -905,21 +905,21 @@ function TarjetaMesaAdmin({
 }) {
   const cfg = {
     libre: {
-      bg: "bg-green-50",
-      borde: "border-green-200",
+      bg: "bg-green-900/20",
+      borde: "border-green-800/40",
       dot: "bg-green-400",
-      texto: "text-green-700",
+      texto: "text-green-400",
       etiq: "Libre",
     },
     ocupada: {
-      bg: "bg-red-50",
-      borde: "border-red-200",
+      bg: "bg-red-900/20",
+      borde: "border-red-800/40",
       dot: "bg-red-400",
-      texto: "text-red-600",
+      texto: "text-red-400",
       etiq: "Ocup.",
     },
     proxima: {
-      bg: "bg-[#C8852A]/8",
+      bg: "bg-[#C8852A]/10",
       borde: "border-[#C8852A]/25",
       dot: "bg-[#C8852A]",
       texto: "text-[#C8852A]",
@@ -930,16 +930,16 @@ function TarjetaMesaAdmin({
   return (
     <div className={`${cfg.bg} border ${cfg.borde} rounded-xl p-2.5 text-center relative`}>
       {estado === "ocupada" && (
-        <div className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-red-400 rounded-full border-2 border-[#FDF6EC] animate-pulse" />
+        <div className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-red-400 rounded-full border-2 border-[#0F0B08] animate-pulse" />
       )}
-      <div className="text-base font-extrabold text-[#2C1810]">{mesa.numero}</div>
+      <div className="text-base font-extrabold text-[#F0E6D3]">{mesa.numero}</div>
       <div className="flex items-center justify-center gap-0.5 my-0.5">
-        <Users className="w-2.5 h-2.5 text-[#7A5C44]" />
-        <span className="text-[9px] text-[#7A5C44] font-medium">{mesa.capacidad}</span>
+        <Users className="w-2.5 h-2.5 text-[#8A6650]" />
+        <span className="text-[9px] text-[#8A6650] font-medium">{mesa.capacidad}</span>
       </div>
       <div className={`text-[9px] font-extrabold ${cfg.texto}`}>{cfg.etiq}</div>
       {reserva && estado !== "libre" && (
-        <div className="text-[8px] text-[#7A5C44] mt-0.5 truncate">{reserva.hora}</div>
+        <div className="text-[8px] text-[#8A6650] mt-0.5 truncate">{reserva.hora}</div>
       )}
     </div>
   );
@@ -963,19 +963,19 @@ function TarjetaResumenCompacta({
   }[reserva.estado];
 
   return (
-    <div className="bg-white rounded-2xl border border-[#E8D5B7]/80 shadow-sm px-4 py-3.5 flex items-center gap-3">
+    <div className="bg-[#1A1108] rounded-2xl border border-[#2E1E0E] shadow-sm px-4 py-3.5 flex items-center gap-3">
       <div className={`w-2.5 h-2.5 rounded-full flex-shrink-0 ${estadoDot}`} />
       <div className="flex-1 min-w-0">
         <div className="flex items-center gap-2 flex-wrap">
-          <span className="text-sm font-bold text-[#2C1810] truncate">
+          <span className="text-sm font-bold text-[#F0E6D3] truncate">
             {reserva.nombreCliente}
           </span>
           <span className="text-xs text-[#C8852A] font-bold flex-shrink-0">{reserva.hora}</span>
-          <span className="text-xs text-[#7A5C44] flex-shrink-0">
+          <span className="text-xs text-[#8A6650] flex-shrink-0">
             {formatearFechaEtiqueta(reserva.fecha)}
           </span>
         </div>
-        <div className="flex items-center gap-2 text-xs text-[#7A5C44] mt-0.5">
+        <div className="flex items-center gap-2 text-xs text-[#8A6650] mt-0.5">
           <span>Mesa {mesa?.numero ?? "?"}</span>
           <span>·</span>
           <span className="capitalize">{mesa?.ubicacion}</span>
@@ -988,19 +988,19 @@ function TarjetaResumenCompacta({
         {reserva.estado === "pendiente" && (
           <button
             onClick={() => onConfirmar(reserva.id)}
-            className="w-8 h-8 bg-green-50 border border-green-200 rounded-xl flex items-center justify-center hover:bg-green-100 transition-colors"
+            className="w-8 h-8 bg-green-900/20 border border-green-800/40 rounded-xl flex items-center justify-center hover:bg-green-900/30 transition-colors"
             title="Confirmar"
           >
-            <CheckCircle2 className="w-4 h-4 text-green-600" />
+            <CheckCircle2 className="w-4 h-4 text-green-400" />
           </button>
         )}
         {reserva.estado !== "cancelada" && (
           <button
             onClick={() => onCancelar(reserva.id)}
-            className="w-8 h-8 bg-red-50 border border-red-200 rounded-xl flex items-center justify-center hover:bg-red-100 transition-colors"
+            className="w-8 h-8 bg-red-900/20 border border-red-800/40 rounded-xl flex items-center justify-center hover:bg-red-900/30 transition-colors"
             title="Cancelar"
           >
-            <XCircle className="w-4 h-4 text-red-500" />
+            <XCircle className="w-4 h-4 text-red-400" />
           </button>
         )}
       </div>
@@ -1023,43 +1023,43 @@ function TarjetaReservaCompleta({
     confirmada: {
       label: "Confirmada",
       dot: "bg-green-400",
-      color: "text-green-700",
-      bg: "bg-green-50",
-      borde: "border-green-100",
-      cardBorde: "border-green-100",
+      color: "text-green-400",
+      bg: "bg-green-900/20",
+      borde: "border-green-800/40",
+      cardBorde: "border-green-800/40",
     },
     pendiente: {
       label: "Pendiente",
       dot: "bg-[#C8852A] animate-pulse",
       color: "text-[#C8852A]",
-      bg: "bg-[#C8852A]/8",
+      bg: "bg-[#C8852A]/10",
       borde: "border-[#C8852A]/20",
       cardBorde: "border-[#C8852A]/20",
     },
     cancelada: {
       label: "Cancelada",
       dot: "bg-red-400",
-      color: "text-red-600",
-      bg: "bg-red-50",
-      borde: "border-red-100",
-      cardBorde: "border-red-100",
+      color: "text-red-400",
+      bg: "bg-red-900/20",
+      borde: "border-red-800/40",
+      cardBorde: "border-red-800/40",
     },
   }[reserva.estado];
 
   return (
-    <div className={`bg-white rounded-2xl border ${estadoCfg.cardBorde} shadow-sm overflow-hidden`}>
+    <div className={`bg-[#1A1108] rounded-2xl border ${estadoCfg.cardBorde} shadow-sm overflow-hidden`}>
       {/* Cabecera */}
       <div className="px-4 pt-4 pb-3">
         <div className="flex items-start justify-between gap-2 mb-3">
           <div className="flex-1 min-w-0">
-            <h3 className="text-base font-extrabold text-[#2C1810] truncate">
+            <h3 className="text-base font-extrabold text-[#F0E6D3] truncate">
               {reserva.nombreCliente}
             </h3>
-            <div className="flex items-center gap-1 mt-0.5 text-xs text-[#7A5C44]">
+            <div className="flex items-center gap-1 mt-0.5 text-xs text-[#8A6650]">
               <Mail className="w-3 h-3 flex-shrink-0" />
               <span className="truncate">{reserva.email}</span>
             </div>
-            <div className="flex items-center gap-1 mt-0.5 text-xs text-[#7A5C44]">
+            <div className="flex items-center gap-1 mt-0.5 text-xs text-[#8A6650]">
               <Phone className="w-3 h-3 flex-shrink-0" />
               <span>{reserva.telefono}</span>
             </div>
@@ -1088,11 +1088,11 @@ function TarjetaReservaCompleta({
 
       {/* Acciones */}
       {reserva.estado !== "cancelada" && (
-        <div className="flex border-t border-[#E8D5B7]/50">
+        <div className="flex border-t border-[#2E1E0E]/60">
           {reserva.estado === "pendiente" && (
             <button
               onClick={() => onConfirmar(reserva.id)}
-              className="flex-1 py-3 flex items-center justify-center gap-1.5 text-green-700 text-xs font-extrabold hover:bg-green-50 transition-colors"
+              className="flex-1 py-3 flex items-center justify-center gap-1.5 text-green-400 text-xs font-extrabold hover:bg-green-900/20 transition-colors"
             >
               <CheckCircle2 className="w-4 h-4" />
               Confirmar reserva
@@ -1100,8 +1100,8 @@ function TarjetaReservaCompleta({
           )}
           <button
             onClick={() => onCancelar(reserva.id)}
-            className={`flex-1 py-3 flex items-center justify-center gap-1.5 text-red-600 text-xs font-extrabold hover:bg-red-50 transition-colors ${
-              reserva.estado === "confirmada" ? "border-l border-[#E8D5B7]/50" : ""
+            className={`flex-1 py-3 flex items-center justify-center gap-1.5 text-red-400 text-xs font-extrabold hover:bg-red-900/20 transition-colors ${
+              reserva.estado === "confirmada" ? "border-l border-[#2E1E0E]/60" : ""
             }`}
           >
             <XCircle className="w-4 h-4" />
@@ -1128,8 +1128,8 @@ function DetalleItem({
     <div className="flex items-start gap-2">
       <Icon className="w-3.5 h-3.5 text-[#C8852A] flex-shrink-0 mt-0.5" />
       <div>
-        <p className="text-[9px] text-[#7A5C44] font-bold uppercase tracking-wider">{etiqueta}</p>
-        <p className={`text-xs font-semibold text-[#2C1810] ${capitalize ? "capitalize" : ""}`}>
+        <p className="text-[9px] text-[#8A6650] font-bold uppercase tracking-wider">{etiqueta}</p>
+        <p className={`text-xs font-semibold text-[#F0E6D3] ${capitalize ? "capitalize" : ""}`}>
           {valor}
         </p>
       </div>

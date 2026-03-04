@@ -50,39 +50,39 @@
 :root {
   --radius: 0.75rem;
 
-  /* Paleta Café Aroma */
-  --background: #FDF6EC;
-  --foreground: #2C1810;
-  --card: #ffffff;
-  --card-foreground: #2C1810;
-  --popover: #ffffff;
-  --popover-foreground: #2C1810;
-  --primary: #2C1810;
-  --primary-foreground: #FDF6EC;
-  --secondary: #F5EAD7;
-  --secondary-foreground: #2C1810;
-  --muted: #F0E4CC;
-  --muted-foreground: #7A5C44;
+  /* Paleta Café Aroma — Modo Oscuro (por defecto) */
+  --background: #0F0B08;
+  --foreground: #F0E6D3;
+  --card: #1A1108;
+  --card-foreground: #F0E6D3;
+  --popover: #1A1108;
+  --popover-foreground: #F0E6D3;
+  --primary: #F0E6D3;
+  --primary-foreground: #0F0B08;
+  --secondary: #221610;
+  --secondary-foreground: #F0E6D3;
+  --muted: #2C1C12;
+  --muted-foreground: #8A6650;
   --accent: #C8852A;
   --accent-foreground: #ffffff;
-  --destructive: #DC2626;
-  --border: #E8D5B7;
-  --input: #E8D5B7;
+  --destructive: #EF4444;
+  --border: #2E1E0E;
+  --input: #2E1E0E;
   --ring: #C8852A;
 
   --chart-1: #C8852A;
-  --chart-2: #2C1810;
-  --chart-3: #1A5C3A;
-  --chart-4: #7A5C44;
-  --chart-5: #F5EAD7;
+  --chart-2: #F0E6D3;
+  --chart-3: #4ADE80;
+  --chart-4: #8A6650;
+  --chart-5: #221610;
 
-  --sidebar: #2C1810;
-  --sidebar-foreground: #FDF6EC;
+  --sidebar: #0A0705;
+  --sidebar-foreground: #F0E6D3;
   --sidebar-primary: #C8852A;
   --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: #3d2410;
-  --sidebar-accent-foreground: #FDF6EC;
-  --sidebar-border: #3d2410;
+  --sidebar-accent: #1A1108;
+  --sidebar-accent-foreground: #F0E6D3;
+  --sidebar-border: #2E1E0E;
   --sidebar-ring: #C8852A;
 }
 

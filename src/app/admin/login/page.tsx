@@ -39,7 +39,7 @@ export default function LoginAdmin() {
   };
 
   return (
-    <div className="min-h-screen bg-[#2C1810] flex flex-col font-sans">
+    <div className="min-h-screen bg-[#0F0B08] flex flex-col font-sans">
 
       {/* Zona superior decorativa */}
       <div className="flex-1 flex items-center justify-center px-5 py-10">
@@ -59,18 +59,18 @@ export default function LoginAdmin() {
           </div>
 
           {/* Tarjeta del formulario */}
-          <div className="bg-[#FDF6EC] rounded-3xl p-6 shadow-2xl">
-            <h2 className="text-lg font-bold text-[#2C1810] mb-1">
+          <div className="bg-[#1A1108] border border-[#2E1E0E] rounded-3xl p-6 shadow-2xl">
+            <h2 className="text-lg font-bold text-[#F0E6D3] mb-1">
               Iniciar sesión
             </h2>
-            <p className="text-sm text-[#7A5C44] mb-6">
+            <p className="text-sm text-[#8A6650] mb-6">
               Accede para gestionar reservas y mesas
             </p>
 
             <form onSubmit={handleSubmit} className="space-y-4">
               {/* Email */}
               <div>
-                <label className="block text-xs font-bold text-[#7A5C44] uppercase tracking-wider mb-1.5">
+                <label className="block text-xs font-bold text-[#8A6650] uppercase tracking-wider mb-1.5">
                   Email
                 </label>
                 <input
@@ -80,13 +80,13 @@ export default function LoginAdmin() {
                   placeholder="admin@cafearoma.mx"
                   required
                   autoComplete="email"
-                  className="w-full px-4 py-3 bg-white border border-[#E8D5B7] rounded-xl text-sm font-medium text-[#2C1810] placeholder:text-[#2C1810]/25 outline-none focus:border-[#C8852A] focus:ring-2 focus:ring-[#C8852A]/20 transition-all"
+                  className="w-full px-4 py-3 bg-[#221610] border border-[#2E1E0E] rounded-xl text-sm font-medium text-[#F0E6D3] placeholder:text-[#F0E6D3]/20 outline-none focus:border-[#C8852A] focus:ring-2 focus:ring-[#C8852A]/20 transition-all"
                 />
               </div>
 
               {/* Contraseña */}
               <div>
-                <label className="block text-xs font-bold text-[#7A5C44] uppercase tracking-wider mb-1.5">
+                <label className="block text-xs font-bold text-[#8A6650] uppercase tracking-wider mb-1.5">
                   Contraseña
                 </label>
                 <div className="relative">
@@ -97,12 +97,12 @@ export default function LoginAdmin() {
                     placeholder="••••••••••"
                     required
                     autoComplete="current-password"
-                    className="w-full px-4 py-3 pr-11 bg-white border border-[#E8D5B7] rounded-xl text-sm font-medium text-[#2C1810] placeholder:text-[#2C1810]/25 outline-none focus:border-[#C8852A] focus:ring-2 focus:ring-[#C8852A]/20 transition-all"
+                    className="w-full px-4 py-3 pr-11 bg-[#221610] border border-[#2E1E0E] rounded-xl text-sm font-medium text-[#F0E6D3] placeholder:text-[#F0E6D3]/20 outline-none focus:border-[#C8852A] focus:ring-2 focus:ring-[#C8852A]/20 transition-all"
                   />
                   <button
                     type="button"
                     onClick={() => setMostrarPassword(!mostrarPassword)}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-[#2C1810]/40 hover:text-[#2C1810]/70 transition-colors"
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-[#F0E6D3]/40 hover:text-[#F0E6D3]/70 transition-colors"
                   >
                     {mostrarPassword ? (
                       <EyeOff className="w-4 h-4" />
@@ -115,8 +115,8 @@ export default function LoginAdmin() {
 
               {/* Error */}
               {error && (
-                <div className="bg-red-50 border border-red-200 rounded-xl px-4 py-3">
-                  <p className="text-red-600 text-sm font-medium">{error}</p>
+                <div className="bg-red-900/20 border border-red-800/40 rounded-xl px-4 py-3">
+                  <p className="text-red-400 text-sm font-medium">{error}</p>
                 </div>
               )}
 
@@ -124,7 +124,7 @@ export default function LoginAdmin() {
               <button
                 type="submit"
                 disabled={cargando}
-                className="w-full py-3.5 bg-[#2C1810] text-[#FDF6EC] font-bold rounded-xl hover:bg-[#3d2410] transition-colors flex items-center justify-center gap-2 disabled:opacity-70 mt-2"
+                className="w-full py-3.5 bg-[#C8852A] text-white font-bold rounded-xl hover:bg-[#d99535] transition-colors flex items-center justify-center gap-2 disabled:opacity-70 mt-2"
               >
                 {cargando ? (
                   <Loader2 className="w-4 h-4 animate-spin" />
