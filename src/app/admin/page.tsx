@@ -544,15 +544,19 @@ function TabConfiguracion() {
   const [guardando, setGuardando] = useState(false);
   const [probando, setProbando] = useState(false);
   const [guardadoOk, setGuardadoOk] = useState(false);
-  const [estado, setEstado] = useState<{
-    tipo: "exito" | "error" | null;
-    mensaje: string;
-  }>({ tipo: null, mensaje: "" });
+  const [activandoWh, setActivandoWh] = useState(false);
+  const [estado, setEstado] = useState<{ tipo: "exito" | "error" | null; mensaje: string }>({ tipo: null, mensaje: "" });
+  const [estadoWh, setEstadoWh] = useState<{ tipo: "exito" | "error" | null; mensaje: string }>({ tipo: null, mensaje: "" });
   const [configActual, setConfigActual] = useState<{
     configurado: boolean;
     pancakeShopId: string;
     pancakeApiKeyPreview: string;
   } | null>(null);
+
+  // URL del webhook de esta app
+  const webhookUrl = typeof window !== "undefined"
+    ? `${window.location.origin}/api/webhooks/pancake`
+    : "/api/webhooks/pancake";
 
   const cargarConfig = useCallback(async () => {
     try {
@@ -599,10 +603,7 @@ function TabConfiguracion() {
       const res = await fetch("/api/admin/pancake/test");
       const datos = await res.json();
       if (datos.ok) {
-        setEstado({
-          tipo: "exito",
-          mensaje: `✓ Conectado — Shop: ${datos.shopId} · ${datos.totalClientes} clientes`,
-        });
+        setEstado({ tipo: "exito", mensaje: `✓ Conectado — Shop: ${datos.shopId} · ${datos.totalClientes} clientes` });
       } else {
         setEstado({ tipo: "error", mensaje: datos.error ?? "Error desconocido" });
       }
@@ -613,19 +614,39 @@ function TabConfiguracion() {
     }
   };
 
+  const activarWebhook = async () => {
+    setActivandoWh(true);
+    setEstadoWh({ tipo: null, mensaje: "" });
+    try {
+      const res = await fetch("/api/admin/configuracion", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ accion: "activar", webhookUrl }),
+      });
+      const datos = await res.json();
+      if (datos.ok) {
+        setEstadoWh({ tipo: "exito", mensaje: "✓ Webhook registrado en Pancake. Ya recibirás notificaciones." });
+      } else {
+        setEstadoWh({ tipo: "error", mensaje: datos.error ?? datos.mensaje ?? "Error al activar webhook" });
+      }
+    } catch {
+      setEstadoWh({ tipo: "error", mensaje: "Error de conexión." });
+    } finally {
+      setActivandoWh(false);
+    }
+  };
+
   return (
     <div className="space-y-5">
-      {/* Estado actual */}
+
+      {/* ── Estado de conexión ── */}
       <div className={`rounded-2xl border p-4 flex items-center gap-3 ${
-        configActual?.configurado
-          ? "bg-green-50 border-green-200"
-          : "bg-[#C8852A]/8 border-[#C8852A]/25"
+        configActual?.configurado ? "bg-green-50 border-green-200" : "bg-[#C8852A]/8 border-[#C8852A]/25"
       }`}>
-        {configActual?.configurado ? (
-          <Wifi className="w-5 h-5 text-green-600 flex-shrink-0" />
-        ) : (
-          <WifiOff className="w-5 h-5 text-[#C8852A] flex-shrink-0" />
-        )}
+        {configActual?.configurado
+          ? <Wifi className="w-5 h-5 text-green-600 flex-shrink-0" />
+          : <WifiOff className="w-5 h-5 text-[#C8852A] flex-shrink-0" />
+        }
         <div className="flex-1 min-w-0">
           <p className={`text-sm font-bold ${configActual?.configurado ? "text-green-700" : "text-[#C8852A]"}`}>
             {configActual?.configurado ? "Pancake CRM conectado" : "Pancake CRM no configurado"}
@@ -649,38 +670,31 @@ function TabConfiguracion() {
         )}
       </div>
 
-      {/* Resultado del test */}
+      {/* Alerta resultado test */}
       {estado.tipo && (
         <div className={`rounded-2xl border px-4 py-3 flex items-start gap-2.5 ${
-          estado.tipo === "exito"
-            ? "bg-green-50 border-green-200"
-            : "bg-red-50 border-red-200"
+          estado.tipo === "exito" ? "bg-green-50 border-green-200" : "bg-red-50 border-red-200"
         }`}>
           {estado.tipo === "exito"
             ? <CheckCircle2 className="w-4 h-4 text-green-600 flex-shrink-0 mt-0.5" />
-            : <AlertCircle className="w-4 h-4 text-red-500 flex-shrink-0 mt-0.5" />
-          }
+            : <AlertCircle className="w-4 h-4 text-red-500 flex-shrink-0 mt-0.5" />}
           <p className={`text-sm font-medium ${estado.tipo === "exito" ? "text-green-700" : "text-red-600"}`}>
             {estado.mensaje}
           </p>
         </div>
       )}
 
-      {/* Formulario */}
+      {/* ── Credenciales ── */}
       <div className="bg-white rounded-2xl border border-[#E8D5B7]/80 shadow-sm overflow-hidden">
         <div className="px-5 py-4 border-b border-[#E8D5B7]/50">
-          <h2 className="text-sm font-extrabold text-[#2C1810]">Configurar Pancake CRM</h2>
+          <h2 className="text-sm font-extrabold text-[#2C1810]">Credenciales Pancake</h2>
           <p className="text-xs text-[#7A5C44] mt-0.5">
-            Obtén tu API Key en Pancake → Configuración → Aplicación
+            Pancake → Configuración → Aplicación → API KEY
           </p>
         </div>
-
         <div className="px-5 py-4 space-y-4">
-          {/* Shop ID */}
           <div>
-            <label className="block text-xs font-bold text-[#7A5C44] uppercase tracking-wider mb-1.5">
-              Shop ID
-            </label>
+            <label className="block text-xs font-bold text-[#7A5C44] uppercase tracking-wider mb-1.5">Shop ID</label>
             <input
               type="text"
               value={shopId}
@@ -689,12 +703,8 @@ function TabConfiguracion() {
               className="w-full px-4 py-3 bg-[#FDF6EC] border border-[#E8D5B7] rounded-xl text-sm font-medium text-[#2C1810] placeholder:text-[#2C1810]/25 outline-none focus:border-[#C8852A] focus:ring-2 focus:ring-[#C8852A]/20 transition-all"
             />
           </div>
-
-          {/* API Key */}
           <div>
-            <label className="block text-xs font-bold text-[#7A5C44] uppercase tracking-wider mb-1.5">
-              API Key
-            </label>
+            <label className="block text-xs font-bold text-[#7A5C44] uppercase tracking-wider mb-1.5">API Key</label>
             <div className="relative">
               <input
                 type={mostrarKey ? "text" : "password"}
@@ -712,24 +722,17 @@ function TabConfiguracion() {
               </button>
             </div>
           </div>
-
-          {/* Botones */}
           <div className="flex gap-3 pt-1">
             <button
               onClick={guardar}
               disabled={guardando || guardadoOk}
               className={`flex-1 py-3 rounded-xl text-sm font-bold flex items-center justify-center gap-2 transition-all ${
-                guardadoOk
-                  ? "bg-green-600 text-white"
-                  : "bg-[#2C1810] text-[#FDF6EC] hover:bg-[#3d2410] disabled:opacity-60"
+                guardadoOk ? "bg-green-600 text-white" : "bg-[#2C1810] text-[#FDF6EC] hover:bg-[#3d2410] disabled:opacity-60"
               }`}
             >
-              {guardando
-                ? <><Loader2 className="w-4 h-4 animate-spin" /> Guardando...</>
-                : guardadoOk
-                ? <><CheckCircle2 className="w-4 h-4" /> Guardado</>
-                : "Guardar credenciales"
-              }
+              {guardando ? <><Loader2 className="w-4 h-4 animate-spin" />Guardando...</>
+                : guardadoOk ? <><CheckCircle2 className="w-4 h-4" />Guardado</>
+                : "Guardar credenciales"}
             </button>
             {!configActual?.configurado && (
               <button
@@ -745,14 +748,119 @@ function TabConfiguracion() {
         </div>
       </div>
 
-      {/* Nota sobre producción */}
+      {/* ── Canales de comunicación ── */}
+      <div className="bg-white rounded-2xl border border-[#E8D5B7]/80 shadow-sm overflow-hidden">
+        <div className="px-5 py-4 border-b border-[#E8D5B7]/50">
+          <h2 className="text-sm font-extrabold text-[#2C1810]">Canales de comunicación</h2>
+          <p className="text-xs text-[#7A5C44] mt-0.5">
+            WhatsApp · Instagram · Messenger · TikTok
+          </p>
+        </div>
+        <div className="px-5 py-4 space-y-4">
+          {/* Cómo funciona */}
+          <div className="space-y-2.5">
+            {[
+              { icono: "📲", texto: "Cliente reserva en la web app", sub: "Sus datos se sincronizan en Pancake automáticamente" },
+              { icono: "💬", texto: "Cliente escribe por WhatsApp / Instagram / etc.", sub: "El mensaje llega al inbox de Pancake con su historial de reservas" },
+              { icono: "✅", texto: "Tú respondes desde Pancake", sub: "Desde tu celular, en el canal que el cliente prefiera" },
+            ].map(({ icono, texto, sub }) => (
+              <div key={texto} className="flex items-start gap-3 py-2 border-b border-[#E8D5B7]/40 last:border-0">
+                <span className="text-lg leading-none mt-0.5 flex-shrink-0">{icono}</span>
+                <div>
+                  <p className="text-xs font-bold text-[#2C1810]">{texto}</p>
+                  <p className="text-xs text-[#7A5C44] mt-0.5">{sub}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Conectar canales */}
+          <div className="bg-[#C8852A]/8 border border-[#C8852A]/20 rounded-xl px-4 py-3">
+            <p className="text-xs font-bold text-[#2C1810] mb-1">Para conectar los canales</p>
+            <p className="text-xs text-[#7A5C44] leading-relaxed">
+              En Pancake → <span className="font-bold">Cuentas conectadas</span> → agrega tu WhatsApp Business, página de Facebook, Instagram o TikTok.
+              Una vez conectados, todas las conversaciones llegan a tu inbox de Pancake.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* ── Webhook ── */}
+      <div className="bg-white rounded-2xl border border-[#E8D5B7]/80 shadow-sm overflow-hidden">
+        <div className="px-5 py-4 border-b border-[#E8D5B7]/50">
+          <h2 className="text-sm font-extrabold text-[#2C1810]">Notificaciones en tiempo real</h2>
+          <p className="text-xs text-[#7A5C44] mt-0.5">
+            Pancake avisa a esta app cuando hay cambios
+          </p>
+        </div>
+        <div className="px-5 py-4 space-y-4">
+          {/* URL del webhook */}
+          <div>
+            <label className="block text-xs font-bold text-[#7A5C44] uppercase tracking-wider mb-1.5">
+              URL del Webhook
+            </label>
+            <div className="flex items-center gap-2">
+              <input
+                readOnly
+                value={webhookUrl}
+                className="flex-1 px-3 py-2.5 bg-[#2C1810]/5 border border-[#E8D5B7] rounded-xl text-xs font-mono text-[#2C1810] outline-none"
+              />
+              <button
+                onClick={() => navigator.clipboard?.writeText(webhookUrl)}
+                className="px-3 py-2.5 bg-[#FDF6EC] border border-[#E8D5B7] rounded-xl text-xs font-bold text-[#7A5C44] hover:bg-[#F5EAD7] transition-colors flex-shrink-0"
+              >
+                Copiar
+              </button>
+            </div>
+          </div>
+
+          {/* Qué recibimos */}
+          <div className="text-xs text-[#7A5C44] leading-relaxed">
+            Pancake enviará notificaciones cuando un cliente escriba por WhatsApp, Instagram, Messenger o TikTok.
+            Así esta app puede mostrar el historial de chats en el perfil del cliente.
+          </div>
+
+          {/* Botón registrar */}
+          {configActual?.configurado && (
+            <button
+              onClick={activarWebhook}
+              disabled={activandoWh}
+              className="w-full py-3 rounded-xl text-sm font-bold bg-[#2C1810] text-[#FDF6EC] hover:bg-[#3d2410] flex items-center justify-center gap-2 transition-colors disabled:opacity-60"
+            >
+              {activandoWh
+                ? <><Loader2 className="w-4 h-4 animate-spin" />Registrando...</>
+                : <><Wifi className="w-4 h-4" />Registrar webhook en Pancake</>
+              }
+            </button>
+          )}
+          {!configActual?.configurado && (
+            <p className="text-xs text-[#C8852A] font-semibold">
+              Guarda las credenciales de Pancake primero.
+            </p>
+          )}
+
+          {estadoWh.tipo && (
+            <div className={`rounded-xl border px-4 py-3 flex items-start gap-2 ${
+              estadoWh.tipo === "exito" ? "bg-green-50 border-green-200" : "bg-red-50 border-red-200"
+            }`}>
+              {estadoWh.tipo === "exito"
+                ? <CheckCircle2 className="w-4 h-4 text-green-600 flex-shrink-0 mt-0.5" />
+                : <AlertCircle className="w-4 h-4 text-red-500 flex-shrink-0 mt-0.5" />}
+              <p className={`text-xs font-medium ${estadoWh.tipo === "exito" ? "text-green-700" : "text-red-600"}`}>
+                {estadoWh.mensaje}
+              </p>
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* Nota producción */}
       <div className="bg-[#2C1810]/5 rounded-2xl border border-[#2C1810]/10 px-4 py-3.5 flex items-start gap-3">
         <AlertCircle className="w-4 h-4 text-[#7A5C44] flex-shrink-0 mt-0.5" />
         <div>
           <p className="text-xs font-bold text-[#2C1810] mb-1">Para producción (Vercel)</p>
           <p className="text-xs text-[#7A5C44] leading-relaxed">
-            Esta configuración es temporal (se resetea al reiniciar el servidor).
-            Para producción estable, agrega{" "}
+            La config en memoria es temporal. Para producción estable agrega{" "}
             <span className="font-mono font-bold text-[#2C1810]">PANCAKE_API_KEY</span>{" "}y{" "}
             <span className="font-mono font-bold text-[#2C1810]">PANCAKE_SHOP_ID</span>{" "}
             en Vercel → Settings → Environment Variables.

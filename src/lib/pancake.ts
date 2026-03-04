@@ -1,11 +1,25 @@
 // Integración con Pancake POS/CRM API
 // Docs: https://api-docs.pancake.vn/
-// Auth: api_key como query param en todas las peticiones
-// Base URL: https://pos.pages.fm/api/v1
+// Base URL POS: https://pos.pages.fm/api/v1
+//
+// ARQUITECTURA DE COMUNICACIÓN:
+// - Pancake POS API (este módulo): clientes, notas, CRM tables, webhooks
+// - Pancake Pages Inbox (UI): WhatsApp, Instagram, Messenger, TikTok
+//   → No tiene API pública para enviar mensajes; el admin responde desde su inbox
+//   → El campo conversation_link del cliente abre esa conversación directamente
+//
+// FLUJO:
+// 1. Cliente reserva → se crea/sincroniza en Pancake POS + nota de reserva
+// 2. Pancake muestra el cliente con su historial al admin
+// 3. Admin responde por WhatsApp/Instagram/etc. desde Pancake Inbox
+// 4. Webhooks de Pancake notifican a esta app cuando hay cambios
 
 import { obtenerConfigRuntime, pancakeEstaConfigurado } from "@/lib/config-runtime";
 
 const BASE_URL = "https://pos.pages.fm/api/v1";
+
+// Nombre de la tabla CRM donde guardamos las reservas en Pancake
+const CRM_TABLE_RESERVAS = "reservas_cafeteria";
 
 // ─── Tipos ───────────────────────────────────────────────────────────────────
 
@@ -22,6 +36,7 @@ export interface ClientePancake {
   purchased_amount?: number;
   succeed_order_count?: number;
   last_order_at?: number;
+  /** Enlace directo a la conversación del cliente en Pancake Inbox (WhatsApp/etc.) */
   conversation_link?: string;
   notes?: NotaPancake[];
 }
@@ -52,6 +67,13 @@ export interface DatosReservaParaPancake {
   notasEspeciales?: string;
 }
 
+export interface ResultadoRegistroReserva {
+  ok: boolean;
+  clienteId: number | null;
+  /** Enlace directo al chat del cliente en Pancake Inbox */
+  conversationLink?: string;
+}
+
 // ─── Cliente HTTP interno ────────────────────────────────────────────────────
 
 async function llamarAPI<T>(
@@ -60,12 +82,11 @@ async function llamarAPI<T>(
   cuerpo?: unknown
 ): Promise<T | null> {
   if (!pancakeEstaConfigurado()) {
-    console.warn("[Pancake] No configurado (API key o Shop ID faltante). Omitiendo.");
+    console.warn("[Pancake] No configurado. Omitiendo.");
     return null;
   }
 
   const { pancakeApiKey } = obtenerConfigRuntime();
-
   const url = new URL(`${BASE_URL}${ruta}`);
   url.searchParams.set("api_key", pancakeApiKey);
 
@@ -74,7 +95,6 @@ async function llamarAPI<T>(
       method: metodo,
       headers: cuerpo ? { "Content-Type": "application/json" } : {},
       body: cuerpo ? JSON.stringify(cuerpo) : undefined,
-      // Timeout de 8 segundos para no bloquear la respuesta al cliente
       signal: AbortSignal.timeout(8000),
     });
 
@@ -98,10 +118,6 @@ function shopRuta(sufijo: string): string {
 
 // ─── Clientes ────────────────────────────────────────────────────────────────
 
-/**
- * Busca un cliente por número de teléfono.
- * Retorna el primero que coincida, o null si no existe.
- */
 export async function buscarClientePorTelefono(
   telefono: string
 ): Promise<ClientePancake | null> {
@@ -111,51 +127,35 @@ export async function buscarClientePorTelefono(
   );
   if (!respuesta?.data?.length) return null;
 
-  // Buscar coincidencia exacta de teléfono
   const exacto = respuesta.data.find((c) =>
     c.phone_numbers?.some((p) => p.replace(/\D/g, "") === telefono.replace(/\D/g, ""))
   );
   return exacto ?? respuesta.data[0];
 }
 
-/**
- * Crea un nuevo cliente en Pancake.
- */
 export async function crearCliente(datos: {
   nombre: string;
   telefono: string;
   email?: string;
 }): Promise<ClientePancake | null> {
-  const cuerpo: Record<string, unknown> = {
+  interface RespuestaCliente { data: ClientePancake }
+  const respuesta = await llamarAPI<RespuestaCliente>("POST", shopRuta("/customers"), {
     name: datos.nombre,
     phoneNumber: datos.telefono,
     createType: "force",
-  };
-
-  interface RespuestaCliente { data: ClientePancake }
-  const respuesta = await llamarAPI<RespuestaCliente>("POST", shopRuta("/customers"), cuerpo);
+  });
   return respuesta?.data ?? null;
 }
 
-/**
- * Actualiza datos de un cliente existente (ej. agregar email).
- */
 export async function actualizarCliente(
   clienteId: number,
   datos: Partial<ClientePancake>
 ): Promise<boolean> {
-  const respuesta = await llamarAPI(
-    "PUT",
-    shopRuta(`/customers/${clienteId}`),
-    { customer: datos }
-  );
+  const respuesta = await llamarAPI("PUT", shopRuta(`/customers/${clienteId}`), { customer: datos });
   return respuesta !== null;
 }
 
-/**
- * Busca un cliente por teléfono; si no existe, lo crea.
- * Retorna el cliente (existente o nuevo).
- */
+/** Busca el cliente por teléfono; si no existe, lo crea (upsert). */
 export async function sincronizarCliente(datos: {
   nombre: string;
   telefono: string;
@@ -164,7 +164,6 @@ export async function sincronizarCliente(datos: {
   const existente = await buscarClientePorTelefono(datos.telefono);
 
   if (existente) {
-    // Si tiene email y el cliente no lo tiene registrado, actualizarlo
     if (datos.email && !existente.emails?.includes(datos.email)) {
       await actualizarCliente(existente.id, {
         emails: [...(existente.emails ?? []), datos.email],
@@ -178,9 +177,6 @@ export async function sincronizarCliente(datos: {
 
 // ─── Notas ───────────────────────────────────────────────────────────────────
 
-/**
- * Agrega una nota a un cliente (ej. detalles de su reserva).
- */
 export async function agregarNotaACliente(
   clienteId: number,
   mensaje: string
@@ -193,21 +189,97 @@ export async function agregarNotaACliente(
   return respuesta !== null;
 }
 
+// ─── CRM Table: Reservas ─────────────────────────────────────────────────────
+
+/**
+ * Asegura que exista la tabla "reservas_cafeteria" en el CRM de Pancake.
+ * Si ya existe, Pancake devuelve error 422/409 — lo ignoramos.
+ */
+export async function asegurarTablaCRM(): Promise<void> {
+  await llamarAPI("POST", shopRuta("/crm/tables"), {
+    table: {
+      name: CRM_TABLE_RESERVAS,
+      label: "Reservas Cafetería",
+    },
+  });
+  // No verificamos el resultado: si ya existe, simplemente continúa
+}
+
+/**
+ * Guarda una reserva como registro en la tabla CRM de Pancake.
+ * Esto permite al admin ver todas las reservas directamente en Pancake.
+ */
+export async function guardarReservaEnCRM(
+  datos: DatosReservaParaPancake,
+  clienteId: number
+): Promise<boolean> {
+  interface RespuestaCRM { data?: { record?: unknown; success?: boolean } }
+  const respuesta = await llamarAPI<RespuestaCRM>(
+    "POST",
+    shopRuta(`/crm/${CRM_TABLE_RESERVAS}/records`),
+    {
+      record: {
+        id_reserva: datos.idReserva,
+        cliente: datos.nombre,
+        telefono: datos.telefono,
+        email: datos.email ?? "",
+        fecha: datos.fecha,
+        hora: datos.hora,
+        personas: datos.personas,
+        mesa: datos.mesa,
+        notas: datos.notasEspeciales ?? "",
+        cliente_id: clienteId,
+        estado: "pendiente",
+        creada_en: new Date().toISOString(),
+      },
+    }
+  );
+  return respuesta?.data?.success ?? respuesta !== null;
+}
+
+// ─── Webhook ─────────────────────────────────────────────────────────────────
+
+/**
+ * Configura el webhook de Pancake para que notifique a esta app
+ * cuando se creen/actualicen clientes u órdenes.
+ */
+export async function configurarWebhook(webhookUrl: string): Promise<boolean> {
+  const respuesta = await llamarAPI("PUT", shopRuta(""), {
+    shop: {
+      webhook_enable: true,
+      webhook_url: webhookUrl,
+      webhook_types: ["orders", "customers"],
+    },
+  });
+  return respuesta !== null;
+}
+
+export async function desactivarWebhook(): Promise<boolean> {
+  const respuesta = await llamarAPI("PUT", shopRuta(""), {
+    shop: { webhook_enable: false },
+  });
+  return respuesta !== null;
+}
+
 // ─── Función principal ───────────────────────────────────────────────────────
 
 /**
- * Registra una reserva en Pancake CRM:
+ * Registra una reserva en Pancake CRM completo:
  * 1. Sincroniza el cliente (crea o actualiza)
- * 2. Agrega una nota con los detalles de la reserva
+ * 2. Agrega una nota al cliente con los detalles de la reserva
+ * 3. Guarda la reserva como registro en la tabla CRM "reservas_cafeteria"
  *
- * Esta función nunca lanza errores — si Pancake falla, el flujo de reserva
- * continúa de todas formas.
+ * Retorna el clienteId y el conversation_link si el cliente ya tiene
+ * conversaciones en Pancake Inbox (WhatsApp, Instagram, Messenger, TikTok).
+ * El admin puede usar ese enlace para ir directamente al chat del cliente.
+ *
+ * Esta función nunca lanza errores — si Pancake falla, la reserva se confirma igual.
  */
 export async function registrarReservaEnPancake(
   datos: DatosReservaParaPancake
-): Promise<{ clienteId: number | null; ok: boolean }> {
+): Promise<ResultadoRegistroReserva> {
   if (!pancakeEstaConfigurado()) {
-    return { clienteId: null, ok: false };
+    return { ok: false, clienteId: null };
   }
 
   try {
@@ -217,17 +289,23 @@ export async function registrarReservaEnPancake(
       email: datos.email,
     });
 
-    if (!cliente) {
-      return { clienteId: null, ok: false };
-    }
+    if (!cliente) return { ok: false, clienteId: null };
 
-    const nota = construirNota(datos);
-    await agregarNotaACliente(cliente.id, nota);
+    // Ejecutar nota + CRM en paralelo
+    await Promise.all([
+      agregarNotaACliente(cliente.id, construirNota(datos)),
+      guardarReservaEnCRM(datos, cliente.id),
+    ]);
 
-    return { clienteId: cliente.id, ok: true };
+    return {
+      ok: true,
+      clienteId: cliente.id,
+      // conversation_link existe si el cliente ya tiene chat abierto en Pancake
+      conversationLink: cliente.conversation_link ?? undefined,
+    };
   } catch (err) {
-    console.error("[Pancake] Error inesperado en registrarReservaEnPancake:", err);
-    return { clienteId: null, ok: false };
+    console.error("[Pancake] Error en registrarReservaEnPancake:", err);
+    return { ok: false, clienteId: null };
   }
 }
 
@@ -240,8 +318,6 @@ function construirNota(datos: DatosReservaParaPancake): string {
     `Personas: ${datos.personas}`,
     `Mesa: ${datos.mesa}`,
   ];
-  if (datos.notasEspeciales) {
-    lineas.push(`Notas: ${datos.notasEspeciales}`);
-  }
+  if (datos.notasEspeciales) lineas.push(`Notas: ${datos.notasEspeciales}`);
   return lineas.join("\n");
 }

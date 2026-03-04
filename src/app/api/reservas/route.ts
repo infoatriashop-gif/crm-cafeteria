@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { esquemaReserva } from "@/lib/validaciones";
-import { registrarReservaEnPancake } from "@/lib/pancake";
+import { registrarReservaEnPancake, asegurarTablaCRM } from "@/lib/pancake";
 
 // GET /api/reservas — Obtener reservas
 export async function GET() {
@@ -26,12 +26,11 @@ export async function POST(request: Request) {
   }
 
   const datos = resultado.data;
-
-  // Generar ID de reserva único
   const idReserva = `RES-${Math.floor(10000 + Math.random() * 90000)}`;
 
-  // Sincronizar cliente con Pancake CRM (no bloquea si falla)
-  const { clienteId, ok: pancakeOk } = await registrarReservaEnPancake({
+  // Asegurar tabla CRM existe y sincronizar con Pancake (sin bloquear si falla)
+  void asegurarTablaCRM();
+  const pancake = await registrarReservaEnPancake({
     nombre: datos.nombreCliente,
     telefono: datos.telefono,
     email: datos.email,
@@ -42,7 +41,7 @@ export async function POST(request: Request) {
     idReserva,
   });
 
-  if (!pancakeOk) {
+  if (!pancake.ok) {
     console.warn(`[Reserva ${idReserva}] No se pudo sincronizar con Pancake CRM`);
   }
 
@@ -52,8 +51,12 @@ export async function POST(request: Request) {
     {
       ok: true,
       idReserva,
-      pancakeClienteId: clienteId,
-      mensaje: "Reserva creada exitosamente",
+      pancake: {
+        sincronizado: pancake.ok,
+        clienteId: pancake.clienteId,
+        // Si el cliente ya tiene chat en Pancake, enviamos el enlace
+        conversationLink: pancake.conversationLink ?? null,
+      },
     },
     { status: 201 }
   );
