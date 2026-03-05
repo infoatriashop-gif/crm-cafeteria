@@ -116,10 +116,10 @@ function PantallaLanding() {
             "radial-gradient(ellipse at 30% 40%, rgba(200,133,42,0.4) 0%, transparent 60%), linear-gradient(160deg, #1a0e08 0%, #2C1810 50%, #3d2010 100%)",
         }}
       >
-        <div className="w-8 h-8 bg-[#C8852A]/25 rounded-xl flex items-center justify-center mb-2 border border-[#C8852A]/30">
-          <Coffee className="w-4 h-4 text-[#C8852A]" />
+        <div className="w-8 h-8 bg-[#C9A962]/25 rounded-xl flex items-center justify-center mb-2 border border-[#C9A962]/30">
+          <Coffee className="w-4 h-4 text-[#C9A962]" />
         </div>
-        <p className="text-[#C8852A] text-[10px] font-bold mb-1">Chapinero, Bogotá</p>
+        <p className="text-[#C9A962] text-[10px] font-bold mb-1">Chapinero, Bogotá</p>
         <h2 className="text-white text-sm font-extrabold leading-tight mb-2">
           Reserva tu<br />mesa perfecta
         </h2>
@@ -136,7 +136,7 @@ function PantallaLanding() {
             </div>
           ))}
         </div>
-        <div className="bg-[#C8852A] text-white text-center py-2.5 rounded-full text-[11px] font-extrabold shadow-sm">
+        <div className="bg-[#C9A962] text-white text-center py-2.5 rounded-full text-[11px] font-extrabold shadow-sm">
           Reservar mesa →
         </div>
       </div>
@@ -184,7 +184,7 @@ function PantallaFecha() {
           </div>
         ))}
       </div>
-      <div className="bg-[#C8852A] text-white text-center py-2 rounded-full text-[10px] font-extrabold mt-auto">
+      <div className="bg-[#C9A962] text-white text-center py-2 rounded-full text-[10px] font-extrabold mt-auto">
         Siguiente →
       </div>
     </div>
@@ -214,7 +214,7 @@ function PantallaMesa() {
             { n: 5, ok: true, sel: false }, { n: 6, ok: true, sel: false },
             { n: 7, ok: true, sel: false }, { n: 8, ok: true, sel: false },
           ].map(({ n, ok, sel }) => (
-            <div key={n} className={`p-1.5 rounded-lg text-center text-[8px] font-extrabold border ${sel ? "bg-[#C8852A]/15 border-[#C8852A] text-[#C8852A]" : ok ? "bg-green-50 border-green-200 text-green-700" : "bg-red-50 border-red-200 text-red-400"}`}>{n}</div>
+            <div key={n} className={`p-1.5 rounded-lg text-center text-[8px] font-extrabold border ${sel ? "bg-[#C9A962]/15 border-[#C9A962] text-[#C9A962]" : ok ? "bg-green-50 border-green-200 text-green-700" : "bg-red-50 border-red-200 text-red-400"}`}>{n}</div>
           ))}
         </div>
         <p className="text-[8px] font-extrabold text-[#7A5C44] uppercase tracking-wider mb-1.5 mt-2">Terraza</p>
@@ -223,15 +223,15 @@ function PantallaMesa() {
             { n: 9, ok: true }, { n: 10, ok: true },
             { n: 11, ok: true, sel: true }, { n: 12, ok: true },
           ].map(({ n, ok, sel }: { n: number; ok: boolean; sel?: boolean }) => (
-            <div key={n} className={`p-1.5 rounded-lg text-center text-[8px] font-extrabold border ${sel ? "bg-[#C8852A]/15 border-[#C8852A] text-[#C8852A]" : ok ? "bg-green-50 border-green-200 text-green-700" : "bg-red-50 border-red-200 text-red-400"}`}>{n}</div>
+            <div key={n} className={`p-1.5 rounded-lg text-center text-[8px] font-extrabold border ${sel ? "bg-[#C9A962]/15 border-[#C9A962] text-[#C9A962]" : ok ? "bg-green-50 border-green-200 text-green-700" : "bg-red-50 border-red-200 text-red-400"}`}>{n}</div>
           ))}
         </div>
       </div>
-      <div className="flex items-center gap-2 bg-[#C8852A]/12 rounded-xl px-2.5 py-2 border border-[#C8852A]/25">
-        <CheckCircle2 className="w-3 h-3 text-[#C8852A]" />
+      <div className="flex items-center gap-2 bg-[#C9A962]/12 rounded-xl px-2.5 py-2 border border-[#C9A962]/25">
+        <CheckCircle2 className="w-3 h-3 text-[#C9A962]" />
         <span className="text-[9px] font-bold text-[#2C1810]">Mesa 11 · Terraza · 4 pax</span>
       </div>
-      <div className="bg-[#C8852A] text-white text-center py-2 rounded-full text-[10px] font-extrabold">
+      <div className="bg-[#C9A962] text-white text-center py-2 rounded-full text-[10px] font-extrabold">
         Confirmar selección →
       </div>
     </div>
@@ -266,7 +266,7 @@ function PantallaDatos() {
           <div key={label}>
             <div className="px-3 py-2">
               <div className="text-[8px] font-extrabold text-[#7A5C44] uppercase tracking-wider">{label}</div>
-              <div className="text-[10px] font-bold text-[#C8852A] mt-0.5">{val}</div>
+              <div className="text-[10px] font-bold text-[#C9A962] mt-0.5">{val}</div>
             </div>
             {i < arr.length - 1 && <div className="h-px bg-[#E8D5B7]/60 mx-3" />}
           </div>
@@ -289,7 +289,7 @@ function PantallaExito() {
       </div>
       <h3 className="text-sm font-extrabold text-[#2C1810] mb-1">¡Reserva lista! 🎉</h3>
       <p className="text-[9px] text-[#7A5C44] mb-3">Recibiste los detalles por email</p>
-      <div className="bg-[#C8852A]/15 text-[#C8852A] font-extrabold text-xs px-4 py-2 rounded-full mb-3">
+      <div className="bg-[#C9A962]/15 text-[#C9A962] font-extrabold text-xs px-4 py-2 rounded-full mb-3">
         #RES-V4L3
       </div>
       <div className="bg-white rounded-xl border border-[#E8D5B7] w-full p-3 text-left space-y-1.5">
@@ -312,21 +312,21 @@ function PantallaAdminNotif() {
     <div className="h-full bg-[#FDF6EC] flex flex-col">
       <div className="bg-[#2C1810] px-3 py-3 flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <div className="w-6 h-6 bg-[#C8852A] rounded-lg flex items-center justify-center">
+          <div className="w-6 h-6 bg-[#C9A962] rounded-lg flex items-center justify-center">
             <Coffee className="w-3 h-3 text-white" />
           </div>
           <span className="text-[10px] font-extrabold text-white">Panel Admin</span>
         </div>
         <div className="relative">
           <Bell className="w-4 h-4 text-white/60" />
-          <div className="absolute -top-0.5 -right-0.5 w-2 h-2 bg-[#C8852A] rounded-full animate-pulse" />
+          <div className="absolute -top-0.5 -right-0.5 w-2 h-2 bg-[#C9A962] rounded-full animate-pulse" />
         </div>
       </div>
       <div className="p-3 space-y-2 flex-1">
-        <div className="bg-[#C8852A]/12 border border-[#C8852A]/30 rounded-xl p-2.5 animate-pulse">
+        <div className="bg-[#C9A962]/12 border border-[#C9A962]/30 rounded-xl p-2.5 animate-pulse">
           <div className="flex items-center gap-1.5 mb-1">
-            <div className="w-1.5 h-1.5 rounded-full bg-[#C8852A]" />
-            <span className="text-[8px] font-extrabold text-[#C8852A] uppercase tracking-wider">🔔 Nueva reserva</span>
+            <div className="w-1.5 h-1.5 rounded-full bg-[#C9A962]" />
+            <span className="text-[8px] font-extrabold text-[#C9A962] uppercase tracking-wider">🔔 Nueva reserva</span>
           </div>
           <p className="text-[10px] font-extrabold text-[#2C1810]">Valentina García</p>
           <p className="text-[9px] text-[#7A5C44]">Mié 4 mar · 19:00 · Mesa 11 · 2 pax</p>
@@ -334,7 +334,7 @@ function PantallaAdminNotif() {
         <div className="grid grid-cols-2 gap-1.5">
           {[
             { n: "8", l: "Hoy", c: "text-[#2C1810]" },
-            { n: "3", l: "Pendientes", c: "text-[#C8852A]" },
+            { n: "3", l: "Pendientes", c: "text-[#C9A962]" },
             { n: "5", l: "Mesas libres", c: "text-[#1A5C3A]" },
             { n: "27", l: "Esta semana", c: "text-[#2C1810]" },
           ].map(({ n, l, c }) => (
@@ -360,20 +360,20 @@ function PantallaAdminConfirmar() {
   return (
     <div className="h-full bg-[#FDF6EC] flex flex-col">
       <div className="bg-[#2C1810] px-3 py-3 flex items-center gap-2">
-        <div className="w-6 h-6 bg-[#C8852A] rounded-lg flex items-center justify-center">
+        <div className="w-6 h-6 bg-[#C9A962] rounded-lg flex items-center justify-center">
           <Coffee className="w-3 h-3 text-white" />
         </div>
         <span className="text-[10px] font-extrabold text-white">Reservas · Hoy</span>
       </div>
       <div className="p-3 flex-1">
-        <div className={`bg-white rounded-xl border shadow-sm overflow-hidden transition-all duration-700 ${confirmado ? "border-green-200" : "border-[#C8852A]/30"}`}>
+        <div className={`bg-white rounded-xl border shadow-sm overflow-hidden transition-all duration-700 ${confirmado ? "border-green-200" : "border-[#C9A962]/30"}`}>
           <div className="px-3 pt-3 pb-2">
             <div className="flex items-start justify-between gap-2 mb-2">
               <div>
                 <p className="text-[10px] font-extrabold text-[#2C1810]">Valentina García</p>
                 <p className="text-[8px] text-[#7A5C44]">+57 300 123 4567</p>
               </div>
-              <span className={`text-[8px] font-extrabold px-2 py-1 rounded-full transition-all duration-700 ${confirmado ? "bg-green-100 text-green-700" : "bg-[#C8852A]/12 text-[#C8852A]"}`}>
+              <span className={`text-[8px] font-extrabold px-2 py-1 rounded-full transition-all duration-700 ${confirmado ? "bg-green-100 text-green-700" : "bg-[#C9A962]/12 text-[#C9A962]"}`}>
                 {confirmado ? "✓ Confirmada" : "⏳ Pendiente"}
               </span>
             </div>
@@ -414,23 +414,23 @@ function PantallaAdminDashboard() {
       <div className="bg-[#2C1810] px-3 py-3">
         <div className="flex items-center justify-between mb-2">
           <div className="flex items-center gap-2">
-            <div className="w-6 h-6 bg-[#C8852A] rounded-lg flex items-center justify-center">
+            <div className="w-6 h-6 bg-[#C9A962] rounded-lg flex items-center justify-center">
               <Coffee className="w-3 h-3 text-white" />
             </div>
             <span className="text-[10px] font-extrabold text-white">Panel Admin</span>
           </div>
-          <Smartphone className="w-3.5 h-3.5 text-[#C8852A]" />
+          <Smartphone className="w-3.5 h-3.5 text-[#C9A962]" />
         </div>
         <div className="flex gap-1">
           {["Resumen", "Mesas", "Reservas"].map((t, i) => (
-            <div key={t} className={`px-2 py-1 text-[8px] font-bold rounded-full ${i === 0 ? "bg-[#C8852A] text-white" : "text-white/40"}`}>{t}</div>
+            <div key={t} className={`px-2 py-1 text-[8px] font-bold rounded-full ${i === 0 ? "bg-[#C9A962] text-white" : "text-white/40"}`}>{t}</div>
           ))}
         </div>
       </div>
       <div className="p-3 space-y-2 overflow-hidden">
         <div className="grid grid-cols-2 gap-1.5">
           {[
-            { n: "27", l: "Esta semana 🔥", c: "text-[#C8852A]", bg: "bg-white" },
+            { n: "27", l: "Esta semana 🔥", c: "text-[#C9A962]", bg: "bg-white" },
             { n: "5", l: "Pendientes ⚡", c: "text-amber-600", bg: "bg-amber-50" },
             { n: "9", l: "Mesas libres ✅", c: "text-[#1A5C3A]", bg: "bg-green-50" },
             { n: "3", l: "Ocupadas ahora 🔴", c: "text-red-600", bg: "bg-red-50" },
@@ -451,8 +451,8 @@ function PantallaAdminDashboard() {
             <div key={n} className="flex items-center justify-between py-1 border-b border-[#E8D5B7]/40 last:border-0">
               <span className="text-[9px] font-bold text-[#2C1810]">{n}</span>
               <div className="flex items-center gap-1.5">
-                <span className="text-[9px] text-[#C8852A] font-bold">{h}</span>
-                <div className={`w-1.5 h-1.5 rounded-full ${ok ? "bg-green-400" : "bg-[#C8852A] animate-pulse"}`} />
+                <span className="text-[9px] text-[#C9A962] font-bold">{h}</span>
+                <div className={`w-1.5 h-1.5 rounded-full ${ok ? "bg-green-400" : "bg-[#C9A962] animate-pulse"}`} />
               </div>
             </div>
           ))}
@@ -607,10 +607,10 @@ export default function DemoPage() {
   const paso = PASOS[pasoActual];
 
   return (
-    <div className="min-h-screen bg-[#1a0e08] font-sans">
+    <div className="min-h-screen bg-[#0F0F0F] font-[family-name:var(--font-manrope)]">
 
       {/* ── HEADER ────────────────────────────────────────── */}
-      <header className="sticky top-0 z-50 bg-[#1a0e08]/95 backdrop-blur-md border-b border-white/5 px-5 py-4 flex items-center gap-3">
+      <header className="sticky top-0 z-50 bg-[#0F0F0F]/95 backdrop-blur-md border-b border-white/5 px-5 py-4 flex items-center gap-3">
         <Link href="/admin" className="w-8 h-8 bg-white/8 rounded-xl flex items-center justify-center hover:bg-white/15 transition-colors">
           <ArrowLeft className="w-4 h-4 text-white/70" />
         </Link>
@@ -618,21 +618,21 @@ export default function DemoPage() {
           <h1 className="text-sm font-extrabold text-white">🎬 Demo del sistema</h1>
           <p className="text-[10px] text-white/40 font-medium">Así funciona Café Aroma 24/7</p>
         </div>
-        <div className="flex items-center gap-1.5 bg-[#C8852A]/15 px-3 py-1.5 rounded-full border border-[#C8852A]/25">
-          <Smartphone className="w-3 h-3 text-[#C8852A]" />
-          <span className="text-[10px] font-bold text-[#C8852A]">Solo tu celular</span>
+        <div className="flex items-center gap-1.5 bg-[#C9A962]/15 px-3 py-1.5 rounded-full border border-[#C9A962]/25">
+          <Smartphone className="w-3 h-3 text-[#C9A962]" />
+          <span className="text-[10px] font-bold text-[#C9A962]">Solo tu celular</span>
         </div>
       </header>
 
       {/* ── HERO ──────────────────────────────────────────── */}
       <div className="px-5 pt-6 pb-4 text-center max-w-lg mx-auto">
-        <div className="inline-flex items-center gap-2 bg-[#C8852A]/15 border border-[#C8852A]/25 px-4 py-2 rounded-full mb-4">
-          <Zap className="w-3.5 h-3.5 text-[#C8852A]" />
-          <span className="text-xs font-bold text-[#C8852A]">Ve el proceso completo en vivo</span>
+        <div className="inline-flex items-center gap-2 bg-[#C9A962]/15 border border-[#C9A962]/25 px-4 py-2 rounded-full mb-4">
+          <Zap className="w-3.5 h-3.5 text-[#C9A962]" />
+          <span className="text-xs font-bold text-[#C9A962]">Ve el proceso completo en vivo</span>
         </div>
         <h2 className="text-2xl md:text-3xl font-extrabold text-white leading-tight mb-2">
           Tu cafetería en<br />
-          <span className="text-[#C8852A]">piloto automático 🚀</span>
+          <span className="text-[#C9A962]">piloto automático 🚀</span>
         </h2>
         <p className="text-sm text-white/50 leading-relaxed">
           Del celular del cliente a tu panel de control — sin llamadas, sin cuadernos, sin estrés.
@@ -649,8 +649,8 @@ export default function DemoPage() {
               key={i}
               onClick={() => irA(i)}
               className={`h-1.5 flex-1 rounded-full transition-all duration-300 ${
-                i < pasoActual ? "bg-[#C8852A]" :
-                i === pasoActual ? "bg-[#C8852A]" : "bg-white/12"
+                i < pasoActual ? "bg-[#C9A962]" :
+                i === pasoActual ? "bg-[#C9A962]" : "bg-white/12"
               }`}
             />
           ))}
@@ -659,7 +659,7 @@ export default function DemoPage() {
         {/* Barra de progreso del paso actual */}
         <div className="h-0.5 bg-white/8 rounded-full overflow-hidden">
           <div
-            className="h-full bg-[#C8852A]/60 transition-none rounded-full"
+            className="h-full bg-[#C9A962]/60 transition-none rounded-full"
             style={{ width: `${reproduciendo ? progreso : (pasoActual / (PASOS.length - 1)) * 100}%` }}
           />
         </div>
@@ -670,7 +670,7 @@ export default function DemoPage() {
             paso.quien === "cliente"
               ? "bg-blue-500/15 text-blue-300 border border-blue-500/25"
               : paso.quien === "admin"
-              ? "bg-[#C8852A]/20 text-[#C8852A] border border-[#C8852A]/30"
+              ? "bg-[#C9A962]/20 text-[#C9A962] border border-[#C9A962]/30"
               : "bg-green-500/15 text-green-300 border border-green-500/25"
           }`}>
             {paso.quien === "cliente" ? "👤 Cliente" : paso.quien === "admin" ? "👨‍💼 Tú (Admin)" : "🎉 Resultado"}
@@ -722,8 +722,8 @@ export default function DemoPage() {
           <h3 className="text-base font-extrabold text-white leading-tight">{paso.titulo}</h3>
           <p className="text-sm text-white/60 leading-relaxed">{paso.descripcion}</p>
           <div className="flex items-start gap-2 pt-1">
-            <Zap className="w-3.5 h-3.5 text-[#C8852A] flex-shrink-0 mt-0.5" />
-            <p className="text-xs text-[#C8852A] font-bold">{paso.detalle}</p>
+            <Zap className="w-3.5 h-3.5 text-[#C9A962] flex-shrink-0 mt-0.5" />
+            <p className="text-xs text-[#C9A962] font-bold">{paso.detalle}</p>
           </div>
         </div>
 
@@ -738,7 +738,7 @@ export default function DemoPage() {
           </button>
           <button
             onClick={completado ? reiniciar : togglePlay}
-            className="w-14 h-14 bg-[#C8852A] rounded-full flex items-center justify-center shadow-lg hover:bg-[#b5741f] transition-colors"
+            className="w-14 h-14 bg-[#C9A962] rounded-full flex items-center justify-center shadow-lg hover:bg-[#B8943F] transition-colors"
           >
             {completado ? (
               <RotateCcw className="w-6 h-6 text-white" />
@@ -770,13 +770,13 @@ export default function DemoPage() {
 
           {/* Título */}
           <div className="text-center">
-            <div className="inline-flex items-center gap-2 bg-[#C8852A]/15 border border-[#C8852A]/25 px-4 py-2 rounded-full mb-4">
-              <TrendingUp className="w-3.5 h-3.5 text-[#C8852A]" />
-              <span className="text-xs font-bold text-[#C8852A]">Transformación real</span>
+            <div className="inline-flex items-center gap-2 bg-[#C9A962]/15 border border-[#C9A962]/25 px-4 py-2 rounded-full mb-4">
+              <TrendingUp className="w-3.5 h-3.5 text-[#C9A962]" />
+              <span className="text-xs font-bold text-[#C9A962]">Transformación real</span>
             </div>
             <h2 className="text-2xl font-extrabold text-[#2C1810] leading-tight">
               De esto 😩 a esto 🚀<br />
-              <span className="text-[#C8852A]">en tu cafetería</span>
+              <span className="text-[#C9A962]">en tu cafetería</span>
             </h2>
           </div>
 
@@ -800,8 +800,8 @@ export default function DemoPage() {
               {/* Flecha */}
               <div className="flex justify-center">
                 <div className="flex flex-col items-center gap-0.5">
-                  <div className="w-0.5 h-3 bg-[#C8852A]/40" />
-                  <div className="w-4 h-4 bg-[#C8852A] rounded-full flex items-center justify-center">
+                  <div className="w-0.5 h-3 bg-[#C9A962]/40" />
+                  <div className="w-4 h-4 bg-[#C9A962] rounded-full flex items-center justify-center">
                     <span className="text-white text-[8px] font-extrabold">↓</span>
                   </div>
                 </div>
@@ -837,7 +837,7 @@ export default function DemoPage() {
               ].map(({ num, sub, emoji }) => (
                 <div key={num} className="bg-white/8 rounded-2xl p-4 border border-white/8">
                   <div className="text-2xl mb-1">{emoji}</div>
-                  <div className="text-2xl font-extrabold text-[#C8852A]">{num}</div>
+                  <div className="text-2xl font-extrabold text-[#C9A962]">{num}</div>
                   <div className="text-[9px] text-white/50 leading-tight mt-1">{sub}</div>
                 </div>
               ))}
@@ -845,7 +845,7 @@ export default function DemoPage() {
           </div>
 
           {/* Énfasis mobile */}
-          <div className="bg-gradient-to-br from-[#C8852A]/15 to-[#C8852A]/5 border border-[#C8852A]/25 rounded-3xl p-6 text-center">
+          <div className="bg-gradient-to-br from-[#C9A962]/15 to-[#C9A962]/5 border border-[#C9A962]/25 rounded-3xl p-6 text-center">
             <div className="text-5xl mb-3">📲</div>
             <h3 className="text-xl font-extrabold text-[#2C1810] mb-2">
               Todo. Desde. Tu. Celular.
@@ -874,15 +874,15 @@ export default function DemoPage() {
           <div className="bg-white border border-[#E8D5B7] rounded-2xl p-5">
             <div className="flex items-center gap-2 mb-3">
               {Array.from({ length: 5 }).map((_, i) => (
-                <Star key={i} className="w-4 h-4 fill-[#C8852A] text-[#C8852A]" />
+                <Star key={i} className="w-4 h-4 fill-[#C9A962] text-[#C9A962]" />
               ))}
             </div>
             <p className="text-sm text-[#2C1810] leading-relaxed italic mb-3">
               &ldquo;Antes perdía 1 o 2 reservas por semana porque no contestaba el teléfono. Ahora los clientes reservan solos y yo veo todo desde mi cel. Me cambió el negocio.&rdquo;
             </p>
             <div className="flex items-center gap-2">
-              <div className="w-8 h-8 bg-[#C8852A]/20 rounded-full flex items-center justify-center">
-                <Coffee className="w-4 h-4 text-[#C8852A]" />
+              <div className="w-8 h-8 bg-[#C9A962]/20 rounded-full flex items-center justify-center">
+                <Coffee className="w-4 h-4 text-[#C9A962]" />
               </div>
               <div>
                 <p className="text-xs font-extrabold text-[#2C1810]">Propietario de cafetería</p>
@@ -895,14 +895,14 @@ export default function DemoPage() {
           <div className="space-y-3">
             <Link
               href="/admin"
-              className="flex items-center justify-center gap-2 w-full py-4 bg-[#2C1810] text-white font-extrabold text-base rounded-full shadow-lg hover:bg-[#3d2410] transition-colors"
+              className="flex items-center justify-center gap-2 w-full py-4 bg-[#2C1810] text-white font-extrabold text-base rounded-full shadow-lg hover:bg-[#252525] transition-colors"
             >
-              <Award className="w-5 h-5 text-[#C8852A]" />
+              <Award className="w-5 h-5 text-[#C9A962]" />
               Ir al panel de control
             </Link>
             <Link
               href="/"
-              className="flex items-center justify-center gap-2 w-full py-4 bg-[#C8852A] text-white font-extrabold text-base rounded-full shadow-lg hover:bg-[#b5741f] transition-colors"
+              className="flex items-center justify-center gap-2 w-full py-4 bg-[#C9A962] text-white font-extrabold text-base rounded-full shadow-lg hover:bg-[#B8943F] transition-colors"
             >
               <Smartphone className="w-5 h-5" />
               Ver cómo lo ve el cliente

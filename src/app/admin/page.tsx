@@ -179,20 +179,20 @@ export default function AdminPage() {
   );
 
   return (
-    <div className="min-h-screen bg-[#0F0B08] font-sans">
+    <div className="min-h-screen bg-[#0F0F0F] font-[family-name:var(--font-manrope)]">
 
       {/* ── HEADER ──────────────────────────────────────── */}
-      <header className="sticky top-0 z-50 bg-[#2C1810]">
+      <header className="sticky top-0 z-50 bg-[#0F0F0F]">
         <div className="max-w-2xl mx-auto px-5 py-3.5 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-9 h-9 bg-[#C8852A] rounded-xl flex items-center justify-center shadow-sm">
+            <div className="w-9 h-9 bg-[#C9A962] rounded-xl flex items-center justify-center shadow-sm">
               <Coffee className="w-4.5 h-4.5 text-white" />
             </div>
             <div>
-              <p className="text-[9px] font-semibold text-[#FDF6EC]/45 uppercase tracking-wider">
+              <p className="text-[9px] font-semibold text-[#FAF8F5]/45 uppercase tracking-wider">
                 Panel de control
               </p>
-              <h1 className="text-sm font-extrabold text-[#FDF6EC] leading-tight tracking-tight">
+              <h1 className="text-sm font-extrabold text-[#FAF8F5] leading-tight tracking-tight font-[family-name:var(--font-playfair)]">
                 Café Aroma
               </h1>
             </div>
@@ -201,13 +201,13 @@ export default function AdminPage() {
           <div className="flex items-center gap-3">
             <Link
               href="/"
-              className="text-[10px] font-semibold text-[#FDF6EC]/50 hover:text-[#C8852A] transition-colors hidden sm:block"
+              className="text-[10px] font-semibold text-[#FAF8F5]/50 hover:text-[#C9A962] transition-colors hidden sm:block"
             >
               Vista cliente
             </Link>
             <button
               onClick={cerrarSesion}
-              className="flex items-center gap-1.5 text-[#FDF6EC]/55 hover:text-[#FDF6EC] transition-colors"
+              className="flex items-center gap-1.5 text-[#FAF8F5]/55 hover:text-[#FAF8F5] transition-colors"
             >
               <LogOut className="w-4 h-4" />
               <span className="text-xs font-semibold hidden sm:block">Salir</span>
@@ -216,7 +216,7 @@ export default function AdminPage() {
         </div>
 
         {/* Tabs */}
-        <div className="max-w-2xl mx-auto px-5 flex border-t border-[#FDF6EC]/8">
+        <div className="max-w-2xl mx-auto px-5 flex border-t border-[#FAF8F5]/8">
           {(
             [
               { valor: "resumen", etiqueta: "Resumen", icon: LayoutDashboard },
@@ -230,8 +230,8 @@ export default function AdminPage() {
               onClick={() => setTab(valor)}
               className={`flex-1 flex items-center justify-center gap-1.5 py-3 text-xs font-bold border-b-2 transition-all ${
                 tab === valor
-                  ? "border-[#C8852A] text-[#C8852A]"
-                  : "border-transparent text-[#FDF6EC]/40 hover:text-[#FDF6EC]/65"
+                  ? "border-[#C9A962] text-[#C9A962]"
+                  : "border-transparent text-[#FAF8F5]/40 hover:text-[#FAF8F5]/65"
               }`}
             >
               <Icon className="w-3.5 h-3.5" />
@@ -248,23 +248,23 @@ export default function AdminPage() {
           <>
             {/* Stats */}
             <div className="grid grid-cols-2 gap-3">
-              <StatCard valor={reservasHoy.length} etiqueta="Reservas hoy" color="text-[#F0E6D3]" bg="bg-[#1A1108]" />
-              <StatCard valor={reservasHoy.filter((r) => r.estado === "confirmada").length} etiqueta="Confirmadas hoy" color="text-[#1A5C3A]" bg="bg-green-900/20" borde="border-green-800/30" />
-              <StatCard valor={pendientesTotal} etiqueta="Pendientes" color="text-[#C8852A]" bg="bg-[#C8852A]/10" borde="border-[#C8852A]/15" />
-              <StatCard valor={mesasLibres} etiqueta="Mesas libres" color="text-[#F0E6D3]" bg="bg-[#1A1108]" />
+              <StatCard valor={reservasHoy.length} etiqueta="Reservas hoy" color="text-[#FAF8F5]" bg="bg-[#1A1A1A]" />
+              <StatCard valor={reservasHoy.filter((r) => r.estado === "confirmada").length} etiqueta="Confirmadas hoy" color="text-[#4ADE80]" bg="bg-green-900/20" borde="border-green-800/30" />
+              <StatCard valor={pendientesTotal} etiqueta="Pendientes" color="text-[#C9A962]" bg="bg-[#C9A962]/10" borde="border-[#C9A962]/15" />
+              <StatCard valor={mesasLibres} etiqueta="Mesas libres" color="text-[#FAF8F5]" bg="bg-[#1A1A1A]" />
             </div>
 
             {/* Alerta de pendientes */}
             {pendientesTotal > 0 && (
-              <div className="bg-[#C8852A]/12 border border-[#C8852A]/25 rounded-2xl px-4 py-3.5 flex items-start gap-3">
-                <div className="w-2 h-2 rounded-full bg-[#C8852A] mt-1 flex-shrink-0 animate-pulse" />
+              <div className="bg-[#C9A962]/12 border border-[#C9A962]/25 rounded-2xl px-4 py-3.5 flex items-start gap-3">
+                <div className="w-2 h-2 rounded-full bg-[#C9A962] mt-1 flex-shrink-0 animate-pulse" />
                 <div>
-                  <p className="text-sm font-bold text-[#F0E6D3]">
+                  <p className="text-sm font-bold text-[#FAF8F5]">
                     {pendientesTotal} reserva{pendientesTotal > 1 ? "s" : ""} pendiente{pendientesTotal > 1 ? "s" : ""}
                   </p>
                   <button
                     onClick={() => { setTab("reservas"); setFiltroReservas("todas"); }}
-                    className="text-xs text-[#C8852A] font-semibold mt-0.5"
+                    className="text-xs text-[#C9A962] font-semibold mt-0.5"
                   >
                     Revisar ahora →
                   </button>
@@ -275,16 +275,16 @@ export default function AdminPage() {
             {/* Próximas reservas */}
             <div>
               <div className="flex items-center justify-between mb-3">
-                <h2 className="text-sm font-extrabold text-[#F0E6D3]">Próximas reservas</h2>
+                <h2 className="text-sm font-extrabold text-[#FAF8F5]">Próximas reservas</h2>
                 <button
                   onClick={() => setTab("reservas")}
-                  className="text-xs text-[#C8852A] font-semibold flex items-center gap-0.5"
+                  className="text-xs text-[#C9A962] font-semibold flex items-center gap-0.5"
                 >
                   Ver todas <ChevronRight className="w-3.5 h-3.5" />
                 </button>
               </div>
               {proximasReservas.length === 0 ? (
-                <div className="text-center py-8 text-[#8A6650]">
+                <div className="text-center py-8 text-[#888888]">
                   <CalendarDays className="w-8 h-8 mx-auto mb-2 opacity-30" />
                   <p className="text-sm">Sin reservas próximas</p>
                 </div>
@@ -309,7 +309,7 @@ export default function AdminPage() {
             {/* Demo del sistema — destacado */}
             <Link
               href="/admin/demo"
-              className="flex items-center gap-4 bg-gradient-to-r from-[#C8852A] to-[#b5741f] text-white rounded-2xl p-4 shadow-md hover:opacity-90 transition-opacity"
+              className="flex items-center gap-4 bg-gradient-to-r from-[#C9A962] to-[#B8943F] text-white rounded-2xl p-4 shadow-md hover:opacity-90 transition-opacity"
             >
               <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center flex-shrink-0">
                 <Play className="w-6 h-6 text-white ml-0.5" />
@@ -326,19 +326,19 @@ export default function AdminPage() {
             <div className="grid grid-cols-2 gap-3">
               <button
                 onClick={() => setTab("mesas")}
-                className="bg-[#2C1810] text-[#FDF6EC] rounded-2xl p-4 text-left hover:bg-[#3d2410] transition-colors"
+                className="bg-[#0F0F0F] text-[#FAF8F5] rounded-2xl p-4 text-left hover:bg-[#252525] transition-colors"
               >
-                <UtensilsCrossed className="w-5 h-5 text-[#C8852A] mb-2" />
-                <p className="text-xs text-[#FDF6EC]/60">Ver estado de</p>
+                <UtensilsCrossed className="w-5 h-5 text-[#C9A962] mb-2" />
+                <p className="text-xs text-[#FAF8F5]/60">Ver estado de</p>
                 <p className="text-sm font-bold">las mesas</p>
               </button>
               <Link
                 href="/"
-                className="bg-[#1A1108] border border-[#2E1E0E] rounded-2xl p-4 text-left hover:bg-[#2C1C12] transition-colors"
+                className="bg-[#1A1A1A] border border-[#1F1F1F] rounded-2xl p-4 text-left hover:bg-[#1F1F1F] transition-colors"
               >
-                <ChevronRight className="w-5 h-5 text-[#C8852A] mb-2" />
-                <p className="text-xs text-[#8A6650]">Ver como</p>
-                <p className="text-sm font-bold text-[#F0E6D3]">cliente</p>
+                <ChevronRight className="w-5 h-5 text-[#C9A962] mb-2" />
+                <p className="text-xs text-[#888888]">Ver como</p>
+                <p className="text-sm font-bold text-[#FAF8F5]">cliente</p>
               </Link>
             </div>
           </>
@@ -352,9 +352,9 @@ export default function AdminPage() {
               {[
                 { color: "bg-green-400", texto: "Libre" },
                 { color: "bg-red-400", texto: "Ocupada ahora" },
-                { color: "bg-[#C8852A]", texto: "Próxima reserva" },
+                { color: "bg-[#C9A962]", texto: "Próxima reserva" },
               ].map(({ color, texto }) => (
-                <span key={texto} className="flex items-center gap-1.5 text-xs font-semibold text-[#8A6650]">
+                <span key={texto} className="flex items-center gap-1.5 text-xs font-semibold text-[#888888]">
                   <span className={`w-2.5 h-2.5 rounded-full ${color}`} />
                   {texto}
                 </span>
@@ -370,22 +370,22 @@ export default function AdminPage() {
                 const cfg = {
                   libre: { color: "text-green-400", bg: "bg-green-900/20", borde: "border-green-800/30", etiq: "Libres" },
                   ocupada: { color: "text-red-400", bg: "bg-red-900/20", borde: "border-red-800/30", etiq: "Ocupadas" },
-                  proxima: { color: "text-[#C8852A]", bg: "bg-[#C8852A]/10", borde: "border-[#C8852A]/15", etiq: "Próximas" },
+                  proxima: { color: "text-[#C9A962]", bg: "bg-[#C9A962]/10", borde: "border-[#C9A962]/15", etiq: "Próximas" },
                 }[e];
                 return (
                   <div key={e} className={`${cfg.bg} border ${cfg.borde} rounded-2xl p-4 text-center shadow-sm`}>
                     <div className={`text-3xl font-extrabold ${cfg.color}`}>{count}</div>
-                    <div className="text-[10px] text-[#8A6650] font-semibold mt-0.5">{cfg.etiq}</div>
+                    <div className="text-[10px] text-[#888888] font-semibold mt-0.5">{cfg.etiq}</div>
                   </div>
                 );
               })}
             </div>
 
             {/* Plano visual */}
-            <div className="bg-[#1A1108] rounded-2xl border border-[#2E1E0E] shadow-sm overflow-hidden">
+            <div className="bg-[#1A1A1A] rounded-2xl border border-[#1F1F1F] shadow-sm overflow-hidden">
               {/* Interior */}
               <div className="p-4">
-                <p className="text-[10px] font-extrabold text-[#8A6650] uppercase tracking-widest mb-3">
+                <p className="text-[10px] font-extrabold text-[#888888] uppercase tracking-widest mb-3">
                   Interior — {mesas.filter(m => m.ubicacion === "interior").length} mesas
                 </p>
                 <div className="grid grid-cols-4 gap-2">
@@ -411,11 +411,11 @@ export default function AdminPage() {
                 </div>
               </div>
 
-              <div className="h-px bg-[#2E1E0E] mx-4" />
+              <div className="h-px bg-[#1F1F1F] mx-4" />
 
               {/* Terraza */}
               <div className="p-4">
-                <p className="text-[10px] font-extrabold text-[#8A6650] uppercase tracking-widest mb-3">
+                <p className="text-[10px] font-extrabold text-[#888888] uppercase tracking-widest mb-3">
                   Terraza — {mesas.filter(m => m.ubicacion === "terraza").length} mesas
                 </p>
                 <div className="grid grid-cols-4 gap-2">
@@ -445,7 +445,7 @@ export default function AdminPage() {
             {/* Detalle reservas activas hoy */}
             {reservasHoy.filter((r) => r.estado !== "cancelada").length > 0 && (
               <div>
-                <h3 className="text-sm font-extrabold text-[#F0E6D3] mb-3">
+                <h3 className="text-sm font-extrabold text-[#FAF8F5] mb-3">
                   Ocupación de hoy
                 </h3>
                 <div className="space-y-2.5">
@@ -490,14 +490,14 @@ export default function AdminPage() {
                   onClick={() => setFiltroReservas(valor)}
                   className={`flex-shrink-0 px-4 py-2 rounded-full text-sm font-bold transition-all ${
                     filtroReservas === valor
-                      ? "bg-[#F0E6D3] text-[#0F0B08] shadow-sm"
-                      : "bg-[#1A1108] text-[#F0E6D3]/60 border border-[#2E1E0E]"
+                      ? "bg-[#FAF8F5] text-[#0F0F0F] shadow-sm"
+                      : "bg-[#1A1A1A] text-[#FAF8F5]/60 border border-[#1F1F1F]"
                   }`}
                 >
                   {etiqueta}
                   {valor === "hoy" && reservasHoy.length > 0 && (
                     <span className={`ml-1.5 text-[10px] font-extrabold px-1.5 py-0.5 rounded-full ${
-                      filtroReservas === valor ? "bg-[#C8852A] text-white" : "bg-white/6 text-[#F0E6D3]"
+                      filtroReservas === valor ? "bg-[#C9A962] text-white" : "bg-white/6 text-[#FAF8F5]"
                     }`}>
                       {reservasHoy.length}
                     </span>
@@ -508,7 +508,7 @@ export default function AdminPage() {
 
             {/* Lista */}
             {reservasFiltradas.length === 0 ? (
-              <div className="text-center py-12 text-[#8A6650]">
+              <div className="text-center py-12 text-[#888888]">
                 <CalendarDays className="w-8 h-8 mx-auto mb-2 opacity-30" />
                 <p className="text-sm font-medium">No hay reservas para mostrar</p>
               </div>
@@ -641,18 +641,18 @@ function TabConfiguracion() {
 
       {/* ── Estado de conexión ── */}
       <div className={`rounded-2xl border p-4 flex items-center gap-3 ${
-        configActual?.configurado ? "bg-green-900/20 border-green-800/40" : "bg-[#C8852A]/10 border-[#C8852A]/25"
+        configActual?.configurado ? "bg-green-900/20 border-green-800/40" : "bg-[#C9A962]/10 border-[#C9A962]/25"
       }`}>
         {configActual?.configurado
           ? <Wifi className="w-5 h-5 text-green-400 flex-shrink-0" />
-          : <WifiOff className="w-5 h-5 text-[#C8852A] flex-shrink-0" />
+          : <WifiOff className="w-5 h-5 text-[#C9A962] flex-shrink-0" />
         }
         <div className="flex-1 min-w-0">
-          <p className={`text-sm font-bold ${configActual?.configurado ? "text-green-400" : "text-[#C8852A]"}`}>
+          <p className={`text-sm font-bold ${configActual?.configurado ? "text-green-400" : "text-[#C9A962]"}`}>
             {configActual?.configurado ? "Pancake CRM conectado" : "Pancake CRM no configurado"}
           </p>
           {configActual?.configurado && (
-            <p className="text-xs text-[#8A6650] mt-0.5 font-medium">
+            <p className="text-xs text-[#888888] mt-0.5 font-medium">
               Shop: <span className="font-bold">{configActual.pancakeShopId}</span>
               {" · "}Key: <span className="font-mono">{configActual.pancakeApiKeyPreview}</span>
             </p>
@@ -685,38 +685,38 @@ function TabConfiguracion() {
       )}
 
       {/* ── Credenciales ── */}
-      <div className="bg-[#1A1108] rounded-2xl border border-[#2E1E0E] shadow-sm overflow-hidden">
-        <div className="px-5 py-4 border-b border-[#2E1E0E]/60">
-          <h2 className="text-sm font-extrabold text-[#F0E6D3]">Credenciales Pancake</h2>
-          <p className="text-xs text-[#8A6650] mt-0.5">
+      <div className="bg-[#1A1A1A] rounded-2xl border border-[#1F1F1F] shadow-sm overflow-hidden">
+        <div className="px-5 py-4 border-b border-[#1F1F1F]/60">
+          <h2 className="text-sm font-extrabold text-[#FAF8F5]">Credenciales Pancake</h2>
+          <p className="text-xs text-[#888888] mt-0.5">
             Pancake → Configuración → Aplicación → API KEY
           </p>
         </div>
         <div className="px-5 py-4 space-y-4">
           <div>
-            <label className="block text-xs font-bold text-[#8A6650] uppercase tracking-wider mb-1.5">Shop ID</label>
+            <label className="block text-xs font-bold text-[#888888] uppercase tracking-wider mb-1.5">Shop ID</label>
             <input
               type="text"
               value={shopId}
               onChange={(e) => setShopId(e.target.value)}
               placeholder={configActual?.pancakeShopId ? `Actual: ${configActual.pancakeShopId}` : "ej. 123456"}
-              className="w-full px-4 py-3 bg-[#221610] border border-[#2E1E0E] rounded-xl text-sm font-medium text-[#F0E6D3] placeholder:text-[#F0E6D3]/20 outline-none focus:border-[#C8852A] focus:ring-2 focus:ring-[#C8852A]/20 transition-all"
+              className="w-full px-4 py-3 bg-[#141414] border border-[#1F1F1F] rounded-xl text-sm font-medium text-[#FAF8F5] placeholder:text-[#FAF8F5]/20 outline-none focus:border-[#C9A962] focus:ring-2 focus:ring-[#C9A962]/20 transition-all"
             />
           </div>
           <div>
-            <label className="block text-xs font-bold text-[#8A6650] uppercase tracking-wider mb-1.5">API Key</label>
+            <label className="block text-xs font-bold text-[#888888] uppercase tracking-wider mb-1.5">API Key</label>
             <div className="relative">
               <input
                 type={mostrarKey ? "text" : "password"}
                 value={apiKey}
                 onChange={(e) => setApiKey(e.target.value)}
                 placeholder={configActual?.pancakeApiKeyPreview ? `Actual: ${configActual.pancakeApiKeyPreview}` : "••••••••••••••••"}
-                className="w-full px-4 py-3 pr-11 bg-[#221610] border border-[#2E1E0E] rounded-xl text-sm font-medium text-[#F0E6D3] placeholder:text-[#F0E6D3]/20 outline-none focus:border-[#C8852A] focus:ring-2 focus:ring-[#C8852A]/20 transition-all"
+                className="w-full px-4 py-3 pr-11 bg-[#141414] border border-[#1F1F1F] rounded-xl text-sm font-medium text-[#FAF8F5] placeholder:text-[#FAF8F5]/20 outline-none focus:border-[#C9A962] focus:ring-2 focus:ring-[#C9A962]/20 transition-all"
               />
               <button
                 type="button"
                 onClick={() => setMostrarKey(!mostrarKey)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-[#F0E6D3]/40 hover:text-[#F0E6D3]/70 transition-colors"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-[#FAF8F5]/40 hover:text-[#FAF8F5]/70 transition-colors"
               >
                 {mostrarKey ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
               </button>
@@ -727,7 +727,7 @@ function TabConfiguracion() {
               onClick={guardar}
               disabled={guardando || guardadoOk}
               className={`flex-1 py-3 rounded-xl text-sm font-bold flex items-center justify-center gap-2 transition-all ${
-                guardadoOk ? "bg-green-600 text-white" : "bg-[#221610] border border-[#2E1E0E] text-[#F0E6D3] hover:bg-[#2C1C12] disabled:opacity-60"
+                guardadoOk ? "bg-green-600 text-white" : "bg-[#141414] border border-[#1F1F1F] text-[#FAF8F5] hover:bg-[#1F1F1F] disabled:opacity-60"
               }`}
             >
               {guardando ? <><Loader2 className="w-4 h-4 animate-spin" />Guardando...</>
@@ -738,7 +738,7 @@ function TabConfiguracion() {
               <button
                 onClick={probarConexion}
                 disabled={probando}
-                className="px-4 py-3 rounded-xl text-sm font-bold bg-[#221610] border border-[#2E1E0E] text-[#F0E6D3] hover:bg-[#2C1C12] flex items-center gap-2 transition-colors disabled:opacity-60"
+                className="px-4 py-3 rounded-xl text-sm font-bold bg-[#141414] border border-[#1F1F1F] text-[#FAF8F5] hover:bg-[#1F1F1F] flex items-center gap-2 transition-colors disabled:opacity-60"
               >
                 {probando ? <Loader2 className="w-4 h-4 animate-spin" /> : <Wifi className="w-4 h-4" />}
                 Probar
@@ -749,10 +749,10 @@ function TabConfiguracion() {
       </div>
 
       {/* ── Canales de comunicación ── */}
-      <div className="bg-[#1A1108] rounded-2xl border border-[#2E1E0E] shadow-sm overflow-hidden">
-        <div className="px-5 py-4 border-b border-[#2E1E0E]/60">
-          <h2 className="text-sm font-extrabold text-[#F0E6D3]">Canales de comunicación</h2>
-          <p className="text-xs text-[#8A6650] mt-0.5">
+      <div className="bg-[#1A1A1A] rounded-2xl border border-[#1F1F1F] shadow-sm overflow-hidden">
+        <div className="px-5 py-4 border-b border-[#1F1F1F]/60">
+          <h2 className="text-sm font-extrabold text-[#FAF8F5]">Canales de comunicación</h2>
+          <p className="text-xs text-[#888888] mt-0.5">
             WhatsApp · Instagram · Messenger · TikTok
           </p>
         </div>
@@ -764,20 +764,20 @@ function TabConfiguracion() {
               { icono: "💬", texto: "Cliente escribe por WhatsApp / Instagram / etc.", sub: "El mensaje llega al inbox de Pancake con su historial de reservas" },
               { icono: "✅", texto: "Tú respondes desde Pancake", sub: "Desde tu celular, en el canal que el cliente prefiera" },
             ].map(({ icono, texto, sub }) => (
-              <div key={texto} className="flex items-start gap-3 py-2 border-b border-[#2E1E0E] last:border-0">
+              <div key={texto} className="flex items-start gap-3 py-2 border-b border-[#1F1F1F] last:border-0">
                 <span className="text-lg leading-none mt-0.5 flex-shrink-0">{icono}</span>
                 <div>
-                  <p className="text-xs font-bold text-[#F0E6D3]">{texto}</p>
-                  <p className="text-xs text-[#8A6650] mt-0.5">{sub}</p>
+                  <p className="text-xs font-bold text-[#FAF8F5]">{texto}</p>
+                  <p className="text-xs text-[#888888] mt-0.5">{sub}</p>
                 </div>
               </div>
             ))}
           </div>
 
           {/* Conectar canales */}
-          <div className="bg-[#C8852A]/10 border border-[#C8852A]/20 rounded-xl px-4 py-3">
-            <p className="text-xs font-bold text-[#F0E6D3] mb-1">Para conectar los canales</p>
-            <p className="text-xs text-[#8A6650] leading-relaxed">
+          <div className="bg-[#C9A962]/10 border border-[#C9A962]/20 rounded-xl px-4 py-3">
+            <p className="text-xs font-bold text-[#FAF8F5] mb-1">Para conectar los canales</p>
+            <p className="text-xs text-[#888888] leading-relaxed">
               En Pancake → <span className="font-bold">Cuentas conectadas</span> → agrega tu WhatsApp Business, página de Facebook, Instagram o TikTok.
               Una vez conectados, todas las conversaciones llegan a tu inbox de Pancake.
             </p>
@@ -786,28 +786,28 @@ function TabConfiguracion() {
       </div>
 
       {/* ── Webhook ── */}
-      <div className="bg-[#1A1108] rounded-2xl border border-[#2E1E0E] shadow-sm overflow-hidden">
-        <div className="px-5 py-4 border-b border-[#2E1E0E]/60">
-          <h2 className="text-sm font-extrabold text-[#F0E6D3]">Notificaciones en tiempo real</h2>
-          <p className="text-xs text-[#8A6650] mt-0.5">
+      <div className="bg-[#1A1A1A] rounded-2xl border border-[#1F1F1F] shadow-sm overflow-hidden">
+        <div className="px-5 py-4 border-b border-[#1F1F1F]/60">
+          <h2 className="text-sm font-extrabold text-[#FAF8F5]">Notificaciones en tiempo real</h2>
+          <p className="text-xs text-[#888888] mt-0.5">
             Pancake avisa a esta app cuando hay cambios
           </p>
         </div>
         <div className="px-5 py-4 space-y-4">
           {/* URL del webhook */}
           <div>
-            <label className="block text-xs font-bold text-[#8A6650] uppercase tracking-wider mb-1.5">
+            <label className="block text-xs font-bold text-[#888888] uppercase tracking-wider mb-1.5">
               URL del Webhook
             </label>
             <div className="flex items-center gap-2">
               <input
                 readOnly
                 value={webhookUrl}
-                className="flex-1 px-3 py-2.5 bg-white/4 border border-[#2E1E0E] rounded-xl text-xs font-mono text-[#F0E6D3] outline-none"
+                className="flex-1 px-3 py-2.5 bg-white/4 border border-[#1F1F1F] rounded-xl text-xs font-mono text-[#FAF8F5] outline-none"
               />
               <button
                 onClick={() => navigator.clipboard?.writeText(webhookUrl)}
-                className="px-3 py-2.5 bg-[#221610] border border-[#2E1E0E] rounded-xl text-xs font-bold text-[#8A6650] hover:bg-[#2C1C12] transition-colors flex-shrink-0"
+                className="px-3 py-2.5 bg-[#141414] border border-[#1F1F1F] rounded-xl text-xs font-bold text-[#888888] hover:bg-[#1F1F1F] transition-colors flex-shrink-0"
               >
                 Copiar
               </button>
@@ -815,7 +815,7 @@ function TabConfiguracion() {
           </div>
 
           {/* Qué recibimos */}
-          <div className="text-xs text-[#8A6650] leading-relaxed">
+          <div className="text-xs text-[#888888] leading-relaxed">
             Pancake enviará notificaciones cuando un cliente escriba por WhatsApp, Instagram, Messenger o TikTok.
             Así esta app puede mostrar el historial de chats en el perfil del cliente.
           </div>
@@ -825,7 +825,7 @@ function TabConfiguracion() {
             <button
               onClick={activarWebhook}
               disabled={activandoWh}
-              className="w-full py-3 rounded-xl text-sm font-bold bg-[#221610] border border-[#2E1E0E] text-[#F0E6D3] hover:bg-[#2C1C12] flex items-center justify-center gap-2 transition-colors disabled:opacity-60"
+              className="w-full py-3 rounded-xl text-sm font-bold bg-[#141414] border border-[#1F1F1F] text-[#FAF8F5] hover:bg-[#1F1F1F] flex items-center justify-center gap-2 transition-colors disabled:opacity-60"
             >
               {activandoWh
                 ? <><Loader2 className="w-4 h-4 animate-spin" />Registrando...</>
@@ -834,7 +834,7 @@ function TabConfiguracion() {
             </button>
           )}
           {!configActual?.configurado && (
-            <p className="text-xs text-[#C8852A] font-semibold">
+            <p className="text-xs text-[#C9A962] font-semibold">
               Guarda las credenciales de Pancake primero.
             </p>
           )}
@@ -856,13 +856,13 @@ function TabConfiguracion() {
 
       {/* Nota producción */}
       <div className="bg-white/4 rounded-2xl border border-white/8 px-4 py-3.5 flex items-start gap-3">
-        <AlertCircle className="w-4 h-4 text-[#8A6650] flex-shrink-0 mt-0.5" />
+        <AlertCircle className="w-4 h-4 text-[#888888] flex-shrink-0 mt-0.5" />
         <div>
-          <p className="text-xs font-bold text-[#F0E6D3] mb-1">Para producción (Vercel)</p>
-          <p className="text-xs text-[#8A6650] leading-relaxed">
+          <p className="text-xs font-bold text-[#FAF8F5] mb-1">Para producción (Vercel)</p>
+          <p className="text-xs text-[#888888] leading-relaxed">
             La config en memoria es temporal. Para producción estable agrega{" "}
-            <span className="font-mono font-bold text-[#F0E6D3]">PANCAKE_API_KEY</span>{" "}y{" "}
-            <span className="font-mono font-bold text-[#F0E6D3]">PANCAKE_SHOP_ID</span>{" "}
+            <span className="font-mono font-bold text-[#FAF8F5]">PANCAKE_API_KEY</span>{" "}y{" "}
+            <span className="font-mono font-bold text-[#FAF8F5]">PANCAKE_SHOP_ID</span>{" "}
             en Vercel → Settings → Environment Variables.
           </p>
         </div>
@@ -878,7 +878,7 @@ function StatCard({
   etiqueta,
   color,
   bg,
-  borde = "border-[#2E1E0E]",
+  borde = "border-[#1F1F1F]",
 }: {
   valor: number;
   etiqueta: string;
@@ -889,7 +889,7 @@ function StatCard({
   return (
     <div className={`${bg} border ${borde} rounded-2xl p-4 shadow-sm`}>
       <div className={`text-4xl font-extrabold ${color} leading-none`}>{valor}</div>
-      <div className="text-xs text-[#8A6650] font-semibold mt-1.5">{etiqueta}</div>
+      <div className="text-xs text-[#888888] font-semibold mt-1.5">{etiqueta}</div>
     </div>
   );
 }
@@ -919,10 +919,10 @@ function TarjetaMesaAdmin({
       etiq: "Ocup.",
     },
     proxima: {
-      bg: "bg-[#C8852A]/10",
-      borde: "border-[#C8852A]/25",
-      dot: "bg-[#C8852A]",
-      texto: "text-[#C8852A]",
+      bg: "bg-[#C9A962]/10",
+      borde: "border-[#C9A962]/25",
+      dot: "bg-[#C9A962]",
+      texto: "text-[#C9A962]",
       etiq: "Próx.",
     },
   }[estado];
@@ -930,16 +930,16 @@ function TarjetaMesaAdmin({
   return (
     <div className={`${cfg.bg} border ${cfg.borde} rounded-xl p-2.5 text-center relative`}>
       {estado === "ocupada" && (
-        <div className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-red-400 rounded-full border-2 border-[#0F0B08] animate-pulse" />
+        <div className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-red-400 rounded-full border-2 border-[#0F0F0F] animate-pulse" />
       )}
-      <div className="text-base font-extrabold text-[#F0E6D3]">{mesa.numero}</div>
+      <div className="text-base font-extrabold text-[#FAF8F5]">{mesa.numero}</div>
       <div className="flex items-center justify-center gap-0.5 my-0.5">
-        <Users className="w-2.5 h-2.5 text-[#8A6650]" />
-        <span className="text-[9px] text-[#8A6650] font-medium">{mesa.capacidad}</span>
+        <Users className="w-2.5 h-2.5 text-[#888888]" />
+        <span className="text-[9px] text-[#888888] font-medium">{mesa.capacidad}</span>
       </div>
       <div className={`text-[9px] font-extrabold ${cfg.texto}`}>{cfg.etiq}</div>
       {reserva && estado !== "libre" && (
-        <div className="text-[8px] text-[#8A6650] mt-0.5 truncate">{reserva.hora}</div>
+        <div className="text-[8px] text-[#888888] mt-0.5 truncate">{reserva.hora}</div>
       )}
     </div>
   );
@@ -958,24 +958,24 @@ function TarjetaResumenCompacta({
 }) {
   const estadoDot = {
     confirmada: "bg-green-400",
-    pendiente: "bg-[#C8852A] animate-pulse",
+    pendiente: "bg-[#C9A962] animate-pulse",
     cancelada: "bg-red-400",
   }[reserva.estado];
 
   return (
-    <div className="bg-[#1A1108] rounded-2xl border border-[#2E1E0E] shadow-sm px-4 py-3.5 flex items-center gap-3">
+    <div className="bg-[#1A1A1A] rounded-2xl border border-[#1F1F1F] shadow-sm px-4 py-3.5 flex items-center gap-3">
       <div className={`w-2.5 h-2.5 rounded-full flex-shrink-0 ${estadoDot}`} />
       <div className="flex-1 min-w-0">
         <div className="flex items-center gap-2 flex-wrap">
-          <span className="text-sm font-bold text-[#F0E6D3] truncate">
+          <span className="text-sm font-bold text-[#FAF8F5] truncate">
             {reserva.nombreCliente}
           </span>
-          <span className="text-xs text-[#C8852A] font-bold flex-shrink-0">{reserva.hora}</span>
-          <span className="text-xs text-[#8A6650] flex-shrink-0">
+          <span className="text-xs text-[#C9A962] font-bold flex-shrink-0">{reserva.hora}</span>
+          <span className="text-xs text-[#888888] flex-shrink-0">
             {formatearFechaEtiqueta(reserva.fecha)}
           </span>
         </div>
-        <div className="flex items-center gap-2 text-xs text-[#8A6650] mt-0.5">
+        <div className="flex items-center gap-2 text-xs text-[#888888] mt-0.5">
           <span>Mesa {mesa?.numero ?? "?"}</span>
           <span>·</span>
           <span className="capitalize">{mesa?.ubicacion}</span>
@@ -1030,11 +1030,11 @@ function TarjetaReservaCompleta({
     },
     pendiente: {
       label: "Pendiente",
-      dot: "bg-[#C8852A] animate-pulse",
-      color: "text-[#C8852A]",
-      bg: "bg-[#C8852A]/10",
-      borde: "border-[#C8852A]/20",
-      cardBorde: "border-[#C8852A]/20",
+      dot: "bg-[#C9A962] animate-pulse",
+      color: "text-[#C9A962]",
+      bg: "bg-[#C9A962]/10",
+      borde: "border-[#C9A962]/20",
+      cardBorde: "border-[#C9A962]/20",
     },
     cancelada: {
       label: "Cancelada",
@@ -1047,19 +1047,19 @@ function TarjetaReservaCompleta({
   }[reserva.estado];
 
   return (
-    <div className={`bg-[#1A1108] rounded-2xl border ${estadoCfg.cardBorde} shadow-sm overflow-hidden`}>
+    <div className={`bg-[#1A1A1A] rounded-2xl border ${estadoCfg.cardBorde} shadow-sm overflow-hidden`}>
       {/* Cabecera */}
       <div className="px-4 pt-4 pb-3">
         <div className="flex items-start justify-between gap-2 mb-3">
           <div className="flex-1 min-w-0">
-            <h3 className="text-base font-extrabold text-[#F0E6D3] truncate">
+            <h3 className="text-base font-extrabold text-[#FAF8F5] truncate">
               {reserva.nombreCliente}
             </h3>
-            <div className="flex items-center gap-1 mt-0.5 text-xs text-[#8A6650]">
+            <div className="flex items-center gap-1 mt-0.5 text-xs text-[#888888]">
               <Mail className="w-3 h-3 flex-shrink-0" />
               <span className="truncate">{reserva.email}</span>
             </div>
-            <div className="flex items-center gap-1 mt-0.5 text-xs text-[#8A6650]">
+            <div className="flex items-center gap-1 mt-0.5 text-xs text-[#888888]">
               <Phone className="w-3 h-3 flex-shrink-0" />
               <span>{reserva.telefono}</span>
             </div>
@@ -1088,7 +1088,7 @@ function TarjetaReservaCompleta({
 
       {/* Acciones */}
       {reserva.estado !== "cancelada" && (
-        <div className="flex border-t border-[#2E1E0E]/60">
+        <div className="flex border-t border-[#1F1F1F]/60">
           {reserva.estado === "pendiente" && (
             <button
               onClick={() => onConfirmar(reserva.id)}
@@ -1101,7 +1101,7 @@ function TarjetaReservaCompleta({
           <button
             onClick={() => onCancelar(reserva.id)}
             className={`flex-1 py-3 flex items-center justify-center gap-1.5 text-red-400 text-xs font-extrabold hover:bg-red-900/20 transition-colors ${
-              reserva.estado === "confirmada" ? "border-l border-[#2E1E0E]/60" : ""
+              reserva.estado === "confirmada" ? "border-l border-[#1F1F1F]/60" : ""
             }`}
           >
             <XCircle className="w-4 h-4" />
@@ -1126,10 +1126,10 @@ function DetalleItem({
 }) {
   return (
     <div className="flex items-start gap-2">
-      <Icon className="w-3.5 h-3.5 text-[#C8852A] flex-shrink-0 mt-0.5" />
+      <Icon className="w-3.5 h-3.5 text-[#C9A962] flex-shrink-0 mt-0.5" />
       <div>
-        <p className="text-[9px] text-[#8A6650] font-bold uppercase tracking-wider">{etiqueta}</p>
-        <p className={`text-xs font-semibold text-[#F0E6D3] ${capitalize ? "capitalize" : ""}`}>
+        <p className="text-[9px] text-[#888888] font-bold uppercase tracking-wider">{etiqueta}</p>
+        <p className={`text-xs font-semibold text-[#FAF8F5] ${capitalize ? "capitalize" : ""}`}>
           {valor}
         </p>
       </div>
