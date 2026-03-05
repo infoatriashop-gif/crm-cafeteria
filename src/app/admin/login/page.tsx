@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Coffee, Eye, EyeOff, Loader2 } from "lucide-react";
+import { Coffee, Eye, EyeOff, Loader2, ArrowRight } from "lucide-react";
 
 export default function LoginAdmin() {
   const router = useRouter();
@@ -29,39 +29,43 @@ export default function LoginAdmin() {
         router.refresh();
       } else {
         const data = await res.json();
-        setError(data.error ?? "Error al iniciar sesión");
+        setError(data.error ?? "Error al iniciar sesion");
       }
     } catch {
-      setError("Error de conexión. Intenta de nuevo.");
+      setError("Error de conexion. Intenta de nuevo.");
     } finally {
       setCargando(false);
     }
   };
 
   return (
-    <div className="min-h-screen bg-[#0F0F0F] flex flex-col font-[family-name:var(--font-manrope)]">
+    <div className="min-h-screen bg-[#0F0F0F] flex flex-col font-[family-name:var(--font-manrope)] relative overflow-hidden">
+
+      {/* Background decorations */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-[#C9A962]/5 rounded-full blur-[150px] -translate-y-1/2" />
+      <div className="absolute bottom-0 right-0 w-[300px] h-[300px] bg-[#C9A962]/3 rounded-full blur-[100px]" />
 
       {/* Zona superior decorativa */}
-      <div className="flex-1 flex items-center justify-center px-5 py-10">
-        <div className="w-full max-w-sm">
+      <div className="flex-1 flex items-center justify-center px-5 py-10 relative">
+        <div className="w-full max-w-sm animate-scale-in">
 
           {/* Logo */}
           <div className="text-center mb-10">
-            <div className="w-16 h-16 bg-[#C9A962] rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg">
+            <div className="w-16 h-16 bg-[#C9A962] rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg shadow-[#C9A962]/20 animate-pulse-gold">
               <Coffee className="w-8 h-8 text-white" />
             </div>
             <h1 className="text-2xl font-extrabold text-[#FAF8F5] tracking-tight font-[family-name:var(--font-playfair)]">
-              Café Aroma
+              Cafe Aroma
             </h1>
             <p className="text-[#FAF8F5]/50 text-sm mt-1 font-medium">
-              Panel de Administración
+              Panel de Administracion
             </p>
           </div>
 
           {/* Tarjeta del formulario */}
-          <div className="bg-[#1A1A1A] border border-[#1F1F1F] rounded-3xl p-6 shadow-2xl">
+          <div className="bg-[#1A1A1A] border border-[#1F1F1F] rounded-3xl p-6 shadow-2xl animate-fade-up delay-200">
             <h2 className="text-lg font-bold text-[#FAF8F5] mb-1 font-[family-name:var(--font-playfair)]">
-              Iniciar sesión
+              Iniciar sesion
             </h2>
             <p className="text-sm text-[#888888] mb-6">
               Accede para gestionar reservas y mesas
@@ -84,10 +88,10 @@ export default function LoginAdmin() {
                 />
               </div>
 
-              {/* Contraseña */}
+              {/* Contrasena */}
               <div>
                 <label className="block text-xs font-bold text-[#888888] uppercase tracking-wider mb-1.5">
-                  Contraseña
+                  Contrasena
                 </label>
                 <div className="relative">
                   <input
@@ -102,7 +106,7 @@ export default function LoginAdmin() {
                   <button
                     type="button"
                     onClick={() => setMostrarPassword(!mostrarPassword)}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-[#FAF8F5]/40 hover:text-[#FAF8F5]/70 transition-colors"
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-[#FAF8F5]/40 hover:text-[#FAF8F5]/70 transition-colors active:scale-90"
                   >
                     {mostrarPassword ? (
                       <EyeOff className="w-4 h-4" />
@@ -115,29 +119,30 @@ export default function LoginAdmin() {
 
               {/* Error */}
               {error && (
-                <div className="bg-red-900/20 border border-red-800/40 rounded-xl px-4 py-3">
+                <div className="bg-red-900/20 border border-red-800/40 rounded-xl px-4 py-3 animate-scale-in">
                   <p className="text-red-400 text-sm font-medium">{error}</p>
                 </div>
               )}
 
-              {/* Botón */}
+              {/* Boton */}
               <button
                 type="submit"
                 disabled={cargando}
-                className="w-full py-3.5 bg-[#C9A962] text-white font-bold rounded-xl hover:bg-[#d99535] transition-colors flex items-center justify-center gap-2 disabled:opacity-70 mt-2"
+                className="group w-full py-3.5 bg-[#C9A962] text-white font-bold rounded-xl hover:bg-[#B8943F] transition-all flex items-center justify-center gap-2 disabled:opacity-70 mt-2 shadow-lg shadow-[#C9A962]/15 hover:shadow-xl hover:shadow-[#C9A962]/25 active:scale-[0.98]"
               >
                 {cargando ? (
                   <Loader2 className="w-4 h-4 animate-spin" />
                 ) : null}
                 {cargando ? "Verificando..." : "Entrar al panel"}
+                {!cargando && <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />}
               </button>
             </form>
           </div>
 
-          {/* Link a la app pública */}
-          <p className="text-center text-[#FAF8F5]/30 text-xs mt-6">
-            ¿Eres cliente?{" "}
-            <a href="/" className="text-[#C9A962] font-semibold hover:text-[#e09a3a] transition-colors">
+          {/* Link a la app publica */}
+          <p className="text-center text-[#FAF8F5]/30 text-xs mt-6 animate-fade-up delay-400">
+            Eres cliente?{" "}
+            <a href="/" className="text-[#C9A962] font-semibold hover:text-[#B8943F] transition-colors">
               Ver reservas
             </a>
           </p>

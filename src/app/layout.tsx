@@ -17,8 +17,14 @@ const dmSans = DM_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "Café Aroma · Reservas",
-  description: "Reserva tu mesa en Café Aroma de forma rápida y sencilla",
+  title: "Cafe Aroma · Reservas",
+  description: "Reserva tu mesa en Cafe Aroma de forma rapida y sencilla. Confirmacion inmediata por WhatsApp.",
+  keywords: ["cafeteria", "reservas", "bogota", "cafe aroma", "mesas"],
+  openGraph: {
+    title: "Cafe Aroma · Reserva tu mesa",
+    description: "Reserva en segundos. Sin esperas, sin llamadas. Confirmacion por WhatsApp al instante.",
+    type: "website",
+  },
 };
 
 export default function RootLayout({

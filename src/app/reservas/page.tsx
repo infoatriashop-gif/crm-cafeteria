@@ -23,6 +23,8 @@ import {
   Search,
   ArrowRight,
   Check,
+  PartyPopper,
+  Sparkles,
 } from "lucide-react";
 import { esquemaReserva, type DatosReserva } from "@/lib/validaciones";
 import { mesas, infoNegocio } from "@/lib/datos-demo";
@@ -138,33 +140,37 @@ export default function ReservasPage() {
   if (paso === "exito") {
     return (
       <div className="min-h-screen bg-[#FBF7F0] font-[family-name:var(--font-manrope)] flex items-center justify-center px-6">
-        <div className="w-full max-w-md text-center">
+        <div className="w-full max-w-md text-center animate-scale-in">
 
           {/* Celebracion visual */}
           <div className="relative w-[120px] h-[120px] mx-auto mb-8">
-            <div className="absolute inset-0 rounded-full border-2 border-[#22C55E]/15 bg-[#22C55E]/5" />
+            <div className="absolute inset-0 rounded-full border-2 border-[#22C55E]/15 bg-[#22C55E]/5 animate-pulse" />
             <div className="absolute inset-5 rounded-full bg-[#22C55E]/10 border border-[#22C55E]/15" />
             <div className="absolute inset-[30px] rounded-full bg-[#22C55E]/15" />
             <div className="absolute inset-0 flex items-center justify-center">
-              <Check className="w-8 h-8 text-[#22C55E]" strokeWidth={2.5} />
+              <PartyPopper className="w-8 h-8 text-[#22C55E]" strokeWidth={2} />
             </div>
+            {/* Confetti particles */}
+            <div className="absolute -top-2 -left-2 w-2 h-2 bg-[#C9A962] rounded-full animate-float" />
+            <div className="absolute -top-1 -right-3 w-1.5 h-1.5 bg-[#22C55E] rounded-full animate-float delay-200" />
+            <div className="absolute -bottom-1 -left-3 w-1.5 h-1.5 bg-[#C9A962]/60 rounded-full animate-float delay-400" />
           </div>
 
-          <h1 className="font-[family-name:var(--font-playfair)] text-[28px] text-[#2C1810] mb-2">
+          <h1 className="font-[family-name:var(--font-playfair)] text-[28px] text-[#2C1810] mb-2 animate-fade-up delay-100">
             Reserva confirmada!
           </h1>
-          <p className="text-[#8B7355] text-sm mb-6 leading-relaxed">
+          <p className="text-[#8B7355] text-sm mb-6 leading-relaxed animate-fade-up delay-200">
             Te enviamos los detalles a tu email
             {whatsapp ? " y WhatsApp" : ""}.
           </p>
 
           {/* Numero de reserva */}
-          <div className="inline-flex items-center bg-[#C9A962]/10 text-[#C9A962] font-semibold px-6 py-3 rounded-2xl text-xl mb-7 border border-[#C9A962]/20 tracking-[1px]">
+          <div className="inline-flex items-center bg-[#C9A962]/10 text-[#C9A962] font-semibold px-6 py-3 rounded-2xl text-xl mb-7 border border-[#C9A962]/20 tracking-[1px] animate-fade-up delay-300">
             #{numeroReserva}
           </div>
 
           {/* Detalles */}
-          <div className="bg-white rounded-2xl border border-[#E8DFD3]/60 overflow-hidden mb-6 text-left shadow-sm">
+          <div className="bg-white rounded-2xl border border-[#E8DFD3]/60 overflow-hidden mb-6 text-left shadow-sm animate-fade-up delay-400">
             {[
               { icon: Calendar, value: formatearFecha(fecha) },
               { icon: Clock, value: `${hora} · ${infoNegocio.reservas.duracionMinutos} min` },
@@ -188,10 +194,10 @@ export default function ReservasPage() {
             ))}
           </div>
 
-          <div className="flex flex-col gap-2.5">
+          <div className="flex flex-col gap-2.5 animate-fade-up delay-500">
             <Link
               href="/reservas"
-              className="w-full py-4 bg-[#C9A962] text-white font-semibold rounded-2xl hover:bg-[#B8943F] transition-all text-center active:scale-[0.98] text-[15px] shadow-md shadow-[#C9A962]/15"
+              className="w-full py-4 bg-[#C9A962] text-white font-semibold rounded-2xl hover:bg-[#B8943F] transition-all text-center active:scale-[0.98] text-[15px] shadow-md shadow-[#C9A962]/15 hover:shadow-lg"
             >
               Nueva reserva
             </Link>
@@ -212,7 +218,7 @@ export default function ReservasPage() {
     <div className="min-h-screen bg-[#FBF7F0] font-[family-name:var(--font-manrope)]">
 
       {/* ── HEADER + STEPPER ─────────────────────────────── */}
-      <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-[#E8DFD3]">
+      <header className="sticky top-0 z-50 glass border-b border-[#E8DFD3]/80 animate-fade-down">
         <div className="max-w-2xl mx-auto px-4 py-3 flex items-center gap-4">
           <button
             onClick={() =>
@@ -220,7 +226,7 @@ export default function ReservasPage() {
                 ? (window.location.href = "/")
                 : setPaso((paso as number) - 1 as Paso)
             }
-            className="w-9 h-9 flex items-center justify-center rounded-xl bg-[#F5EFE6] text-[#2C1810] flex-shrink-0 hover:bg-[#EBE3D8] transition-colors"
+            className="w-9 h-9 flex items-center justify-center rounded-xl bg-[#F5EFE6] text-[#2C1810] flex-shrink-0 hover:bg-[#EBE3D8] transition-colors active:scale-95"
           >
             <ArrowLeft className="w-4 h-4" />
           </button>
@@ -235,9 +241,9 @@ export default function ReservasPage() {
                 <div key={num} className="flex items-center gap-2">
                   <div className="flex flex-col items-center gap-1">
                     <div
-                      className={`w-8 h-8 rounded-full flex items-center justify-center border-2 transition-all ${
+                      className={`w-8 h-8 rounded-full flex items-center justify-center border-2 transition-all duration-300 ${
                         activo
-                          ? "border-[#C9A962] bg-[#C9A962] text-white"
+                          ? "border-[#C9A962] bg-[#C9A962] text-white shadow-md shadow-[#C9A962]/20 scale-110"
                           : completado
                           ? "border-[#C9A962] bg-[#C9A962]/10 text-[#C9A962]"
                           : "border-[#E8DFD3] bg-transparent text-[#A99F91]"
@@ -250,7 +256,7 @@ export default function ReservasPage() {
                       )}
                     </div>
                     <span
-                      className={`text-[9px] font-semibold uppercase tracking-wider ${
+                      className={`text-[9px] font-semibold uppercase tracking-wider transition-colors ${
                         activo ? "text-[#C9A962]" : completado ? "text-[#C9A962]/60" : "text-[#A99F91]"
                       }`}
                     >
@@ -259,8 +265,8 @@ export default function ReservasPage() {
                   </div>
                   {i < PASOS_INFO.length - 1 && (
                     <div
-                      className={`w-6 h-px mb-5 rounded-full transition-colors ${
-                        pasoNum > num ? "bg-[#C9A962]/50" : "bg-[#E8DFD3]"
+                      className={`w-6 h-px mb-5 rounded-full transition-all duration-500 ${
+                        pasoNum > num ? "bg-[#C9A962]/50 w-8" : "bg-[#E8DFD3]"
                       }`}
                     />
                   )}
@@ -271,16 +277,24 @@ export default function ReservasPage() {
 
           <Link
             href="/"
-            className="w-9 h-9 flex items-center justify-center rounded-xl bg-[#F5EFE6] text-[#A99F91] flex-shrink-0 hover:text-[#2C1810] transition-colors"
+            className="w-9 h-9 flex items-center justify-center rounded-xl bg-[#F5EFE6] text-[#A99F91] flex-shrink-0 hover:text-[#2C1810] hover:bg-[#EBE3D8] transition-all active:scale-95"
           >
             <X className="w-4 h-4" />
           </Link>
+        </div>
+
+        {/* Progress bar */}
+        <div className="h-0.5 bg-[#E8DFD3]/40">
+          <div
+            className="h-full bg-gradient-to-r from-[#C9A962] to-[#B8943F] transition-all duration-700 ease-out rounded-full"
+            style={{ width: `${((paso as number) / 3) * 100}%` }}
+          />
         </div>
       </header>
 
       {/* ── PASO 1: DATOS ─────────────────────────────────── */}
       {paso === 1 && (
-        <main className="max-w-2xl mx-auto px-5 py-5 pb-32 md:pb-10 space-y-5">
+        <main className="max-w-2xl mx-auto px-5 py-5 pb-32 md:pb-10 space-y-5 animate-fade-up">
 
           <div>
             <p className="text-[10px] font-semibold text-[#A99F91] uppercase tracking-[1px] mb-3 flex items-center gap-1.5">
@@ -290,9 +304,9 @@ export default function ReservasPage() {
 
               {/* Nombre */}
               <label className="flex items-center gap-3 px-4 py-3.5 group focus-within:bg-[#FBF7F0] transition-colors cursor-text">
-                <User className="w-4 h-4 text-[#C9A962] flex-shrink-0" />
+                <User className="w-4 h-4 text-[#C9A962] flex-shrink-0 group-focus-within:scale-110 transition-transform" />
                 <div className="flex-1">
-                  <div className="text-[9px] font-semibold text-[#A99F91] uppercase tracking-[1px] mb-1">
+                  <div className="text-[9px] font-semibold text-[#A99F91] uppercase tracking-[1px] mb-1 group-focus-within:text-[#C9A962] transition-colors">
                     Nombre completo
                   </div>
                   <input
@@ -301,16 +315,16 @@ export default function ReservasPage() {
                     className="w-full text-sm font-medium text-[#2C1810] bg-transparent outline-none placeholder:text-[#D1C7B8]"
                   />
                   {errors.nombreCliente && (
-                    <p className="text-[#EF4444] text-xs mt-1">{errors.nombreCliente.message}</p>
+                    <p className="text-[#EF4444] text-xs mt-1 animate-fade-in">{errors.nombreCliente.message}</p>
                   )}
                 </div>
               </label>
 
               {/* Email */}
               <label className="flex items-center gap-3 px-4 py-3.5 group focus-within:bg-[#FBF7F0] transition-colors cursor-text">
-                <Mail className="w-4 h-4 text-[#C9A962] flex-shrink-0" />
+                <Mail className="w-4 h-4 text-[#C9A962] flex-shrink-0 group-focus-within:scale-110 transition-transform" />
                 <div className="flex-1">
-                  <div className="text-[9px] font-semibold text-[#A99F91] uppercase tracking-[1px] mb-1">
+                  <div className="text-[9px] font-semibold text-[#A99F91] uppercase tracking-[1px] mb-1 group-focus-within:text-[#C9A962] transition-colors">
                     Email
                   </div>
                   <input
@@ -320,16 +334,16 @@ export default function ReservasPage() {
                     className="w-full text-sm font-medium text-[#2C1810] bg-transparent outline-none placeholder:text-[#D1C7B8]"
                   />
                   {errors.email && (
-                    <p className="text-[#EF4444] text-xs mt-1">{errors.email.message}</p>
+                    <p className="text-[#EF4444] text-xs mt-1 animate-fade-in">{errors.email.message}</p>
                   )}
                 </div>
               </label>
 
               {/* Telefono */}
               <label className="flex items-center gap-3 px-4 py-3.5 group focus-within:bg-[#FBF7F0] transition-colors cursor-text">
-                <Phone className="w-4 h-4 text-[#C9A962] flex-shrink-0" />
+                <Phone className="w-4 h-4 text-[#C9A962] flex-shrink-0 group-focus-within:scale-110 transition-transform" />
                 <div className="flex-1">
-                  <div className="text-[9px] font-semibold text-[#A99F91] uppercase tracking-[1px] mb-1">
+                  <div className="text-[9px] font-semibold text-[#A99F91] uppercase tracking-[1px] mb-1 group-focus-within:text-[#C9A962] transition-colors">
                     Telefono (WhatsApp)
                   </div>
                   <input
@@ -339,7 +353,7 @@ export default function ReservasPage() {
                     className="w-full text-sm font-medium text-[#2C1810] bg-transparent outline-none placeholder:text-[#D1C7B8]"
                   />
                   {errors.telefono && (
-                    <p className="text-[#EF4444] text-xs mt-1">{errors.telefono.message}</p>
+                    <p className="text-[#EF4444] text-xs mt-1 animate-fade-in">{errors.telefono.message}</p>
                   )}
                 </div>
               </label>
@@ -355,9 +369,9 @@ export default function ReservasPage() {
 
               {/* Fecha */}
               <label className="flex items-center gap-3 px-4 py-3.5 group focus-within:bg-[#FBF7F0] transition-colors cursor-text">
-                <Calendar className="w-4 h-4 text-[#C9A962] flex-shrink-0" />
+                <Calendar className="w-4 h-4 text-[#C9A962] flex-shrink-0 group-focus-within:scale-110 transition-transform" />
                 <div className="flex-1">
-                  <div className="text-[9px] font-semibold text-[#A99F91] uppercase tracking-[1px] mb-1">
+                  <div className="text-[9px] font-semibold text-[#A99F91] uppercase tracking-[1px] mb-1 group-focus-within:text-[#C9A962] transition-colors">
                     Fecha
                   </div>
                   <input
@@ -368,21 +382,21 @@ export default function ReservasPage() {
                     className="w-full text-sm font-medium text-[#2C1810] bg-transparent outline-none"
                   />
                   {errors.fecha && (
-                    <p className="text-[#EF4444] text-xs mt-1">{errors.fecha.message}</p>
+                    <p className="text-[#EF4444] text-xs mt-1 animate-fade-in">{errors.fecha.message}</p>
                   )}
                 </div>
               </label>
 
               {/* Hora */}
               <label className="flex items-center gap-3 px-4 py-3.5 group focus-within:bg-[#FBF7F0] transition-colors cursor-text">
-                <Clock className="w-4 h-4 text-[#C9A962] flex-shrink-0" />
+                <Clock className="w-4 h-4 text-[#C9A962] flex-shrink-0 group-focus-within:scale-110 transition-transform" />
                 <div className="flex-1">
-                  <div className="text-[9px] font-semibold text-[#A99F91] uppercase tracking-[1px] mb-1">
+                  <div className="text-[9px] font-semibold text-[#A99F91] uppercase tracking-[1px] mb-1 group-focus-within:text-[#C9A962] transition-colors">
                     Hora
                   </div>
                   <select
                     {...register("hora")}
-                    className="w-full text-sm font-medium text-[#2C1810] bg-transparent outline-none appearance-none"
+                    className="w-full text-sm font-medium text-[#2C1810] bg-transparent outline-none appearance-none cursor-pointer"
                   >
                     <option value="">Selecciona un horario</option>
                     {infoNegocio.reservas.horariosDisponibles.map((h) => (
@@ -390,7 +404,7 @@ export default function ReservasPage() {
                     ))}
                   </select>
                   {errors.hora && (
-                    <p className="text-[#EF4444] text-xs mt-1">{errors.hora.message}</p>
+                    <p className="text-[#EF4444] text-xs mt-1 animate-fade-in">{errors.hora.message}</p>
                   )}
                 </div>
               </label>
@@ -406,12 +420,12 @@ export default function ReservasPage() {
                     <button
                       type="button"
                       onClick={() => setValue("numPersonas", Math.max(numPersonas - 1, 1))}
-                      className="w-8 h-8 bg-[#F5EFE6] rounded-xl flex items-center justify-center hover:bg-[#EBE3D8] active:scale-95 transition-all"
+                      className="w-8 h-8 bg-[#F5EFE6] rounded-xl flex items-center justify-center hover:bg-[#EBE3D8] active:scale-90 transition-all"
                     >
                       <Minus className="w-3.5 h-3.5 text-[#2C1810]" />
                     </button>
                     <div className="flex flex-col items-center">
-                      <span className="font-[family-name:var(--font-playfair)] text-2xl text-[#2C1810] leading-none">{numPersonas}</span>
+                      <span className="font-[family-name:var(--font-playfair)] text-2xl text-[#2C1810] leading-none tabular-nums">{numPersonas}</span>
                       <span className="text-[10px] text-[#A99F91] font-medium mt-0.5">
                         {numPersonas === 1 ? "persona" : "personas"}
                       </span>
@@ -424,7 +438,7 @@ export default function ReservasPage() {
                           Math.min(numPersonas + 1, infoNegocio.reservas.maxPersonasPorReserva)
                         )
                       }
-                      className="w-8 h-8 bg-[#C9A962] rounded-xl flex items-center justify-center hover:bg-[#B8943F] active:scale-95 transition-all"
+                      className="w-8 h-8 bg-[#C9A962] rounded-xl flex items-center justify-center hover:bg-[#B8943F] active:scale-90 transition-all shadow-sm shadow-[#C9A962]/20"
                     >
                       <Plus className="w-3.5 h-3.5 text-white" />
                     </button>
@@ -448,7 +462,7 @@ export default function ReservasPage() {
             <button
               type="button"
               onClick={avanzarAPaso2}
-              className="group w-full py-4 bg-[#C9A962] text-white font-semibold text-[15px] rounded-2xl hover:bg-[#B8943F] transition-all active:scale-[0.98] flex items-center justify-center gap-2 shadow-lg shadow-[#C9A962]/15"
+              className="group w-full py-4 bg-[#C9A962] text-white font-semibold text-[15px] rounded-2xl hover:bg-[#B8943F] transition-all active:scale-[0.98] flex items-center justify-center gap-2 shadow-lg shadow-[#C9A962]/15 hover:shadow-xl"
             >
               Siguiente · Elegir mesa
               <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
@@ -459,7 +473,7 @@ export default function ReservasPage() {
 
       {/* ── PASO 2: ELEGIR MESA (SVG FLOOR PLAN) ──────────── */}
       {paso === 2 && (
-        <main className="max-w-2xl mx-auto px-5 py-5 pb-32 md:pb-10 space-y-4">
+        <main className="max-w-2xl mx-auto px-5 py-5 pb-32 md:pb-10 space-y-4 animate-slide-right">
 
           {/* Filtros */}
           <div className="flex gap-2 overflow-x-auto pb-1 -mx-5 px-5 scrollbar-none">
@@ -472,10 +486,10 @@ export default function ReservasPage() {
                 key={valor}
                 type="button"
                 onClick={() => setFiltroUbicacion(valor)}
-                className={`flex-shrink-0 px-4 py-2 rounded-full text-sm font-semibold transition-all ${
+                className={`flex-shrink-0 px-4 py-2 rounded-full text-sm font-semibold transition-all active:scale-95 ${
                   filtroUbicacion === valor
-                    ? "bg-[#2C1810] text-white shadow-md"
-                    : "bg-white text-[#8B7355] border border-[#E8DFD3] hover:border-[#C9A962]/30"
+                    ? "bg-[#2C1810] text-white shadow-md shadow-[#2C1810]/15"
+                    : "bg-white text-[#8B7355] border border-[#E8DFD3] hover:border-[#C9A962]/30 hover:shadow-sm"
                 }`}
               >
                 {etiqueta}
@@ -486,10 +500,10 @@ export default function ReservasPage() {
                 key={pax}
                 type="button"
                 onClick={() => setFiltroPax(filtroPax === pax ? null : pax)}
-                className={`flex-shrink-0 px-4 py-2 rounded-full text-sm font-semibold transition-all ${
+                className={`flex-shrink-0 px-4 py-2 rounded-full text-sm font-semibold transition-all active:scale-95 ${
                   filtroPax === pax
-                    ? "bg-[#C9A962] text-white shadow-md"
-                    : "bg-white text-[#8B7355] border border-[#E8DFD3] hover:border-[#C9A962]/30"
+                    ? "bg-[#C9A962] text-white shadow-md shadow-[#C9A962]/15"
+                    : "bg-white text-[#8B7355] border border-[#E8DFD3] hover:border-[#C9A962]/30 hover:shadow-sm"
                 }`}
               >
                 {pax}+ pax
@@ -506,13 +520,13 @@ export default function ReservasPage() {
               <span className="w-2.5 h-2.5 rounded-full bg-[#E0DBD4]" /> Ocupada
             </span>
             <span className="flex items-center gap-1.5">
-              <span className="w-2.5 h-2.5 rounded-full bg-[#C9A962]" /> Tu seleccion
+              <span className="w-2.5 h-2.5 rounded-full bg-[#C9A962] animate-pulse-gold" /> Tu seleccion
             </span>
           </div>
 
           {/* Plano de mesas */}
           {(filtroUbicacion === "todas" || filtroUbicacion === "interior") && mesasInterior.length > 0 && (
-            <div className="bg-white rounded-2xl border border-[#E8DFD3]/60 p-4 shadow-sm">
+            <div className="bg-white rounded-2xl border border-[#E8DFD3]/60 p-4 shadow-sm hover:shadow-md transition-shadow">
               <div className="flex items-center gap-2 mb-4">
                 <div className="w-1 h-5 bg-[#2C1810] rounded-full" />
                 <p className="text-xs font-bold text-[#2C1810] uppercase tracking-wider">
@@ -542,13 +556,16 @@ export default function ReservasPage() {
           )}
 
           {(filtroUbicacion === "todas" || filtroUbicacion === "terraza") && mesasTerraza.length > 0 && (
-            <div className="bg-gradient-to-b from-[#F5EFE6] to-white rounded-2xl border border-[#E8DFD3]/60 p-4 shadow-sm">
+            <div className="bg-gradient-to-b from-[#F5EFE6] to-white rounded-2xl border border-[#E8DFD3]/60 p-4 shadow-sm hover:shadow-md transition-shadow">
               <div className="flex items-center gap-2 mb-4">
                 <div className="w-1 h-5 bg-[#C9A962] rounded-full" />
                 <p className="text-xs font-bold text-[#2C1810] uppercase tracking-wider">
                   Terraza · {mesasTerraza.length} mesas
                 </p>
-                <span className="text-[10px] text-[#8B7355] font-medium ml-auto">Al aire libre</span>
+                <span className="text-[10px] text-[#8B7355] font-medium ml-auto flex items-center gap-1">
+                  <Sparkles className="w-3 h-3 text-[#C9A962]" />
+                  Al aire libre
+                </span>
               </div>
               <div
                 className="grid grid-cols-2 md:grid-cols-4 gap-2"
@@ -573,7 +590,7 @@ export default function ReservasPage() {
           )}
 
           {errorMesa && (
-            <div className="bg-[#FEF2F2] border border-[#FECACA] rounded-xl px-4 py-3 text-center">
+            <div className="bg-[#FEF2F2] border border-[#FECACA] rounded-xl px-4 py-3 text-center animate-scale-in">
               <p className="text-[#EF4444] text-sm font-medium">
                 Selecciona una mesa para continuar
               </p>
@@ -581,7 +598,7 @@ export default function ReservasPage() {
           )}
 
           {mesaSeleccionada && (
-            <div className="flex items-center gap-3 bg-[#C9A962]/8 border border-[#C9A962]/15 rounded-2xl px-4 py-3.5">
+            <div className="flex items-center gap-3 bg-[#C9A962]/8 border border-[#C9A962]/15 rounded-2xl px-4 py-3.5 animate-scale-in">
               <div className="w-9 h-9 bg-[#C9A962]/15 rounded-xl flex items-center justify-center flex-shrink-0">
                 <Check className="w-4 h-4 text-[#C9A962]" />
               </div>
@@ -600,7 +617,7 @@ export default function ReservasPage() {
             <button
               type="button"
               onClick={avanzarAPaso3}
-              className="group w-full py-4 bg-[#C9A962] text-white font-semibold text-[15px] rounded-2xl hover:bg-[#B8943F] transition-all active:scale-[0.98] flex items-center justify-center gap-2 shadow-lg shadow-[#C9A962]/15"
+              className="group w-full py-4 bg-[#C9A962] text-white font-semibold text-[15px] rounded-2xl hover:bg-[#B8943F] transition-all active:scale-[0.98] flex items-center justify-center gap-2 shadow-lg shadow-[#C9A962]/15 hover:shadow-xl"
             >
               Confirmar seleccion
               <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
@@ -612,7 +629,7 @@ export default function ReservasPage() {
       {/* ── PASO 3: CONFIRMAR ─────────────────────────────── */}
       {paso === 3 && (
         <form onSubmit={handleSubmit(onSubmit)}>
-          <main className="max-w-2xl mx-auto px-5 py-5 pb-32 md:pb-10 space-y-4">
+          <main className="max-w-2xl mx-auto px-5 py-5 pb-32 md:pb-10 space-y-4 animate-slide-right">
 
             <div>
               <p className="text-[10px] font-semibold text-[#A99F91] uppercase tracking-[1px] mb-3">
@@ -643,7 +660,7 @@ export default function ReservasPage() {
                     sub: "Numero de comensales",
                   },
                 ].map(({ icon: Icon, titulo, sub }, idx) => (
-                  <div key={idx} className="px-4 py-3.5 flex items-start gap-3">
+                  <div key={idx} className="px-4 py-3.5 flex items-start gap-3 hover:bg-[#FBF7F0]/50 transition-colors">
                     <div className="w-9 h-9 bg-[#C9A962]/10 rounded-xl flex items-center justify-center flex-shrink-0 mt-0.5">
                       <Icon className="w-4 h-4 text-[#C9A962]" />
                     </div>
@@ -671,7 +688,7 @@ export default function ReservasPage() {
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
                   <div className="w-9 h-9 bg-[#22C55E]/10 rounded-xl flex items-center justify-center">
-                    <span className="text-base">💬</span>
+                    <Phone className="w-4 h-4 text-[#22C55E]" />
                   </div>
                   <div>
                     <p className="text-sm font-medium text-[#2C1810]">
@@ -702,7 +719,7 @@ export default function ReservasPage() {
               <button
                 type="submit"
                 disabled={cargando}
-                className="group w-full py-4 bg-[#22C55E] text-white font-semibold text-[15px] rounded-2xl hover:bg-[#16A34A] transition-all active:scale-[0.98] flex items-center justify-center gap-2 disabled:opacity-70 shadow-lg shadow-[#22C55E]/15"
+                className="group w-full py-4 bg-[#22C55E] text-white font-semibold text-[15px] rounded-2xl hover:bg-[#16A34A] transition-all active:scale-[0.98] flex items-center justify-center gap-2 disabled:opacity-70 shadow-lg shadow-[#22C55E]/15 hover:shadow-xl"
               >
                 {cargando ? (
                   <Loader2 className="w-5 h-5 animate-spin" />
@@ -720,7 +737,7 @@ export default function ReservasPage() {
       )}
 
       {/* ── BOTTOM NAV MOBILE ─────────────────────────────── */}
-      <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-white/90 backdrop-blur-md border-t border-[#E8DFD3] pb-safe z-40">
+      <nav className="md:hidden fixed bottom-0 left-0 right-0 glass border-t border-[#E8DFD3]/80 pb-safe z-40">
         <div className="flex justify-around py-2.5 max-w-lg mx-auto">
           {[
             { icon: Home, etiqueta: "Inicio", activo: false, href: "/" },
@@ -728,12 +745,15 @@ export default function ReservasPage() {
             { icon: Search, etiqueta: "Buscar", activo: false, href: "#" },
             { icon: Coffee, etiqueta: "Menu", activo: false, href: "#" },
           ].map(({ icon: Icon, etiqueta, activo, href }) => (
-            <Link key={etiqueta} href={href} className="flex flex-col items-center gap-1 px-3 py-1 relative">
+            <Link key={etiqueta} href={href} className="flex flex-col items-center gap-1 px-3 py-1 relative active:scale-90 transition-transform">
+              {activo && (
+                <span className="absolute -top-2.5 w-5 h-0.5 bg-[#C9A962] rounded-full" />
+              )}
               <Icon
-                className={`w-5 h-5 ${activo ? "text-[#C9A962]" : "text-[#A99F91]"}`}
+                className={`w-5 h-5 transition-colors ${activo ? "text-[#C9A962]" : "text-[#A99F91]"}`}
                 strokeWidth={activo ? 2.5 : 1.75}
               />
-              <span className={`text-[10px] font-semibold ${activo ? "text-[#C9A962]" : "text-[#A99F91]"}`}>
+              <span className={`text-[10px] font-semibold transition-colors ${activo ? "text-[#C9A962]" : "text-[#A99F91]"}`}>
                 {etiqueta}
               </span>
             </Link>
