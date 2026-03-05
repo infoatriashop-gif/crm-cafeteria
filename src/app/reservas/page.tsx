@@ -22,6 +22,8 @@ import {
   Home,
   CalendarDays,
   Search,
+  ArrowRight,
+  Sparkles,
 } from "lucide-react";
 import { esquemaReserva, type DatosReserva } from "@/lib/validaciones";
 import { mesas, infoNegocio } from "@/lib/datos-demo";
@@ -50,6 +52,12 @@ function obtenerMaxFecha(): string {
   d.setDate(d.getDate() + infoNegocio.reservas.anticipacionMaximaDias);
   return d.toISOString().split("T")[0];
 }
+
+const PASOS_INFO = [
+  { num: 1, label: "Datos", icon: User },
+  { num: 2, label: "Mesa", icon: MapPin },
+  { num: 3, label: "Confirmar", icon: CheckCircle2 },
+];
 
 export default function ReservasPage() {
   const [paso, setPaso] = useState<Paso>(1);
@@ -131,57 +139,72 @@ export default function ReservasPage() {
     return (
       <div className="min-h-screen bg-[#0F0B08] font-sans flex items-center justify-center px-5">
         <div className="w-full max-w-md text-center">
-          <div className="w-24 h-24 bg-green-500/10 rounded-full flex items-center justify-center mx-auto mb-6 border border-green-500/20">
-            <div className="w-16 h-16 bg-green-500/15 rounded-full flex items-center justify-center">
-              <CheckCircle2 className="w-10 h-10 text-green-400" strokeWidth={2} />
+
+          {/* Celebración visual */}
+          <div className="relative w-36 h-36 mx-auto mb-8">
+            {/* Anillos */}
+            <div className="absolute inset-0 rounded-full border-2 border-green-500/10 animate-ping" />
+            <div className="absolute inset-2 rounded-full border border-green-500/15" />
+            <div className="absolute inset-4 rounded-full bg-green-500/8 border border-green-500/20" />
+            {/* Centro */}
+            <div className="absolute inset-0 flex items-center justify-center">
+              <div className="w-20 h-20 bg-green-500/15 rounded-full flex items-center justify-center border border-green-500/25">
+                <CheckCircle2 className="w-11 h-11 text-green-400" strokeWidth={1.75} />
+              </div>
             </div>
+            {/* Sparkles decorativos */}
+            <Sparkles className="absolute -top-1 -right-1 w-5 h-5 text-[#C8852A]/70" />
+            <Sparkles className="absolute -bottom-1 -left-2 w-4 h-4 text-[#C8852A]/50" />
           </div>
 
-          <h1 className="text-3xl font-extrabold text-[#F0E6D3] mb-3">
+          <h1 className="text-3xl font-extrabold text-[#F0E6D3] mb-2">
             ¡Reserva confirmada!
           </h1>
-          <p className="text-[#8A6650] mb-6">
-            Te hemos enviado los detalles a tu email
+          <p className="text-[#8A6650] mb-6 leading-relaxed">
+            Te enviamos los detalles a tu email
             {whatsapp ? " y WhatsApp" : ""}.
           </p>
 
-          <div className="inline-flex items-center gap-2 bg-[#C8852A]/15 text-[#C8852A] font-bold px-5 py-2.5 rounded-full text-lg mb-7 border border-[#C8852A]/25">
+          {/* Número de reserva */}
+          <div className="inline-flex items-center gap-2 bg-[#C8852A]/15 text-[#C8852A] font-bold px-6 py-3 rounded-2xl text-xl mb-7 border border-[#C8852A]/25 tracking-wide">
             #{numeroReserva}
           </div>
 
-          <div className="bg-[#1A1108] rounded-2xl border border-[#2E1E0E] p-5 mb-7 text-left space-y-3">
-            <div className="flex items-center gap-3">
-              <Calendar className="w-4 h-4 text-[#C8852A] flex-shrink-0" />
-              <span className="text-sm text-[#F0E6D3] font-medium capitalize">
-                {formatearFecha(fecha)}
-              </span>
-            </div>
-            <div className="flex items-center gap-3">
-              <Clock className="w-4 h-4 text-[#C8852A] flex-shrink-0" />
-              <span className="text-sm text-[#F0E6D3] font-medium">
-                {hora} · {infoNegocio.reservas.duracionMinutos} min
-              </span>
-            </div>
-            <div className="flex items-center gap-3">
-              <MapPin className="w-4 h-4 text-[#C8852A] flex-shrink-0" />
-              <span className="text-sm text-[#F0E6D3] font-medium capitalize">
-                {mesaSeleccionada
+          {/* Detalles */}
+          <div className="bg-[#1A1108] rounded-2xl border border-[#2E1E0E] overflow-hidden mb-6 text-left">
+            {[
+              { icon: Calendar, value: formatearFecha(fecha) },
+              { icon: Clock, value: `${hora} · ${infoNegocio.reservas.duracionMinutos} min` },
+              {
+                icon: MapPin,
+                value: mesaSeleccionada
                   ? `Mesa ${mesaSeleccionada.numero} · ${mesaSeleccionada.ubicacion}`
-                  : "Mesa asignada"}
-              </span>
-            </div>
+                  : "Mesa asignada",
+              },
+              { icon: Users, value: `${numPersonas} persona${numPersonas > 1 ? "s" : ""}` },
+            ].map(({ icon: Icon, value }, i, arr) => (
+              <div key={i}>
+                <div className="px-4 py-3.5 flex items-center gap-3">
+                  <div className="w-8 h-8 bg-[#C8852A]/12 rounded-lg flex items-center justify-center flex-shrink-0 border border-[#C8852A]/15">
+                    <Icon className="w-3.5 h-3.5 text-[#C8852A]" />
+                  </div>
+                  <span className="text-sm text-[#F0E6D3] font-medium capitalize">{value}</span>
+                </div>
+                {i < arr.length - 1 && <div className="h-px bg-[#2E1E0E] mx-4" />}
+              </div>
+            ))}
           </div>
 
           <div className="flex flex-col gap-3">
             <Link
               href="/reservas"
-              className="w-full py-4 bg-[#C8852A] text-white font-bold rounded-full hover:bg-[#b5741f] transition-colors text-center"
+              className="w-full py-4 bg-[#C8852A] text-white font-bold rounded-2xl hover:bg-[#b5741f] transition-all shadow-[0_8px_24px_rgba(200,133,42,0.4)] text-center active:scale-[0.98]"
             >
               Nueva reserva
             </Link>
             <Link
               href="/"
-              className="w-full py-4 border border-white/12 text-[#F0E6D3]/75 font-semibold rounded-full hover:bg-white/5 transition-colors text-center"
+              className="w-full py-4 border border-white/10 text-[#F0E6D3]/60 font-semibold rounded-2xl hover:bg-white/4 transition-colors text-center"
             >
               Volver al inicio
             </Link>
@@ -195,45 +218,72 @@ export default function ReservasPage() {
   return (
     <div className="min-h-screen bg-[#0F0B08] font-sans">
 
-      {/* Header sticky */}
+      {/* ── HEADER + STEPPER ─────────────────────────────── */}
       <header className="sticky top-0 z-50 bg-[#0F0B08]/95 backdrop-blur-md border-b border-white/6">
-        <div className="max-w-2xl mx-auto px-5 py-3.5 flex items-center justify-between">
-          {paso === 1 ? (
-            <Link href="/">
-              <ArrowLeft className="w-5 h-5 text-[#F0E6D3]" />
-            </Link>
-          ) : (
-            <button onClick={() => setPaso((paso as number) - 1 as Paso)}>
-              <ArrowLeft className="w-5 h-5 text-[#F0E6D3]" />
-            </button>
-          )}
+        <div className="max-w-2xl mx-auto px-5 py-3.5 flex items-center gap-4">
+          {/* Botón atrás */}
+          <button
+            onClick={() =>
+              paso === 1
+                ? (window.location.href = "/")
+                : setPaso((paso as number) - 1 as Paso)
+            }
+            className="w-9 h-9 flex items-center justify-center rounded-xl bg-[#1A1108] border border-[#2E1E0E] text-[#F0E6D3] flex-shrink-0 hover:bg-[#221610] transition-colors"
+          >
+            <ArrowLeft className="w-4 h-4" />
+          </button>
 
-          <h1 className="text-base font-bold text-[#F0E6D3]">
-            {paso === 1 ? "Nueva Reserva" : paso === 2 ? "Elegir Mesa" : "Confirmar Reserva"}
-          </h1>
+          {/* Stepper central */}
+          <div className="flex-1 flex items-center justify-center gap-2">
+            {PASOS_INFO.map(({ num, label, icon: Icon }, i) => {
+              const pasoNum = paso as number;
+              const activo = pasoNum === num;
+              const completado = pasoNum > num;
+              return (
+                <div key={num} className="flex items-center gap-2">
+                  <div className="flex flex-col items-center gap-1">
+                    <div
+                      className={`w-8 h-8 rounded-full flex items-center justify-center border-2 transition-all ${
+                        activo
+                          ? "border-[#C8852A] bg-[#C8852A] text-white shadow-[0_0_12px_rgba(200,133,42,0.4)]"
+                          : completado
+                          ? "border-[#C8852A] bg-[#C8852A]/15 text-[#C8852A]"
+                          : "border-[#2E1E0E] bg-transparent text-[#8A6650]"
+                      }`}
+                    >
+                      {completado ? (
+                        <CheckCircle2 className="w-4 h-4" />
+                      ) : (
+                        <Icon className="w-3.5 h-3.5" />
+                      )}
+                    </div>
+                    <span
+                      className={`text-[9px] font-bold uppercase tracking-wider ${
+                        activo ? "text-[#C8852A]" : completado ? "text-[#C8852A]/60" : "text-[#8A6650]/50"
+                      }`}
+                    >
+                      {label}
+                    </span>
+                  </div>
+                  {i < PASOS_INFO.length - 1 && (
+                    <div
+                      className={`w-8 h-px mb-5 rounded-full transition-colors ${
+                        pasoNum > num ? "bg-[#C8852A]/50" : "bg-[#2E1E0E]"
+                      }`}
+                    />
+                  )}
+                </div>
+              );
+            })}
+          </div>
 
-          <Link href="/">
-            <X className="w-5 h-5 text-[#F0E6D3]/40" />
+          {/* Cerrar */}
+          <Link
+            href="/"
+            className="w-9 h-9 flex items-center justify-center rounded-xl bg-[#1A1108] border border-[#2E1E0E] text-[#F0E6D3]/40 flex-shrink-0 hover:text-[#F0E6D3] transition-colors"
+          >
+            <X className="w-4 h-4" />
           </Link>
-        </div>
-
-        {/* Barra de progreso */}
-        <div className="max-w-2xl mx-auto px-5 pb-3">
-          <div className="flex gap-1.5 mb-1.5">
-            {[1, 2, 3].map((p) => (
-              <div
-                key={p}
-                className={`h-1.5 flex-1 rounded-full transition-all duration-500 ${
-                  (paso as number) >= p ? "bg-[#C8852A]" : "bg-white/10"
-                }`}
-              />
-            ))}
-          </div>
-          <div className="flex justify-between text-[10px] font-semibold">
-            <span className={(paso as number) >= 1 ? "text-[#C8852A]" : "text-[#F0E6D3]/30"}>1 · Datos</span>
-            <span className={(paso as number) >= 2 ? "text-[#C8852A]" : "text-[#F0E6D3]/30"}>2 · Mesa</span>
-            <span className={(paso as number) >= 3 ? "text-[#C8852A]" : "text-[#F0E6D3]/30"}>3 · Confirmar</span>
-          </div>
         </div>
       </header>
 
@@ -241,184 +291,177 @@ export default function ReservasPage() {
       {paso === 1 && (
         <main className="max-w-2xl mx-auto px-5 py-6 pb-32 md:pb-10 space-y-5">
 
+          {/* Info personal */}
           <div>
-            <p className="text-xs font-bold text-[#8A6650] uppercase tracking-wider mb-3 flex items-center gap-2">
-              <User className="w-3.5 h-3.5" /> Tu información
+            <p className="text-xs font-bold text-[#8A6650] uppercase tracking-widest mb-3 flex items-center gap-2">
+              <User className="w-3.5 h-3.5 text-[#C8852A]" /> Tu información
             </p>
-            <div className="bg-[#1A1108] rounded-2xl border border-[#2E1E0E] overflow-hidden">
+            <div className="bg-[#1A1108] rounded-2xl border border-[#2E1E0E] overflow-hidden divide-y divide-[#2E1E0E]">
+
               {/* Nombre */}
-              <div className="px-4 py-3.5">
-                <label className="flex items-center gap-3">
-                  <User className="w-4 h-4 text-[#C8852A] flex-shrink-0" />
-                  <div className="flex-1">
-                    <div className="text-[10px] font-semibold text-[#8A6650] uppercase tracking-wider mb-0.5">
-                      Nombre completo
-                    </div>
-                    <input
-                      {...register("nombreCliente")}
-                      placeholder="Juan Pérez"
-                      className="w-full text-sm font-medium text-[#F0E6D3] bg-transparent outline-none placeholder:text-[#F0E6D3]/20"
-                    />
+              <label className="flex items-center gap-3 px-4 py-4 group focus-within:bg-[#1F140A] transition-colors cursor-text">
+                <User className="w-4 h-4 text-[#C8852A] flex-shrink-0" />
+                <div className="flex-1">
+                  <div className="text-[10px] font-bold text-[#8A6650] uppercase tracking-widest mb-1">
+                    Nombre completo
                   </div>
-                </label>
-                {errors.nombreCliente && (
-                  <p className="text-red-400 text-xs mt-1 ml-7">{errors.nombreCliente.message}</p>
-                )}
-              </div>
-              <div className="h-px bg-[#2E1E0E] mx-4" />
+                  <input
+                    {...register("nombreCliente")}
+                    placeholder="Juan Pérez"
+                    className="w-full text-sm font-medium text-[#F0E6D3] bg-transparent outline-none placeholder:text-[#F0E6D3]/20"
+                  />
+                  {errors.nombreCliente && (
+                    <p className="text-red-400 text-xs mt-1">{errors.nombreCliente.message}</p>
+                  )}
+                </div>
+              </label>
 
               {/* Email */}
-              <div className="px-4 py-3.5">
-                <label className="flex items-center gap-3">
-                  <Mail className="w-4 h-4 text-[#C8852A] flex-shrink-0" />
-                  <div className="flex-1">
-                    <div className="text-[10px] font-semibold text-[#8A6650] uppercase tracking-wider mb-0.5">
-                      Email
-                    </div>
-                    <input
-                      {...register("email")}
-                      type="email"
-                      placeholder="juan@email.com"
-                      className="w-full text-sm font-medium text-[#F0E6D3] bg-transparent outline-none placeholder:text-[#F0E6D3]/20"
-                    />
+              <label className="flex items-center gap-3 px-4 py-4 group focus-within:bg-[#1F140A] transition-colors cursor-text">
+                <Mail className="w-4 h-4 text-[#C8852A] flex-shrink-0" />
+                <div className="flex-1">
+                  <div className="text-[10px] font-bold text-[#8A6650] uppercase tracking-widest mb-1">
+                    Email
                   </div>
-                </label>
-                {errors.email && (
-                  <p className="text-red-400 text-xs mt-1 ml-7">{errors.email.message}</p>
-                )}
-              </div>
-              <div className="h-px bg-[#2E1E0E] mx-4" />
+                  <input
+                    {...register("email")}
+                    type="email"
+                    placeholder="juan@email.com"
+                    className="w-full text-sm font-medium text-[#F0E6D3] bg-transparent outline-none placeholder:text-[#F0E6D3]/20"
+                  />
+                  {errors.email && (
+                    <p className="text-red-400 text-xs mt-1">{errors.email.message}</p>
+                  )}
+                </div>
+              </label>
 
               {/* Teléfono */}
-              <div className="px-4 py-3.5">
-                <label className="flex items-center gap-3">
-                  <Phone className="w-4 h-4 text-[#C8852A] flex-shrink-0" />
-                  <div className="flex-1">
-                    <div className="text-[10px] font-semibold text-[#8A6650] uppercase tracking-wider mb-0.5">
-                      Teléfono
-                    </div>
-                    <input
-                      {...register("telefono")}
-                      type="tel"
-                      placeholder="+57 300 123 4567"
-                      className="w-full text-sm font-medium text-[#F0E6D3] bg-transparent outline-none placeholder:text-[#F0E6D3]/20"
-                    />
+              <label className="flex items-center gap-3 px-4 py-4 group focus-within:bg-[#1F140A] transition-colors cursor-text">
+                <Phone className="w-4 h-4 text-[#C8852A] flex-shrink-0" />
+                <div className="flex-1">
+                  <div className="text-[10px] font-bold text-[#8A6650] uppercase tracking-widest mb-1">
+                    Teléfono (WhatsApp)
                   </div>
-                </label>
-                {errors.telefono && (
-                  <p className="text-red-400 text-xs mt-1 ml-7">{errors.telefono.message}</p>
-                )}
-              </div>
+                  <input
+                    {...register("telefono")}
+                    type="tel"
+                    placeholder="+57 300 123 4567"
+                    className="w-full text-sm font-medium text-[#F0E6D3] bg-transparent outline-none placeholder:text-[#F0E6D3]/20"
+                  />
+                  {errors.telefono && (
+                    <p className="text-red-400 text-xs mt-1">{errors.telefono.message}</p>
+                  )}
+                </div>
+              </label>
             </div>
           </div>
 
+          {/* Detalles de visita */}
           <div>
-            <p className="text-xs font-bold text-[#8A6650] uppercase tracking-wider mb-3 flex items-center gap-2">
-              <Calendar className="w-3.5 h-3.5" /> Detalles de la visita
+            <p className="text-xs font-bold text-[#8A6650] uppercase tracking-widest mb-3 flex items-center gap-2">
+              <Calendar className="w-3.5 h-3.5 text-[#C8852A]" /> Detalles de la visita
             </p>
-            <div className="bg-[#1A1108] rounded-2xl border border-[#2E1E0E] overflow-hidden">
+            <div className="bg-[#1A1108] rounded-2xl border border-[#2E1E0E] overflow-hidden divide-y divide-[#2E1E0E]">
+
               {/* Fecha */}
-              <div className="px-4 py-3.5">
-                <label className="flex items-center gap-3">
-                  <Calendar className="w-4 h-4 text-[#C8852A] flex-shrink-0" />
-                  <div className="flex-1">
-                    <div className="text-[10px] font-semibold text-[#8A6650] uppercase tracking-wider mb-0.5">
-                      Fecha
-                    </div>
-                    <input
-                      {...register("fecha")}
-                      type="date"
-                      min={obtenerHoy()}
-                      max={obtenerMaxFecha()}
-                      className="w-full text-sm font-medium text-[#F0E6D3] bg-transparent outline-none [color-scheme:dark]"
-                    />
+              <label className="flex items-center gap-3 px-4 py-4 group focus-within:bg-[#1F140A] transition-colors cursor-text">
+                <Calendar className="w-4 h-4 text-[#C8852A] flex-shrink-0" />
+                <div className="flex-1">
+                  <div className="text-[10px] font-bold text-[#8A6650] uppercase tracking-widest mb-1">
+                    Fecha
                   </div>
-                </label>
-                {errors.fecha && (
-                  <p className="text-red-400 text-xs mt-1 ml-7">{errors.fecha.message}</p>
-                )}
-              </div>
-              <div className="h-px bg-[#2E1E0E] mx-4" />
+                  <input
+                    {...register("fecha")}
+                    type="date"
+                    min={obtenerHoy()}
+                    max={obtenerMaxFecha()}
+                    className="w-full text-sm font-medium text-[#F0E6D3] bg-transparent outline-none [color-scheme:dark]"
+                  />
+                  {errors.fecha && (
+                    <p className="text-red-400 text-xs mt-1">{errors.fecha.message}</p>
+                  )}
+                </div>
+              </label>
 
               {/* Hora */}
-              <div className="px-4 py-3.5">
-                <label className="flex items-center gap-3">
-                  <Clock className="w-4 h-4 text-[#C8852A] flex-shrink-0" />
-                  <div className="flex-1">
-                    <div className="text-[10px] font-semibold text-[#8A6650] uppercase tracking-wider mb-0.5">
-                      Hora
-                    </div>
-                    <select
-                      {...register("hora")}
-                      className="w-full text-sm font-medium text-[#F0E6D3] bg-transparent outline-none appearance-none [color-scheme:dark]"
-                    >
-                      <option value="" className="bg-[#1A1108]">Selecciona un horario</option>
-                      {infoNegocio.reservas.horariosDisponibles.map((h) => (
-                        <option key={h} value={h} className="bg-[#1A1108]">{h}</option>
-                      ))}
-                    </select>
+              <label className="flex items-center gap-3 px-4 py-4 group focus-within:bg-[#1F140A] transition-colors cursor-text">
+                <Clock className="w-4 h-4 text-[#C8852A] flex-shrink-0" />
+                <div className="flex-1">
+                  <div className="text-[10px] font-bold text-[#8A6650] uppercase tracking-widest mb-1">
+                    Hora
                   </div>
-                </label>
-                {errors.hora && (
-                  <p className="text-red-400 text-xs mt-1 ml-7">{errors.hora.message}</p>
-                )}
-              </div>
-              <div className="h-px bg-[#2E1E0E] mx-4" />
+                  <select
+                    {...register("hora")}
+                    className="w-full text-sm font-medium text-[#F0E6D3] bg-transparent outline-none appearance-none [color-scheme:dark]"
+                  >
+                    <option value="" className="bg-[#1A1108]">Selecciona un horario</option>
+                    {infoNegocio.reservas.horariosDisponibles.map((h) => (
+                      <option key={h} value={h} className="bg-[#1A1108]">{h}</option>
+                    ))}
+                  </select>
+                  {errors.hora && (
+                    <p className="text-red-400 text-xs mt-1">{errors.hora.message}</p>
+                  )}
+                </div>
+              </label>
 
               {/* Personas */}
-              <div className="px-4 py-3.5">
-                <div className="flex items-center gap-3">
-                  <Users className="w-4 h-4 text-[#C8852A] flex-shrink-0" />
-                  <div className="flex-1">
-                    <div className="text-[10px] font-semibold text-[#8A6650] uppercase tracking-wider mb-0.5">
-                      Número de personas
-                    </div>
-                    <div className="flex items-center gap-4">
-                      <button
-                        type="button"
-                        onClick={() => setValue("numPersonas", Math.max(numPersonas - 1, 1))}
-                        className="w-8 h-8 bg-[#2C1C12] rounded-full flex items-center justify-center hover:bg-[#3A2418] transition-colors border border-[#2E1E0E]"
-                      >
-                        <Minus className="w-3.5 h-3.5 text-[#F0E6D3]" />
-                      </button>
-                      <span className="text-xl font-bold text-[#F0E6D3] w-6 text-center">
-                        {numPersonas}
+              <div className="flex items-center gap-3 px-4 py-4">
+                <Users className="w-4 h-4 text-[#C8852A] flex-shrink-0" />
+                <div className="flex-1">
+                  <div className="text-[10px] font-bold text-[#8A6650] uppercase tracking-widest mb-2">
+                    Número de personas
+                  </div>
+                  <div className="flex items-center gap-4">
+                    <button
+                      type="button"
+                      onClick={() => setValue("numPersonas", Math.max(numPersonas - 1, 1))}
+                      className="w-9 h-9 bg-[#221610] rounded-xl flex items-center justify-center hover:bg-[#2C1C12] active:scale-95 transition-all border border-[#2E1E0E]"
+                    >
+                      <Minus className="w-3.5 h-3.5 text-[#F0E6D3]" />
+                    </button>
+                    <div className="flex flex-col items-center">
+                      <span className="text-2xl font-extrabold text-[#F0E6D3] leading-none">{numPersonas}</span>
+                      <span className="text-[10px] text-[#8A6650] font-medium mt-0.5">
+                        {numPersonas === 1 ? "persona" : "personas"}
                       </span>
-                      <button
-                        type="button"
-                        onClick={() =>
-                          setValue(
-                            "numPersonas",
-                            Math.min(numPersonas + 1, infoNegocio.reservas.maxPersonasPorReserva)
-                          )
-                        }
-                        className="w-8 h-8 bg-[#C8852A] rounded-full flex items-center justify-center hover:bg-[#b5741f] transition-colors"
-                      >
-                        <Plus className="w-3.5 h-3.5 text-white" />
-                      </button>
-                      <span className="text-xs text-[#8A6650]">personas</span>
                     </div>
+                    <button
+                      type="button"
+                      onClick={() =>
+                        setValue(
+                          "numPersonas",
+                          Math.min(numPersonas + 1, infoNegocio.reservas.maxPersonasPorReserva)
+                        )
+                      }
+                      className="w-9 h-9 bg-[#C8852A] rounded-xl flex items-center justify-center hover:bg-[#b5741f] active:scale-95 transition-all shadow-[0_4px_12px_rgba(200,133,42,0.35)]"
+                    >
+                      <Plus className="w-3.5 h-3.5 text-white" />
+                    </button>
                   </div>
                 </div>
               </div>
             </div>
           </div>
 
-          <div className="flex items-center gap-3 bg-[#C8852A]/10 border border-[#C8852A]/20 rounded-xl px-4 py-3">
+          {/* Nota de duración */}
+          <div className="flex items-center gap-3 bg-[#C8852A]/8 border border-[#C8852A]/15 rounded-xl px-4 py-3">
             <Clock className="w-4 h-4 text-[#C8852A] flex-shrink-0" />
             <p className="text-sm text-[#8A6650]">
-              <span className="font-semibold text-[#F0E6D3]">Duración estimada:</span>{" "}
-              {infoNegocio.reservas.duracionMinutos} minutos por reserva
+              <span className="font-semibold text-[#F0E6D3]">Duración:</span>{" "}
+              {infoNegocio.reservas.duracionMinutos} min por reserva
             </p>
           </div>
 
+          {/* CTA fijo */}
           <div className="fixed md:static bottom-20 left-0 right-0 md:bottom-auto px-5 md:px-0 pb-safe md:pb-0 bg-[#0F0B08]/95 md:bg-transparent backdrop-blur-md md:backdrop-blur-none pt-3 md:pt-0">
             <button
               type="button"
               onClick={avanzarAPaso2}
-              className="w-full py-4 bg-[#C8852A] text-white font-bold text-base rounded-full shadow-lg hover:bg-[#b5741f] transition-all active:scale-[0.98]"
+              className="group w-full py-4 bg-[#C8852A] text-white font-bold text-base rounded-2xl shadow-[0_8px_32px_rgba(200,133,42,0.4)] hover:bg-[#b5741f] transition-all active:scale-[0.98] flex items-center justify-center gap-2"
             >
               Siguiente · Elegir mesa
+              <ArrowRight className="w-4.5 h-4.5 group-hover:translate-x-0.5 transition-transform" />
             </button>
           </div>
         </main>
@@ -426,7 +469,7 @@ export default function ReservasPage() {
 
       {/* ── PASO 2: ELEGIR MESA ────────────────────────────── */}
       {paso === 2 && (
-        <main className="max-w-2xl mx-auto px-5 py-6 pb-32 md:pb-10 space-y-5">
+        <main className="max-w-2xl mx-auto px-5 py-6 pb-32 md:pb-10 space-y-4">
 
           {/* Filtros */}
           <div className="flex gap-2 overflow-x-auto pb-1 -mx-5 px-5 scrollbar-none">
@@ -442,7 +485,7 @@ export default function ReservasPage() {
                 className={`flex-shrink-0 px-4 py-2 rounded-full text-sm font-semibold transition-all ${
                   filtroUbicacion === valor
                     ? "bg-[#F0E6D3] text-[#0F0B08] shadow-sm"
-                    : "bg-[#1A1108] text-[#F0E6D3]/55 border border-[#2E1E0E]"
+                    : "bg-[#1A1108] text-[#F0E6D3]/55 border border-[#2E1E0E] hover:border-[#C8852A]/30"
                 }`}
               >
                 {etiqueta}
@@ -455,8 +498,8 @@ export default function ReservasPage() {
                 onClick={() => setFiltroPax(filtroPax === pax ? null : pax)}
                 className={`flex-shrink-0 px-4 py-2 rounded-full text-sm font-semibold transition-all ${
                   filtroPax === pax
-                    ? "bg-[#C8852A] text-white shadow-sm"
-                    : "bg-[#1A1108] text-[#F0E6D3]/55 border border-[#2E1E0E]"
+                    ? "bg-[#C8852A] text-white shadow-[0_4px_12px_rgba(200,133,42,0.35)]"
+                    : "bg-[#1A1108] text-[#F0E6D3]/55 border border-[#2E1E0E] hover:border-[#C8852A]/30"
                 }`}
               >
                 {pax}+ pax
@@ -467,25 +510,28 @@ export default function ReservasPage() {
           {/* Leyenda */}
           <div className="flex items-center gap-4 text-xs font-medium text-[#8A6650]">
             <span className="flex items-center gap-1.5">
-              <span className="w-2.5 h-2.5 rounded-full bg-green-400" /> Disponible
+              <span className="w-2 h-2 rounded-full bg-green-400" /> Disponible
             </span>
             <span className="flex items-center gap-1.5">
-              <span className="w-2.5 h-2.5 rounded-full bg-red-400" /> Ocupada
+              <span className="w-2 h-2 rounded-full bg-[#8A6650]/50" /> Ocupada
             </span>
             <span className="flex items-center gap-1.5">
-              <span className="w-2.5 h-2.5 rounded-full bg-[#C8852A]" /> Tu selección
+              <span className="w-2 h-2 rounded-full bg-[#C8852A]" /> Tu selección
             </span>
           </div>
 
-          {/* Plano visual */}
+          {/* Mapa de mesas */}
           <div className="bg-[#1A1108] rounded-2xl border border-[#2E1E0E] overflow-hidden">
 
             {(filtroUbicacion === "todas" || filtroUbicacion === "interior") && mesasInterior.length > 0 && (
               <div className="p-4">
-                <p className="text-[10px] font-bold text-[#8A6650] uppercase tracking-widest mb-3">
-                  Interior
-                </p>
-                <div className="grid grid-cols-3 md:grid-cols-4 gap-2.5">
+                <div className="flex items-center gap-2 mb-3">
+                  <div className="w-1 h-4 bg-[#C8852A] rounded-full" />
+                  <p className="text-xs font-bold text-[#8A6650] uppercase tracking-widest">
+                    Interior · {mesasInterior.length} mesas
+                  </p>
+                </div>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                   {mesasInterior.map((mesa) => (
                     <TarjetaMesa
                       key={mesa.id}
@@ -507,10 +553,13 @@ export default function ReservasPage() {
 
             {(filtroUbicacion === "todas" || filtroUbicacion === "terraza") && mesasTerraza.length > 0 && (
               <div className="p-4">
-                <p className="text-[10px] font-bold text-[#8A6650] uppercase tracking-widest mb-3">
-                  Terraza
-                </p>
-                <div className="grid grid-cols-3 md:grid-cols-4 gap-2.5">
+                <div className="flex items-center gap-2 mb-3">
+                  <div className="w-1 h-4 bg-[#C8852A] rounded-full" />
+                  <p className="text-xs font-bold text-[#8A6650] uppercase tracking-widest">
+                    Terraza · {mesasTerraza.length} mesas
+                  </p>
+                </div>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                   {mesasTerraza.map((mesa) => (
                     <TarjetaMesa
                       key={mesa.id}
@@ -528,20 +577,24 @@ export default function ReservasPage() {
           </div>
 
           {errorMesa && (
-            <p className="text-red-400 text-sm font-medium text-center">
-              Por favor selecciona una mesa para continuar
-            </p>
+            <div className="bg-red-900/15 border border-red-800/30 rounded-xl px-4 py-3 text-center">
+              <p className="text-red-400 text-sm font-medium">
+                Selecciona una mesa para continuar
+              </p>
+            </div>
           )}
 
           {mesaSeleccionada && (
-            <div className="flex items-center gap-3 bg-[#C8852A]/12 border border-[#C8852A]/25 rounded-xl px-4 py-3">
-              <CheckCircle2 className="w-5 h-5 text-[#C8852A] flex-shrink-0" />
+            <div className="flex items-center gap-3 bg-[#C8852A]/12 border border-[#C8852A]/25 rounded-2xl px-4 py-3.5">
+              <div className="w-9 h-9 bg-[#C8852A]/20 rounded-xl flex items-center justify-center border border-[#C8852A]/25 flex-shrink-0">
+                <CheckCircle2 className="w-4.5 h-4.5 text-[#C8852A]" />
+              </div>
               <div>
                 <p className="text-sm font-bold text-[#F0E6D3]">
                   Mesa {mesaSeleccionada.numero} seleccionada
                 </p>
-                <p className="text-xs text-[#8A6650] capitalize">
-                  {mesaSeleccionada.ubicacion} · Hasta {mesaSeleccionada.capacidad} personas
+                <p className="text-xs text-[#8A6650] capitalize mt-0.5">
+                  {mesaSeleccionada.ubicacion} · Hasta {mesaSeleccionada.capacidad} persona{mesaSeleccionada.capacidad > 1 ? "s" : ""}
                 </p>
               </div>
             </div>
@@ -551,9 +604,10 @@ export default function ReservasPage() {
             <button
               type="button"
               onClick={avanzarAPaso3}
-              className="w-full py-4 bg-[#C8852A] text-white font-bold text-base rounded-full shadow-lg hover:bg-[#b5741f] transition-all active:scale-[0.98]"
+              className="group w-full py-4 bg-[#C8852A] text-white font-bold text-base rounded-2xl shadow-[0_8px_32px_rgba(200,133,42,0.4)] hover:bg-[#b5741f] transition-all active:scale-[0.98] flex items-center justify-center gap-2"
             >
               Confirmar selección
+              <ArrowRight className="w-4.5 h-4.5 group-hover:translate-x-0.5 transition-transform" />
             </button>
           </div>
         </main>
@@ -562,13 +616,13 @@ export default function ReservasPage() {
       {/* ── PASO 3: CONFIRMAR ─────────────────────────────── */}
       {paso === 3 && (
         <form onSubmit={handleSubmit(onSubmit)}>
-          <main className="max-w-2xl mx-auto px-5 py-6 pb-32 md:pb-10 space-y-5">
+          <main className="max-w-2xl mx-auto px-5 py-6 pb-32 md:pb-10 space-y-4">
 
             <div>
-              <p className="text-xs font-bold text-[#8A6650] uppercase tracking-wider mb-3">
+              <p className="text-xs font-bold text-[#8A6650] uppercase tracking-widest mb-3">
                 Resumen de tu reserva
               </p>
-              <div className="bg-[#1A1108] rounded-2xl border border-[#2E1E0E] overflow-hidden">
+              <div className="bg-[#1A1108] rounded-2xl border border-[#2E1E0E] overflow-hidden divide-y divide-[#2E1E0E]">
                 {[
                   {
                     icon: User,
@@ -592,26 +646,24 @@ export default function ReservasPage() {
                     titulo: `${numPersonas} ${numPersonas === 1 ? "persona" : "personas"}`,
                     sub: "Número de comensales",
                   },
-                ].map(({ icon: Icon, titulo, sub }, idx, arr) => (
-                  <div key={idx}>
-                    <div className="px-4 py-4 flex items-start gap-3">
-                      <div className="w-9 h-9 bg-[#C8852A]/12 rounded-xl flex items-center justify-center flex-shrink-0 mt-0.5 border border-[#C8852A]/15">
-                        <Icon className="w-4 h-4 text-[#C8852A]" />
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <p className="text-sm font-semibold text-[#F0E6D3] truncate capitalize">{titulo}</p>
-                        <p className="text-xs text-[#8A6650] truncate mt-0.5">{sub}</p>
-                      </div>
+                ].map(({ icon: Icon, titulo, sub }, idx) => (
+                  <div key={idx} className="px-4 py-4 flex items-start gap-3">
+                    <div className="w-9 h-9 bg-[#C8852A]/10 rounded-xl flex items-center justify-center flex-shrink-0 mt-0.5 border border-[#C8852A]/15">
+                      <Icon className="w-4 h-4 text-[#C8852A]" />
                     </div>
-                    {idx < arr.length - 1 && <div className="h-px bg-[#2E1E0E] mx-4" />}
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm font-semibold text-[#F0E6D3] capitalize">{titulo}</p>
+                      <p className="text-xs text-[#8A6650] mt-0.5 truncate">{sub}</p>
+                    </div>
                   </div>
                 ))}
               </div>
             </div>
 
-            <div className="bg-[#C8852A]/10 border border-[#C8852A]/20 rounded-xl px-4 py-4">
-              <p className="text-sm font-bold text-[#F0E6D3] mb-1">
-                📋 Política de cancelación
+            {/* Política de cancelación */}
+            <div className="bg-[#1A1108] border border-[#2E1E0E] rounded-xl px-4 py-3.5">
+              <p className="text-xs font-bold text-[#F0E6D3] mb-1 flex items-center gap-2">
+                <span>📋</span> Política de cancelación
               </p>
               <p className="text-xs text-[#8A6650] leading-relaxed">
                 {infoNegocio.politicaCancelacion.descripcion}
@@ -621,23 +673,28 @@ export default function ReservasPage() {
             {/* Toggle WhatsApp */}
             <div className="bg-[#1A1108] rounded-2xl border border-[#2E1E0E] px-4 py-4">
               <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm font-semibold text-[#F0E6D3]">
-                    Confirmación por WhatsApp
-                  </p>
-                  <p className="text-xs text-[#8A6650] mt-0.5">
-                    Recibe el resumen en tu teléfono
-                  </p>
+                <div className="flex items-center gap-3">
+                  <div className="w-9 h-9 bg-green-500/10 rounded-xl flex items-center justify-center border border-green-500/20">
+                    <span className="text-base">💬</span>
+                  </div>
+                  <div>
+                    <p className="text-sm font-semibold text-[#F0E6D3]">
+                      Confirmación por WhatsApp
+                    </p>
+                    <p className="text-xs text-[#8A6650] mt-0.5">
+                      Recibe el resumen en tu teléfono
+                    </p>
+                  </div>
                 </div>
                 <button
                   type="button"
                   onClick={() => setWhatsapp(!whatsapp)}
-                  className={`relative w-12 h-6 rounded-full transition-colors ${
-                    whatsapp ? "bg-[#C8852A]" : "bg-white/15"
+                  className={`relative w-12 h-6 rounded-full transition-colors flex-shrink-0 ${
+                    whatsapp ? "bg-green-500" : "bg-white/15"
                   }`}
                 >
                   <div
-                    className={`absolute top-0.5 w-5 h-5 bg-white rounded-full shadow-sm transition-all ${
+                    className={`absolute top-0.5 w-5 h-5 bg-white rounded-full shadow-md transition-all duration-200 ${
                       whatsapp ? "left-6" : "left-0.5"
                     }`}
                   />
@@ -645,11 +702,11 @@ export default function ReservasPage() {
               </div>
             </div>
 
-            <div className="fixed md:static bottom-20 left-0 right-0 md:bottom-auto px-5 md:px-0 pb-safe md:pb-0 bg-[#0F0B08]/95 md:bg-transparent backdrop-blur-md md:backdrop-blur-none pt-3 md:pt-0 space-y-2">
+            <div className="fixed md:static bottom-20 left-0 right-0 md:bottom-auto px-5 md:px-0 pb-safe md:pb-0 bg-[#0F0B08]/95 md:bg-transparent backdrop-blur-md md:backdrop-blur-none pt-3 md:pt-0 space-y-2.5">
               <button
                 type="submit"
                 disabled={cargando}
-                className="w-full py-4 bg-[#1A5C3A] text-white font-bold text-base rounded-full shadow-lg hover:bg-[#154d30] transition-all active:scale-[0.98] flex items-center justify-center gap-2 disabled:opacity-70"
+                className="group w-full py-4 bg-[#1A5C3A] text-white font-bold text-base rounded-2xl shadow-[0_8px_32px_rgba(26,92,58,0.45)] hover:bg-[#1d6b43] transition-all active:scale-[0.98] flex items-center justify-center gap-2 disabled:opacity-70"
               >
                 {cargando ? (
                   <Loader2 className="w-5 h-5 animate-spin" />
@@ -666,8 +723,8 @@ export default function ReservasPage() {
         </form>
       )}
 
-      {/* Bottom nav mobile */}
-      <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-[#1A1108] border-t border-[#2E1E0E] pb-safe z-40">
+      {/* ── BOTTOM NAV MOBILE ─────────────────────────────── */}
+      <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-[#1A1108]/95 backdrop-blur-md border-t border-[#2E1E0E] pb-safe z-40">
         <div className="flex justify-around py-2.5 max-w-lg mx-auto">
           {[
             { icon: Home, etiqueta: "Inicio", activo: false, href: "/" },
@@ -675,7 +732,10 @@ export default function ReservasPage() {
             { icon: Search, etiqueta: "Buscar", activo: false, href: "#" },
             { icon: Coffee, etiqueta: "Menú", activo: false, href: "#" },
           ].map(({ icon: Icon, etiqueta, activo, href }) => (
-            <Link key={etiqueta} href={href} className="flex flex-col items-center gap-1 px-3 py-1">
+            <Link key={etiqueta} href={href} className="flex flex-col items-center gap-1 px-3 py-1 relative">
+              {activo && (
+                <div className="absolute -top-px left-1/2 -translate-x-1/2 w-6 h-0.5 bg-[#C8852A] rounded-full" />
+              )}
               <Icon
                 className={`w-5 h-5 ${activo ? "text-[#C8852A]" : "text-[#F0E6D3]/30"}`}
                 strokeWidth={activo ? 2.5 : 1.75}
@@ -706,29 +766,36 @@ function TarjetaMesa({
       type="button"
       onClick={mesa.disponible ? onSeleccionar : undefined}
       disabled={!mesa.disponible}
-      className={`p-3 rounded-xl border-2 text-left transition-all w-full ${
+      className={`p-4 rounded-xl border-2 text-left transition-all w-full ${
         seleccionada
-          ? "border-[#C8852A] bg-[#C8852A]/12 shadow-sm"
+          ? "border-[#C8852A] bg-[#C8852A]/12 shadow-[0_0_20px_rgba(200,133,42,0.25)]"
           : mesa.disponible
-          ? "border-[#2E1E0E] bg-[#221610] hover:border-green-800 hover:bg-green-900/15 active:scale-[0.97]"
-          : "border-red-900/30 bg-red-900/10 opacity-50 cursor-not-allowed"
+          ? "border-[#2E1E0E] bg-[#221610] hover:border-[#C8852A]/40 hover:bg-[#271810] active:scale-[0.97]"
+          : "border-[#2E1E0E]/50 bg-[#1A1108]/50 opacity-40 cursor-not-allowed"
       }`}
     >
-      <div className="text-xs font-bold text-[#F0E6D3]">Mesa {mesa.numero}</div>
-      <div className="flex items-center gap-0.5 mt-0.5">
-        <Users className="w-2.5 h-2.5 text-[#8A6650]" />
-        <span className="text-[10px] text-[#8A6650]">{mesa.capacidad}</span>
+      <div className="flex items-center justify-between mb-2">
+        <span className="text-xs font-extrabold text-[#F0E6D3]">Mesa {mesa.numero}</span>
+        <span
+          className={`w-2 h-2 rounded-full ${
+            seleccionada ? "bg-[#C8852A]" : mesa.disponible ? "bg-green-400" : "bg-[#8A6650]/40"
+          }`}
+        />
+      </div>
+      <div className="flex items-center gap-1 mb-1.5">
+        <Users className="w-3 h-3 text-[#8A6650]" />
+        <span className="text-xs text-[#8A6650] font-medium">{mesa.capacidad} pax</span>
       </div>
       <div
-        className={`text-[10px] font-bold mt-1.5 ${
+        className={`text-xs font-bold ${
           seleccionada
             ? "text-[#C8852A]"
             : mesa.disponible
             ? "text-green-400"
-            : "text-red-400/70"
+            : "text-[#8A6650]/50"
         }`}
       >
-        {seleccionada ? "✓ Elegida" : mesa.disponible ? "Libre" : "Ocupada"}
+        {seleccionada ? "✓ Elegida" : mesa.disponible ? "Disponible" : "Ocupada"}
       </div>
     </button>
   );
