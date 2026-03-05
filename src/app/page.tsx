@@ -89,9 +89,9 @@ export default function Inicio() {
             <a href="#nosotros" className="hover:text-[#2C1810] transition-colors">Nosotros</a>
           </div>
           <div className="flex items-center gap-3">
-            <button className="px-5 py-2.5 text-[13px] font-medium text-[#8B7355] border border-[#E8DFD3] rounded-full hover:bg-[#F5EFE6] transition-colors">
+            <Link href="/admin/login" className="px-5 py-2.5 text-[13px] font-medium text-[#8B7355] border border-[#E8DFD3] rounded-full hover:bg-[#F5EFE6] transition-colors">
               Iniciar sesion
-            </button>
+            </Link>
             <Link
               href="/reservas"
               className="px-6 py-2.5 text-[13px] font-semibold bg-[#C9A962] text-white rounded-full hover:bg-[#B8943F] transition-colors shadow-md shadow-[#C9A962]/20"
@@ -241,8 +241,9 @@ export default function Inicio() {
           <div className="relative mb-5">
             <div className="flex gap-2 overflow-x-auto pb-2 -mx-5 px-5 md:mx-0 md:px-0 scrollbar-none">
               {fechas.map((f, i) => (
-                <div
+                <Link
                   key={i}
+                  href="/reservas"
                   className={`flex-shrink-0 px-4 py-2 rounded-full text-[13px] font-medium whitespace-nowrap transition-all cursor-pointer ${
                     f.activo
                       ? "bg-[#2C1810] text-white font-semibold shadow-md"
@@ -250,7 +251,7 @@ export default function Inicio() {
                   }`}
                 >
                   {f.etiqueta}
-                </div>
+                </Link>
               ))}
             </div>
             <div className="md:hidden absolute right-0 top-0 bottom-2 w-8 bg-gradient-to-l from-[#FBF7F0] to-transparent pointer-events-none" />
@@ -258,23 +259,26 @@ export default function Inicio() {
 
           {/* Grid de horarios */}
           <div className="grid grid-cols-3 gap-2.5 md:gap-3">
-            {horariosDemo.map((slot) => (
-              <div
-                key={slot.hora}
-                className={`relative p-3.5 rounded-xl border text-center transition-all overflow-hidden ${
-                  slot.disponible
-                    ? "bg-white border-[#E8DFD3]/60 hover:border-[#C9A962]/40 hover:shadow-sm cursor-pointer group"
-                    : "bg-[#F5EFE6]/50 border-[#E8DFD3]/30 opacity-45 cursor-not-allowed"
-                }`}
-              >
-                <div className={`text-[15px] font-semibold ${slot.disponible ? "text-[#2C1810]" : "text-[#A99F91]"}`}>
-                  {slot.hora}
+            {horariosDemo.map((slot) =>
+              slot.disponible ? (
+                <Link
+                  key={slot.hora}
+                  href="/reservas"
+                  className="relative p-3.5 rounded-xl border text-center transition-all overflow-hidden bg-white border-[#E8DFD3]/60 hover:border-[#C9A962]/40 hover:shadow-sm cursor-pointer group"
+                >
+                  <div className="text-[15px] font-semibold text-[#2C1810]">{slot.hora}</div>
+                  <div className="text-[10px] font-semibold mt-0.5 text-[#22C55E]">Disponible</div>
+                </Link>
+              ) : (
+                <div
+                  key={slot.hora}
+                  className="relative p-3.5 rounded-xl border text-center transition-all overflow-hidden bg-[#F5EFE6]/50 border-[#E8DFD3]/30 opacity-45 cursor-not-allowed"
+                >
+                  <div className="text-[15px] font-semibold text-[#A99F91]">{slot.hora}</div>
+                  <div className="text-[10px] font-semibold mt-0.5 text-[#A99F91]">Lleno</div>
                 </div>
-                <div className={`text-[10px] font-semibold mt-0.5 ${slot.disponible ? "text-[#22C55E]" : "text-[#A99F91]"}`}>
-                  {slot.disponible ? "Disponible" : "Lleno"}
-                </div>
-              </div>
-            ))}
+              )
+            )}
           </div>
         </section>
 
