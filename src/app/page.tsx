@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import {
   Coffee,
   Bell,
@@ -76,46 +77,42 @@ export default function Inicio() {
   const totalMesas = mesas.length;
 
   return (
-    <div className="min-h-screen bg-[#FBF7F0] font-[family-name:var(--font-manrope)]">
+    <div className="min-h-screen bg-[#F9F5EF] font-[family-name:var(--font-manrope)]">
 
       {/* ── NAVBAR MOBILE ─────────────────────────────── */}
-      <header className="md:hidden sticky top-0 z-50 glass border-b border-[#E8DFD3]/80 px-5 py-3.5 flex items-center justify-between animate-fade-down">
+      <header className="md:hidden sticky top-0 z-50 glass border-b border-[#D9D0E3]/80 px-5 py-3.5 flex items-center justify-between animate-fade-down">
         <div className="flex items-center gap-2.5">
-          <div className="w-9 h-9 bg-[#2C1810] rounded-xl flex items-center justify-center shadow-lg shadow-[#2C1810]/20">
-            <Coffee className="w-4 h-4 text-[#C9A962]" />
-          </div>
+          <Image src="/logo-simbolo.png" alt="Café Orquídea Real" width={36} height={36} className="rounded-xl" />
           <span className="font-[family-name:var(--font-playfair)] text-[#2C1810] text-lg tracking-tight">
-            Cafe Aroma
+            Café Orquídea Real
           </span>
         </div>
-        <button className="w-9 h-9 bg-[#F5EFE6] rounded-xl flex items-center justify-center hover:bg-[#EBE3D8] transition-colors active:scale-95">
-          <Bell className="w-4 h-4 text-[#8B7355]" />
+        <button className="w-9 h-9 bg-[#F0EBE3] rounded-xl flex items-center justify-center hover:bg-[#EBE3D8] transition-colors active:scale-95">
+          <Bell className="w-4 h-4 text-[#6B5B7B]" />
         </button>
       </header>
 
       {/* ── NAVBAR DESKTOP ────────────────────────────── */}
-      <nav className="hidden md:block sticky top-0 z-50 glass border-b border-[#E8DFD3]/60 animate-fade-down">
+      <nav className="hidden md:block sticky top-0 z-50 glass border-b border-[#D9D0E3]/60 animate-fade-down">
         <div className="max-w-7xl mx-auto px-14 py-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-[#2C1810] rounded-xl flex items-center justify-center shadow-lg shadow-[#2C1810]/15">
-              <Coffee className="w-5 h-5 text-[#C9A962]" />
-            </div>
+            <Image src="/logo-simbolo.png" alt="Café Orquídea Real" width={40} height={40} className="rounded-xl" />
             <span className="font-[family-name:var(--font-playfair)] text-[#2C1810] text-[22px] tracking-[0.5px]">
-              Cafe Aroma
+              Café Orquídea Real
             </span>
           </div>
-          <div className="flex items-center gap-8 text-sm text-[#8B7355]">
-            <Link href="/" className="text-[#2C1810] font-semibold relative after:absolute after:bottom-[-4px] after:left-0 after:w-full after:h-0.5 after:bg-[#C9A962] after:rounded-full">Inicio</Link>
-            <Link href="/reservas" className="hover:text-[#2C1810] transition-colors relative after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-0.5 after:bg-[#C9A962] after:rounded-full hover:after:w-full after:transition-all">Reservas</Link>
-            <a href="#nosotros" className="hover:text-[#2C1810] transition-colors relative after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-0.5 after:bg-[#C9A962] after:rounded-full hover:after:w-full after:transition-all">Nosotros</a>
+          <div className="flex items-center gap-8 text-sm text-[#6B5B7B]">
+            <Link href="/" className="text-[#2C1810] font-semibold relative after:absolute after:bottom-[-4px] after:left-0 after:w-full after:h-0.5 after:bg-[#8E6AA3] after:rounded-full">Inicio</Link>
+            <Link href="/reservas" className="hover:text-[#2C1810] transition-colors relative after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-0.5 after:bg-[#8E6AA3] after:rounded-full hover:after:w-full after:transition-all">Reservas</Link>
+            <a href="#nosotros" className="hover:text-[#2C1810] transition-colors relative after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-0.5 after:bg-[#8E6AA3] after:rounded-full hover:after:w-full after:transition-all">Nosotros</a>
           </div>
           <div className="flex items-center gap-3">
-            <Link href="/admin/login" className="px-5 py-2.5 text-[13px] font-medium text-[#8B7355] border border-[#E8DFD3] rounded-full hover:bg-[#F5EFE6] hover:border-[#D1C7B8] transition-all">
+            <Link href="/admin/login" className="px-5 py-2.5 text-[13px] font-medium text-[#6B5B7B] border border-[#D9D0E3] rounded-full hover:bg-[#F0EBE3] hover:border-[#C4BAD4] transition-all">
               Iniciar sesion
             </Link>
             <Link
               href="/reservas"
-              className="group px-6 py-2.5 text-[13px] font-semibold bg-[#C9A962] text-white rounded-full hover:bg-[#B8943F] transition-all shadow-md shadow-[#C9A962]/20 hover:shadow-lg hover:shadow-[#C9A962]/30 flex items-center gap-1.5"
+              className="group px-6 py-2.5 text-[13px] font-semibold bg-[#8E6AA3] text-white rounded-full hover:bg-[#7A5691] transition-all shadow-md shadow-[#8E6AA3]/20 hover:shadow-lg hover:shadow-[#8E6AA3]/30 flex items-center gap-1.5"
             >
               Reservar ahora
               <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
@@ -132,7 +129,7 @@ export default function Inicio() {
 
             {/* Texto hero (desktop) */}
             <div className="md:order-1">
-              <div className="hidden md:inline-flex items-center gap-1.5 bg-[#C9A962]/10 text-[#C9A962] text-[11px] font-semibold px-3.5 py-1.5 rounded-full mb-6 border border-[#C9A962]/20 animate-fade-up">
+              <div className="hidden md:inline-flex items-center gap-1.5 bg-[#8E6AA3]/10 text-[#8E6AA3] text-[11px] font-semibold px-3.5 py-1.5 rounded-full mb-6 border border-[#8E6AA3]/20 animate-fade-up">
                 <Zap className="w-3 h-3" />
                 Reservas en linea · Confirmacion inmediata
               </div>
@@ -140,7 +137,7 @@ export default function Inicio() {
               <h1 className="hidden md:block font-[family-name:var(--font-playfair)] text-5xl font-normal text-[#2C1810] leading-[1.1] tracking-tight mb-5 animate-fade-up delay-100">
                 El lugar perfecto<br />para cada momento
               </h1>
-              <p className="hidden md:block text-base text-[#8B7355] mb-8 leading-relaxed max-w-[440px] animate-fade-up delay-200">
+              <p className="hidden md:block text-base text-[#6B5B7B] mb-8 leading-relaxed max-w-[440px] animate-fade-up delay-200">
                 Reserva tu mesa en segundos. Sin esperas, sin llamadas.
                 Te confirmamos por WhatsApp al instante.
               </p>
@@ -149,25 +146,25 @@ export default function Inicio() {
               <div className="hidden md:flex items-center gap-4 mb-8 animate-fade-up delay-300">
                 <div className="flex items-center gap-0.5">
                   {[1,2,3,4,5].map(i => (
-                    <Star key={i} className="w-4 h-4 fill-[#C9A962] text-[#C9A962]" />
+                    <Star key={i} className="w-4 h-4 fill-[#D5A96C] text-[#D5A96C]" />
                   ))}
                 </div>
-                <span className="text-[13px] font-medium text-[#8B7355]">4.9 · 200+ resenas</span>
-                <div className="w-px h-4 bg-[#E8DFD3]" />
-                <span className="text-[13px] font-medium text-[#8B7355]">500+ reservas</span>
+                <span className="text-[13px] font-medium text-[#6B5B7B]">4.9 · 200+ resenas</span>
+                <div className="w-px h-4 bg-[#D9D0E3]" />
+                <span className="text-[13px] font-medium text-[#6B5B7B]">500+ reservas</span>
               </div>
 
               <div className="hidden md:flex items-center gap-4 animate-fade-up delay-400">
                 <Link
                   href="/reservas"
-                  className="group px-7 py-3.5 bg-[#C9A962] text-white font-semibold rounded-full hover:bg-[#B8943F] transition-all flex items-center gap-2 shadow-lg shadow-[#C9A962]/20 hover:shadow-xl hover:shadow-[#C9A962]/30 active:scale-[0.98]"
+                  className="group px-7 py-3.5 bg-[#8E6AA3] text-white font-semibold rounded-full hover:bg-[#7A5691] transition-all flex items-center gap-2 shadow-lg shadow-[#8E6AA3]/20 hover:shadow-xl hover:shadow-[#8E6AA3]/30 active:scale-[0.98]"
                 >
                   Reservar mesa
                   <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
                 </Link>
                 <a
                   href="#disponibilidad"
-                  className="px-7 py-3.5 border border-[#E8DFD3] text-[#8B7355] font-medium rounded-full hover:bg-[#F5EFE6] hover:border-[#D1C7B8] transition-all"
+                  className="px-7 py-3.5 border border-[#D9D0E3] text-[#6B5B7B] font-medium rounded-full hover:bg-[#F0EBE3] hover:border-[#C4BAD4] transition-all"
                 >
                   Ver disponibilidad
                 </a>
@@ -180,34 +177,34 @@ export default function Inicio() {
                 className="relative overflow-hidden rounded-[24px] min-h-[280px] md:min-h-[440px] flex flex-col justify-end p-6 md:p-8 texture-grain"
                 style={{
                   background:
-                    "radial-gradient(ellipse at 25% 30%, rgba(201,169,98,0.35) 0%, transparent 55%), radial-gradient(ellipse at 80% 20%, rgba(201,169,98,0.15) 0%, transparent 45%), linear-gradient(160deg, #3D2A1E 0%, #2C1810 50%, #1A0E08 100%)",
+                    "radial-gradient(ellipse at 25% 30%, rgba(142,106,163,0.25) 0%, transparent 55%), radial-gradient(ellipse at 80% 20%, rgba(176,160,203,0.15) 0%, transparent 45%), linear-gradient(160deg, #3D2A1E 0%, #2C1810 50%, #1A0E08 100%)",
                 }}
               >
                 {/* Decorative circles */}
-                <div className="absolute top-8 right-12 w-[100px] h-[100px] rounded-full border border-[#C9A962]/15 animate-float" />
-                <div className="absolute top-12 right-16 w-[60px] h-[60px] rounded-full border border-[#C9A962]/10" />
-                <div className="absolute bottom-24 left-8 w-3 h-3 rounded-full bg-[#C9A962]/20" />
-                <div className="absolute top-20 left-12 w-2 h-2 rounded-full bg-[#C9A962]/25" />
-                <div className="absolute bottom-32 right-20 w-2 h-2 rounded-full bg-[#C9A962]/15" />
+                <div className="absolute top-8 right-12 w-[100px] h-[100px] rounded-full border border-[#D5A96C]/15 animate-float" />
+                <div className="absolute top-12 right-16 w-[60px] h-[60px] rounded-full border border-[#D5A96C]/10" />
+                <div className="absolute bottom-24 left-8 w-3 h-3 rounded-full bg-[#D5A96C]/20" />
+                <div className="absolute top-20 left-12 w-2 h-2 rounded-full bg-[#D5A96C]/25" />
+                <div className="absolute bottom-32 right-20 w-2 h-2 rounded-full bg-[#D5A96C]/15" />
 
                 {/* Coffee icon */}
-                <div className="absolute top-6 right-6 w-[56px] h-[56px] bg-[#C9A962]/15 rounded-2xl flex items-center justify-center border border-[#C9A962]/20 backdrop-blur-sm animate-pulse-gold">
-                  <Coffee className="w-7 h-7 text-[#C9A962]" />
+                <div className="absolute top-6 right-6 w-[56px] h-[56px] bg-[#D5A96C]/15 rounded-2xl flex items-center justify-center border border-[#D5A96C]/20 backdrop-blur-sm animate-pulse-gold">
+                  <Coffee className="w-7 h-7 text-[#D5A96C]" />
                 </div>
 
                 {/* Rating pill */}
                 <div className="absolute top-6 left-6 bg-black/30 backdrop-blur-sm rounded-xl px-3 py-2 flex items-center gap-1.5">
                   {[1,2,3,4,5].map(i => (
-                    <Star key={i} className="w-3 h-3 fill-[#C9A962] text-[#C9A962]" />
+                    <Star key={i} className="w-3 h-3 fill-[#D5A96C] text-[#D5A96C]" />
                   ))}
                   <span className="text-white text-xs font-semibold ml-1">4.9</span>
                 </div>
 
                 <div className="relative z-10">
-                  <p className="text-[#C9A962] text-xs font-medium mb-3 md:hidden">Bienvenido a Cafe Aroma</p>
+                  <p className="text-[#D5A96C] text-xs font-medium mb-3 md:hidden">Saborea la calma, respira el instante</p>
                   <h2 className="font-[family-name:var(--font-playfair)] text-white text-[28px] md:text-4xl font-normal leading-tight mb-4">
                     Reserva tu<br />
-                    <span className="text-[#C9A962]">mesa perfecta</span>
+                    <span className="text-[#D5A96C]">mesa perfecta</span>
                   </h2>
 
                   <div className="flex items-center gap-2.5 flex-wrap">
@@ -238,13 +235,13 @@ export default function Inicio() {
             ].map(({ icon: Icon, valor, etiqueta, destacado }, i) => (
               <div
                 key={etiqueta}
-                className={`bg-white rounded-2xl p-4 border border-[#E8DFD3]/60 text-center shadow-sm hover:shadow-md transition-all hover:-translate-y-0.5 animate-fade-up delay-${(i + 1) * 100}`}
+                className={`bg-white rounded-2xl p-4 border border-[#D9D0E3]/60 text-center shadow-sm hover:shadow-md transition-all hover:-translate-y-0.5 animate-fade-up delay-${(i + 1) * 100}`}
               >
-                <div className={`w-8 h-8 ${destacado ? "bg-[#C9A962]/15" : "bg-[#F5EFE6]"} rounded-xl flex items-center justify-center mx-auto mb-2`}>
-                  <Icon className={`w-4 h-4 ${destacado ? "text-[#C9A962]" : "text-[#8B7355]"}`} />
+                <div className={`w-8 h-8 ${destacado ? "bg-[#8E6AA3]/15" : "bg-[#F0EBE3]"} rounded-xl flex items-center justify-center mx-auto mb-2`}>
+                  <Icon className={`w-4 h-4 ${destacado ? "text-[#8E6AA3]" : "text-[#6B5B7B]"}`} />
                 </div>
-                <div className={`font-[family-name:var(--font-playfair)] text-[22px] ${destacado ? "text-[#C9A962]" : "text-[#2C1810]"}`}>{valor}</div>
-                <div className="text-[9px] text-[#A99F91] font-semibold uppercase tracking-[1px] mt-0.5">{etiqueta}</div>
+                <div className={`font-[family-name:var(--font-playfair)] text-[22px] ${destacado ? "text-[#8E6AA3]" : "text-[#2C1810]"}`}>{valor}</div>
+                <div className="text-[9px] text-[#9B8FB0] font-semibold uppercase tracking-[1px] mt-0.5">{etiqueta}</div>
               </div>
             ))}
           </div>
@@ -256,7 +253,7 @@ export default function Inicio() {
             <h2 className="font-[family-name:var(--font-playfair)] text-lg text-[#2C1810] md:text-xl">
               Cuando visitaras?
             </h2>
-            <Link href="/reservas" className="text-xs font-semibold text-[#C9A962] flex items-center gap-1 hover:gap-1.5 transition-all group">
+            <Link href="/reservas" className="text-xs font-semibold text-[#8E6AA3] flex items-center gap-1 hover:gap-1.5 transition-all group">
               Ver todas
               <ChevronRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
             </Link>
@@ -272,14 +269,14 @@ export default function Inicio() {
                   className={`flex-shrink-0 px-4 py-2 rounded-full text-[13px] font-medium whitespace-nowrap transition-all cursor-pointer active:scale-95 ${
                     f.activo
                       ? "bg-[#2C1810] text-white font-semibold shadow-md shadow-[#2C1810]/15"
-                      : "bg-white text-[#8B7355] border border-[#E8DFD3] hover:border-[#C9A962]/30 hover:text-[#2C1810] hover:shadow-sm"
+                      : "bg-white text-[#6B5B7B] border border-[#D9D0E3] hover:border-[#8E6AA3]/30 hover:text-[#2C1810] hover:shadow-sm"
                   }`}
                 >
                   {f.etiqueta}
                 </Link>
               ))}
             </div>
-            <div className="md:hidden absolute right-0 top-0 bottom-2 w-8 bg-gradient-to-l from-[#FBF7F0] to-transparent pointer-events-none" />
+            <div className="md:hidden absolute right-0 top-0 bottom-2 w-8 bg-gradient-to-l from-[#F9F5EF] to-transparent pointer-events-none" />
           </div>
 
           {/* Grid de horarios */}
@@ -289,19 +286,19 @@ export default function Inicio() {
                 <Link
                   key={slot.hora}
                   href="/reservas"
-                  className="relative p-3.5 rounded-xl border text-center transition-all overflow-hidden bg-white border-[#E8DFD3]/60 hover:border-[#C9A962]/40 hover:shadow-md cursor-pointer group active:scale-[0.97]"
+                  className="relative p-3.5 rounded-xl border text-center transition-all overflow-hidden bg-white border-[#D9D0E3]/60 hover:border-[#8E6AA3]/40 hover:shadow-md cursor-pointer group active:scale-[0.97]"
                 >
-                  <div className="absolute inset-0 bg-gradient-to-b from-[#C9A962]/0 to-[#C9A962]/5 opacity-0 group-hover:opacity-100 transition-opacity" />
+                  <div className="absolute inset-0 bg-gradient-to-b from-[#8E6AA3]/0 to-[#8E6AA3]/5 opacity-0 group-hover:opacity-100 transition-opacity" />
                   <div className="relative text-[15px] font-semibold text-[#2C1810]">{slot.hora}</div>
                   <div className="relative text-[10px] font-semibold mt-0.5 text-[#22C55E]">Disponible</div>
                 </Link>
               ) : (
                 <div
                   key={slot.hora}
-                  className="relative p-3.5 rounded-xl border text-center transition-all overflow-hidden bg-[#F5EFE6]/50 border-[#E8DFD3]/30 opacity-45 cursor-not-allowed"
+                  className="relative p-3.5 rounded-xl border text-center transition-all overflow-hidden bg-[#F0EBE3]/50 border-[#D9D0E3]/30 opacity-45 cursor-not-allowed"
                 >
-                  <div className="text-[15px] font-semibold text-[#A99F91]">{slot.hora}</div>
-                  <div className="text-[10px] font-semibold mt-0.5 text-[#A99F91]">Lleno</div>
+                  <div className="text-[15px] font-semibold text-[#9B8FB0]">{slot.hora}</div>
+                  <div className="text-[10px] font-semibold mt-0.5 text-[#9B8FB0]">Lleno</div>
                 </div>
               )
             )}
@@ -312,12 +309,12 @@ export default function Inicio() {
         <section className="px-5 md:px-14 mb-6 md:mb-0">
           <Link
             href="/reservas"
-            className="group flex items-center justify-center gap-2 w-full py-4 bg-[#C9A962] text-white font-semibold text-[15px] rounded-2xl hover:bg-[#B8943F] transition-all active:scale-[0.98] shadow-lg shadow-[#C9A962]/20 hover:shadow-xl hover:shadow-[#C9A962]/30"
+            className="group flex items-center justify-center gap-2 w-full py-4 bg-[#8E6AA3] text-white font-semibold text-[15px] rounded-2xl hover:bg-[#7A5691] transition-all active:scale-[0.98] shadow-lg shadow-[#8E6AA3]/20 hover:shadow-xl hover:shadow-[#8E6AA3]/30"
           >
             Reservar mesa
             <ArrowRight className="w-5 h-5 group-hover:translate-x-0.5 transition-transform" />
           </Link>
-          <p className="text-center text-[11px] text-[#A99F91] font-medium mt-3 md:hidden">
+          <p className="text-center text-[11px] text-[#9B8FB0] font-medium mt-3 md:hidden">
             Confirmacion inmediata · Sin llamadas · Gratis
           </p>
         </section>
@@ -333,19 +330,19 @@ export default function Inicio() {
             {testimonios.map((t, i) => (
               <div
                 key={i}
-                className="flex-shrink-0 w-[280px] bg-white rounded-2xl border border-[#E8DFD3]/60 p-4 shadow-sm"
+                className="flex-shrink-0 w-[280px] bg-white rounded-2xl border border-[#D9D0E3]/60 p-4 shadow-sm"
               >
                 <div className="flex items-center gap-1 mb-2.5">
                   {[1,2,3,4,5].map(s => (
-                    <Star key={s} className="w-3 h-3 fill-[#C9A962] text-[#C9A962]" />
+                    <Star key={s} className="w-3 h-3 fill-[#D5A96C] text-[#D5A96C]" />
                   ))}
                 </div>
-                <p className="text-[13px] text-[#8B7355] leading-relaxed mb-3">
+                <p className="text-[13px] text-[#6B5B7B] leading-relaxed mb-3">
                   &ldquo;{t.texto}&rdquo;
                 </p>
                 <div className="flex items-center gap-2">
-                  <div className="w-7 h-7 bg-[#C9A962]/15 rounded-full flex items-center justify-center">
-                    <User className="w-3.5 h-3.5 text-[#C9A962]" />
+                  <div className="w-7 h-7 bg-[#8E6AA3]/15 rounded-full flex items-center justify-center">
+                    <User className="w-3.5 h-3.5 text-[#8E6AA3]" />
                   </div>
                   <span className="text-xs font-semibold text-[#2C1810]">{t.nombre}</span>
                 </div>
@@ -357,7 +354,7 @@ export default function Inicio() {
         {/* ── HOW IT WORKS (desktop) ───────────────────── */}
         <section className="hidden md:block px-14 py-16 mt-8">
           <div className="text-center mb-12">
-            <div className="inline-flex items-center gap-1.5 bg-[#C9A962]/10 text-[#C9A962] text-[11px] font-semibold px-3.5 py-1.5 rounded-full mb-4 border border-[#C9A962]/20">
+            <div className="inline-flex items-center gap-1.5 bg-[#8E6AA3]/10 text-[#8E6AA3] text-[11px] font-semibold px-3.5 py-1.5 rounded-full mb-4 border border-[#8E6AA3]/20">
               <Sparkles className="w-3 h-3" />
               Proceso simple
             </div>
@@ -366,7 +363,7 @@ export default function Inicio() {
             </h2>
           </div>
           <div className="grid grid-cols-3 gap-5 relative">
-            <div className="absolute top-10 left-[22%] right-[22%] h-px bg-gradient-to-r from-[#E8DFD3] via-[#C9A962]/30 to-[#E8DFD3]" />
+            <div className="absolute top-10 left-[22%] right-[22%] h-px bg-gradient-to-r from-[#D9D0E3] via-[#8E6AA3]/30 to-[#D9D0E3]" />
 
             {[
               {
@@ -390,14 +387,14 @@ export default function Inicio() {
             ].map(({ num, icon: Icon, titulo, desc }) => (
               <div
                 key={titulo}
-                className="bg-white rounded-2xl p-7 border border-[#E8DFD3]/60 overflow-hidden relative group hover:shadow-lg hover:border-[#C9A962]/20 transition-all shadow-sm hover:-translate-y-1"
+                className="bg-white rounded-2xl p-7 border border-[#D9D0E3]/60 overflow-hidden relative group hover:shadow-lg hover:border-[#8E6AA3]/20 transition-all shadow-sm hover:-translate-y-1"
               >
-                <div className="text-[#C9A962]/20 font-[family-name:var(--font-playfair)] text-5xl leading-none mb-4 select-none">{num}</div>
-                <div className="w-12 h-12 bg-[#C9A962]/10 rounded-xl flex items-center justify-center mb-4 group-hover:bg-[#C9A962]/15 group-hover:scale-110 transition-all">
-                  <Icon className="w-6 h-6 text-[#C9A962]" />
+                <div className="text-[#8E6AA3]/20 font-[family-name:var(--font-playfair)] text-5xl leading-none mb-4 select-none">{num}</div>
+                <div className="w-12 h-12 bg-[#8E6AA3]/10 rounded-xl flex items-center justify-center mb-4 group-hover:bg-[#8E6AA3]/15 group-hover:scale-110 transition-all">
+                  <Icon className="w-6 h-6 text-[#8E6AA3]" />
                 </div>
                 <h3 className="font-semibold text-[#2C1810] text-lg mb-2">{titulo}</h3>
-                <p className="text-[#8B7355] text-sm leading-relaxed">{desc}</p>
+                <p className="text-[#6B5B7B] text-sm leading-relaxed">{desc}</p>
               </div>
             ))}
           </div>
@@ -406,7 +403,7 @@ export default function Inicio() {
         {/* ── TESTIMONIOS DESKTOP ────────────────────── */}
         <section className="hidden md:block px-14 py-12">
           <div className="text-center mb-10">
-            <div className="inline-flex items-center gap-1.5 bg-[#C9A962]/10 text-[#C9A962] text-[11px] font-semibold px-3.5 py-1.5 rounded-full mb-4 border border-[#C9A962]/20">
+            <div className="inline-flex items-center gap-1.5 bg-[#8E6AA3]/10 text-[#8E6AA3] text-[11px] font-semibold px-3.5 py-1.5 rounded-full mb-4 border border-[#8E6AA3]/20">
               <Heart className="w-3 h-3" />
               +200 resenas
             </div>
@@ -418,20 +415,20 @@ export default function Inicio() {
             {testimonios.map((t, i) => (
               <div
                 key={i}
-                className="bg-white rounded-2xl p-6 border border-[#E8DFD3]/60 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all relative"
+                className="bg-white rounded-2xl p-6 border border-[#D9D0E3]/60 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all relative"
               >
-                <Quote className="w-8 h-8 text-[#C9A962]/15 absolute top-5 right-5" />
+                <Quote className="w-8 h-8 text-[#8E6AA3]/15 absolute top-5 right-5" />
                 <div className="flex items-center gap-1 mb-3">
                   {[1,2,3,4,5].map(s => (
-                    <Star key={s} className="w-3.5 h-3.5 fill-[#C9A962] text-[#C9A962]" />
+                    <Star key={s} className="w-3.5 h-3.5 fill-[#D5A96C] text-[#D5A96C]" />
                   ))}
                 </div>
-                <p className="text-sm text-[#8B7355] leading-relaxed mb-4">
+                <p className="text-sm text-[#6B5B7B] leading-relaxed mb-4">
                   &ldquo;{t.texto}&rdquo;
                 </p>
                 <div className="flex items-center gap-2.5">
-                  <div className="w-8 h-8 bg-[#C9A962]/15 rounded-full flex items-center justify-center">
-                    <User className="w-4 h-4 text-[#C9A962]" />
+                  <div className="w-8 h-8 bg-[#8E6AA3]/15 rounded-full flex items-center justify-center">
+                    <User className="w-4 h-4 text-[#8E6AA3]" />
                   </div>
                   <span className="text-sm font-semibold text-[#2C1810]">{t.nombre}</span>
                 </div>
@@ -452,13 +449,13 @@ export default function Inicio() {
               { icon: Shield, titulo: "Cancelacion gratuita", desc: `Cancela hasta ${infoNegocio.politicaCancelacion.horasAnticipacion}h antes sin ningun costo.` },
               { icon: Users, titulo: "Grupos bienvenidos", desc: "Tenemos mesas para grupos de hasta 12 personas. Perfectas para celebraciones." },
             ].map(({ icon: Icon, titulo, desc }) => (
-              <div key={titulo} className="flex items-start gap-4 bg-white rounded-2xl p-6 border border-[#E8DFD3]/60 hover:shadow-md hover:border-[#C9A962]/15 hover:-translate-y-0.5 transition-all shadow-sm group">
-                <div className="w-10 h-10 bg-[#C9A962]/10 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:bg-[#C9A962]/15 group-hover:scale-110 transition-all">
-                  <Icon className="w-5 h-5 text-[#C9A962]" />
+              <div key={titulo} className="flex items-start gap-4 bg-white rounded-2xl p-6 border border-[#D9D0E3]/60 hover:shadow-md hover:border-[#8E6AA3]/15 hover:-translate-y-0.5 transition-all shadow-sm group">
+                <div className="w-10 h-10 bg-[#8E6AA3]/10 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:bg-[#8E6AA3]/15 group-hover:scale-110 transition-all">
+                  <Icon className="w-5 h-5 text-[#8E6AA3]" />
                 </div>
                 <div>
                   <h3 className="font-semibold text-[#2C1810] mb-1">{titulo}</h3>
-                  <p className="text-sm text-[#8B7355] leading-relaxed">{desc}</p>
+                  <p className="text-sm text-[#6B5B7B] leading-relaxed">{desc}</p>
                 </div>
               </div>
             ))}
@@ -468,23 +465,21 @@ export default function Inicio() {
         {/* ── FOOTER (desktop) ─────────────────────────── */}
         <footer className="hidden md:block bg-[#2C1810] text-[#C4B9AC] mt-8 relative overflow-hidden">
           {/* Decorative gradient */}
-          <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#C9A962]/30 to-transparent" />
-          <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-[#C9A962]/5 rounded-full blur-[120px] -translate-y-1/2" />
+          <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#8E6AA3]/30 to-transparent" />
+          <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-[#8E6AA3]/5 rounded-full blur-[120px] -translate-y-1/2" />
 
           <div className="max-w-7xl mx-auto px-14 py-12 relative">
             <div className="grid grid-cols-4 gap-8 mb-10">
               <div className="col-span-2">
                 <div className="flex items-center gap-3 mb-4">
-                  <div className="w-10 h-10 bg-[#C9A962]/15 rounded-xl flex items-center justify-center">
-                    <Coffee className="w-5 h-5 text-[#C9A962]" />
-                  </div>
-                  <span className="font-[family-name:var(--font-playfair)] text-white text-xl">Cafe Aroma</span>
+                  <Image src="/logo-simbolo.png" alt="Café Orquídea Real" width={40} height={40} className="rounded-xl" />
+                  <span className="font-[family-name:var(--font-playfair)] text-white text-xl">Café Orquídea Real</span>
                 </div>
                 <p className="text-sm leading-relaxed max-w-xs mb-4">
                   {infoNegocio.descripcion}
                 </p>
                 <div className="flex items-center gap-2 text-sm">
-                  <MapPin className="w-4 h-4 text-[#C9A962] flex-shrink-0" />
+                  <MapPin className="w-4 h-4 text-[#8E6AA3] flex-shrink-0" />
                   <span>{infoNegocio.direccion}</span>
                 </div>
               </div>
@@ -503,23 +498,23 @@ export default function Inicio() {
                 <h4 className="font-semibold text-white mb-4">Contacto</h4>
                 <div className="space-y-2 text-sm">
                   <div className="flex items-center gap-2">
-                    <Phone className="w-4 h-4 text-[#C9A962]" />
+                    <Phone className="w-4 h-4 text-[#8E6AA3]" />
                     <span>{infoNegocio.telefono}</span>
                   </div>
-                  <p className="text-xs text-[#8B7355] mt-4">
+                  <p className="text-xs text-[#6B5B7B] mt-4">
                     {infoNegocio.redesSociales.instagram}
                   </p>
                 </div>
                 <Link
                   href="/reservas"
-                  className="mt-5 inline-flex items-center gap-2 px-5 py-2.5 bg-[#C9A962] text-white text-sm font-semibold rounded-full hover:bg-[#B8943F] transition-all shadow-md shadow-[#C9A962]/15 hover:shadow-lg"
+                  className="mt-5 inline-flex items-center gap-2 px-5 py-2.5 bg-[#8E6AA3] text-white text-sm font-semibold rounded-full hover:bg-[#7A5691] transition-all shadow-md shadow-[#8E6AA3]/15 hover:shadow-lg"
                 >
                   Reservar mesa
                 </Link>
               </div>
             </div>
-            <div className="border-t border-white/10 pt-6 flex items-center justify-between text-xs text-[#8B7355]">
-              <span>2026 Cafe Aroma · Todos los derechos reservados</span>
+            <div className="border-t border-white/10 pt-6 flex items-center justify-between text-xs text-[#6B5B7B]">
+              <span>2026 Café Orquídea Real · Todos los derechos reservados</span>
               <span>Hecho con amor para nuestros clientes</span>
             </div>
           </div>
@@ -528,7 +523,7 @@ export default function Inicio() {
       </main>
 
       {/* ── BOTTOM NAV MOBILE ─────────────────────────── */}
-      <nav className="md:hidden fixed bottom-0 left-0 right-0 glass border-t border-[#E8DFD3]/80 pb-safe z-50">
+      <nav className="md:hidden fixed bottom-0 left-0 right-0 glass border-t border-[#D9D0E3]/80 pb-safe z-50">
         <div className="flex justify-around py-2.5 max-w-lg mx-auto">
           {[
             { icon: Home, etiqueta: "Inicio", activo: true, href: "/" },
@@ -538,13 +533,13 @@ export default function Inicio() {
           ].map(({ icon: Icon, etiqueta, activo, href }) => (
             <Link key={etiqueta} href={href} className="flex flex-col items-center gap-1 px-3 py-1 relative active:scale-90 transition-transform">
               {activo && (
-                <span className="absolute -top-2.5 w-5 h-0.5 bg-[#C9A962] rounded-full" />
+                <span className="absolute -top-2.5 w-5 h-0.5 bg-[#8E6AA3] rounded-full" />
               )}
               <Icon
-                className={`w-5 h-5 transition-colors ${activo ? "text-[#C9A962]" : "text-[#A99F91]"}`}
+                className={`w-5 h-5 transition-colors ${activo ? "text-[#8E6AA3]" : "text-[#9B8FB0]"}`}
                 strokeWidth={activo ? 2.5 : 1.75}
               />
-              <span className={`text-[10px] font-semibold transition-colors ${activo ? "text-[#C9A962]" : "text-[#A99F91]"}`}>
+              <span className={`text-[10px] font-semibold transition-colors ${activo ? "text-[#8E6AA3]" : "text-[#9B8FB0]"}`}>
                 {etiqueta}
               </span>
             </Link>

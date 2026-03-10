@@ -1,15 +1,15 @@
 import type { Metadata } from "next";
-import { DM_Serif_Display, DM_Sans } from "next/font/google";
+import { Dancing_Script, Source_Sans_3 } from "next/font/google";
 import "./globals.css";
 
-const dmSerif = DM_Serif_Display({
+const dancingScript = Dancing_Script({
   variable: "--font-playfair",
   subsets: ["latin"],
-  weight: ["400"],
+  weight: ["400", "700"],
   display: "swap",
 });
 
-const dmSans = DM_Sans({
+const sourceSans = Source_Sans_3({
   variable: "--font-manrope",
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
@@ -17,12 +17,12 @@ const dmSans = DM_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "Cafe Aroma · Reservas",
-  description: "Reserva tu mesa en Cafe Aroma de forma rapida y sencilla. Confirmacion inmediata por WhatsApp.",
-  keywords: ["cafeteria", "reservas", "bogota", "cafe aroma", "mesas"],
+  title: "Café Orquídea Real · Reservas",
+  description: "Reserva tu mesa en Café Orquídea Real de forma rápida y sencilla. Saborea la calma, respira el instante.",
+  keywords: ["cafeteria", "reservas", "cali", "cafe orquidea real", "mesas", "orquidea"],
   openGraph: {
-    title: "Cafe Aroma · Reserva tu mesa",
-    description: "Reserva en segundos. Sin esperas, sin llamadas. Confirmacion por WhatsApp al instante.",
+    title: "Café Orquídea Real · Reserva tu mesa",
+    description: "Reserva en segundos. Sin esperas, sin llamadas. Saborea la calma, respira el instante.",
     type: "website",
   },
 };
@@ -34,7 +34,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es">
-      <body className={`${dmSerif.variable} ${dmSans.variable} antialiased`}>
+      <body className={`${dancingScript.variable} ${sourceSans.variable} antialiased`}>
         {children}
       </body>
     </html>

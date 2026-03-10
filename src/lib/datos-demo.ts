@@ -2,15 +2,15 @@ import { Mesa, InfoNegocio } from "@/tipos";
 
 // ── Información del negocio ────────────────────────────────────
 export const infoNegocio: InfoNegocio = {
-  nombre: "Café Aroma",
+  nombre: "Café Orquídea Real",
   descripcion:
-    "Cafetería artesanal en el corazón de Chapinero, Bogotá. Café de especialidad, repostería hecha en casa y ambiente acogedor pensado para ti.",
+    "Cafetería artesanal en el corazón de Cali. Café de especialidad, repostería hecha en casa y un ambiente inspirado en la elegancia de la orquídea. Saborea la calma, respira el instante.",
   direccion: "Cra. 13 #85-42, Chicó Norte, Bogotá D.C.",
   telefono: "+57 601 345 6789",
-  email: "hola@cafearoma.co",
+  email: "hola@cafeorquideareal.co",
   redesSociales: {
-    instagram: "@cafearoma.co",
-    facebook: "cafearomabogota",
+    instagram: "@cafeorquideareal",
+    facebook: "cafeorquideareal",
   },
   horarios: [
     { dia: "Lunes",     apertura: "07:00", cierre: "21:00", cerrado: false },

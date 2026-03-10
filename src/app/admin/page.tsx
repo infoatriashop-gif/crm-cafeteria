@@ -3,8 +3,8 @@
 import { useState, useMemo, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
 import {
-  Coffee,
   LogOut,
   LayoutDashboard,
   CalendarDays,
@@ -185,15 +185,13 @@ export default function AdminPage() {
       <header className="sticky top-0 z-50 bg-[#0F0F0F]">
         <div className="max-w-2xl mx-auto px-5 py-3.5 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-9 h-9 bg-[#C9A962] rounded-xl flex items-center justify-center shadow-sm">
-              <Coffee className="w-4.5 h-4.5 text-white" />
-            </div>
+            <Image src="/logo-simbolo.png" alt="Café Orquídea Real" width={36} height={36} className="rounded-xl shadow-sm" />
             <div>
               <p className="text-[9px] font-semibold text-[#FAF8F5]/45 uppercase tracking-wider">
                 Panel de control
               </p>
               <h1 className="text-sm font-extrabold text-[#FAF8F5] leading-tight tracking-tight font-[family-name:var(--font-playfair)]">
-                Café Aroma
+                Café Orquídea Real
               </h1>
             </div>
           </div>
@@ -201,7 +199,7 @@ export default function AdminPage() {
           <div className="flex items-center gap-3">
             <Link
               href="/"
-              className="text-[10px] font-semibold text-[#FAF8F5]/50 hover:text-[#C9A962] transition-colors hidden sm:block"
+              className="text-[10px] font-semibold text-[#FAF8F5]/50 hover:text-[#8E6AA3] transition-colors hidden sm:block"
             >
               Vista cliente
             </Link>
@@ -230,7 +228,7 @@ export default function AdminPage() {
               onClick={() => setTab(valor)}
               className={`flex-1 flex items-center justify-center gap-1.5 py-3 text-xs font-bold border-b-2 transition-all ${
                 tab === valor
-                  ? "border-[#C9A962] text-[#C9A962]"
+                  ? "border-[#8E6AA3] text-[#8E6AA3]"
                   : "border-transparent text-[#FAF8F5]/40 hover:text-[#FAF8F5]/65"
               }`}
             >
@@ -250,21 +248,21 @@ export default function AdminPage() {
             <div className="grid grid-cols-2 gap-3">
               <StatCard valor={reservasHoy.length} etiqueta="Reservas hoy" color="text-[#FAF8F5]" bg="bg-[#1A1A1A]" />
               <StatCard valor={reservasHoy.filter((r) => r.estado === "confirmada").length} etiqueta="Confirmadas hoy" color="text-[#4ADE80]" bg="bg-green-900/20" borde="border-green-800/30" />
-              <StatCard valor={pendientesTotal} etiqueta="Pendientes" color="text-[#C9A962]" bg="bg-[#C9A962]/10" borde="border-[#C9A962]/15" />
+              <StatCard valor={pendientesTotal} etiqueta="Pendientes" color="text-[#8E6AA3]" bg="bg-[#8E6AA3]/10" borde="border-[#8E6AA3]/15" />
               <StatCard valor={mesasLibres} etiqueta="Mesas libres" color="text-[#FAF8F5]" bg="bg-[#1A1A1A]" />
             </div>
 
             {/* Alerta de pendientes */}
             {pendientesTotal > 0 && (
-              <div className="bg-[#C9A962]/12 border border-[#C9A962]/25 rounded-2xl px-4 py-3.5 flex items-start gap-3">
-                <div className="w-2 h-2 rounded-full bg-[#C9A962] mt-1 flex-shrink-0 animate-pulse" />
+              <div className="bg-[#8E6AA3]/12 border border-[#8E6AA3]/25 rounded-2xl px-4 py-3.5 flex items-start gap-3">
+                <div className="w-2 h-2 rounded-full bg-[#8E6AA3] mt-1 flex-shrink-0 animate-pulse" />
                 <div>
                   <p className="text-sm font-bold text-[#FAF8F5]">
                     {pendientesTotal} reserva{pendientesTotal > 1 ? "s" : ""} pendiente{pendientesTotal > 1 ? "s" : ""}
                   </p>
                   <button
                     onClick={() => { setTab("reservas"); setFiltroReservas("todas"); }}
-                    className="text-xs text-[#C9A962] font-semibold mt-0.5"
+                    className="text-xs text-[#8E6AA3] font-semibold mt-0.5"
                   >
                     Revisar ahora →
                   </button>
@@ -278,7 +276,7 @@ export default function AdminPage() {
                 <h2 className="text-sm font-extrabold text-[#FAF8F5]">Próximas reservas</h2>
                 <button
                   onClick={() => setTab("reservas")}
-                  className="text-xs text-[#C9A962] font-semibold flex items-center gap-0.5"
+                  className="text-xs text-[#8E6AA3] font-semibold flex items-center gap-0.5"
                 >
                   Ver todas <ChevronRight className="w-3.5 h-3.5" />
                 </button>
@@ -309,7 +307,7 @@ export default function AdminPage() {
             {/* Demo del sistema — destacado */}
             <Link
               href="/admin/demo"
-              className="flex items-center gap-4 bg-gradient-to-r from-[#C9A962] to-[#B8943F] text-white rounded-2xl p-4 shadow-md hover:opacity-90 transition-opacity"
+              className="flex items-center gap-4 bg-gradient-to-r from-[#8E6AA3] to-[#7A5691] text-white rounded-2xl p-4 shadow-md hover:opacity-90 transition-opacity"
             >
               <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center flex-shrink-0">
                 <Play className="w-6 h-6 text-white ml-0.5" />
@@ -328,7 +326,7 @@ export default function AdminPage() {
                 onClick={() => setTab("mesas")}
                 className="bg-[#0F0F0F] text-[#FAF8F5] rounded-2xl p-4 text-left hover:bg-[#252525] transition-colors"
               >
-                <UtensilsCrossed className="w-5 h-5 text-[#C9A962] mb-2" />
+                <UtensilsCrossed className="w-5 h-5 text-[#8E6AA3] mb-2" />
                 <p className="text-xs text-[#FAF8F5]/60">Ver estado de</p>
                 <p className="text-sm font-bold">las mesas</p>
               </button>
@@ -336,7 +334,7 @@ export default function AdminPage() {
                 href="/"
                 className="bg-[#1A1A1A] border border-[#1F1F1F] rounded-2xl p-4 text-left hover:bg-[#1F1F1F] transition-colors"
               >
-                <ChevronRight className="w-5 h-5 text-[#C9A962] mb-2" />
+                <ChevronRight className="w-5 h-5 text-[#8E6AA3] mb-2" />
                 <p className="text-xs text-[#888888]">Ver como</p>
                 <p className="text-sm font-bold text-[#FAF8F5]">cliente</p>
               </Link>
@@ -352,7 +350,7 @@ export default function AdminPage() {
               {[
                 { color: "bg-green-400", texto: "Libre" },
                 { color: "bg-red-400", texto: "Ocupada ahora" },
-                { color: "bg-[#C9A962]", texto: "Próxima reserva" },
+                { color: "bg-[#8E6AA3]", texto: "Próxima reserva" },
               ].map(({ color, texto }) => (
                 <span key={texto} className="flex items-center gap-1.5 text-xs font-semibold text-[#888888]">
                   <span className={`w-2.5 h-2.5 rounded-full ${color}`} />
@@ -370,7 +368,7 @@ export default function AdminPage() {
                 const cfg = {
                   libre: { color: "text-green-400", bg: "bg-green-900/20", borde: "border-green-800/30", etiq: "Libres" },
                   ocupada: { color: "text-red-400", bg: "bg-red-900/20", borde: "border-red-800/30", etiq: "Ocupadas" },
-                  proxima: { color: "text-[#C9A962]", bg: "bg-[#C9A962]/10", borde: "border-[#C9A962]/15", etiq: "Próximas" },
+                  proxima: { color: "text-[#8E6AA3]", bg: "bg-[#8E6AA3]/10", borde: "border-[#8E6AA3]/15", etiq: "Próximas" },
                 }[e];
                 return (
                   <div key={e} className={`${cfg.bg} border ${cfg.borde} rounded-2xl p-4 text-center shadow-sm`}>
@@ -497,7 +495,7 @@ export default function AdminPage() {
                   {etiqueta}
                   {valor === "hoy" && reservasHoy.length > 0 && (
                     <span className={`ml-1.5 text-[10px] font-extrabold px-1.5 py-0.5 rounded-full ${
-                      filtroReservas === valor ? "bg-[#C9A962] text-white" : "bg-white/6 text-[#FAF8F5]"
+                      filtroReservas === valor ? "bg-[#8E6AA3] text-white" : "bg-white/6 text-[#FAF8F5]"
                     }`}>
                       {reservasHoy.length}
                     </span>
@@ -641,14 +639,14 @@ function TabConfiguracion() {
 
       {/* ── Estado de conexión ── */}
       <div className={`rounded-2xl border p-4 flex items-center gap-3 ${
-        configActual?.configurado ? "bg-green-900/20 border-green-800/40" : "bg-[#C9A962]/10 border-[#C9A962]/25"
+        configActual?.configurado ? "bg-green-900/20 border-green-800/40" : "bg-[#8E6AA3]/10 border-[#8E6AA3]/25"
       }`}>
         {configActual?.configurado
           ? <Wifi className="w-5 h-5 text-green-400 flex-shrink-0" />
-          : <WifiOff className="w-5 h-5 text-[#C9A962] flex-shrink-0" />
+          : <WifiOff className="w-5 h-5 text-[#8E6AA3] flex-shrink-0" />
         }
         <div className="flex-1 min-w-0">
-          <p className={`text-sm font-bold ${configActual?.configurado ? "text-green-400" : "text-[#C9A962]"}`}>
+          <p className={`text-sm font-bold ${configActual?.configurado ? "text-green-400" : "text-[#8E6AA3]"}`}>
             {configActual?.configurado ? "Pancake CRM conectado" : "Pancake CRM no configurado"}
           </p>
           {configActual?.configurado && (
@@ -700,7 +698,7 @@ function TabConfiguracion() {
               value={shopId}
               onChange={(e) => setShopId(e.target.value)}
               placeholder={configActual?.pancakeShopId ? `Actual: ${configActual.pancakeShopId}` : "ej. 123456"}
-              className="w-full px-4 py-3 bg-[#141414] border border-[#1F1F1F] rounded-xl text-sm font-medium text-[#FAF8F5] placeholder:text-[#FAF8F5]/20 outline-none focus:border-[#C9A962] focus:ring-2 focus:ring-[#C9A962]/20 transition-all"
+              className="w-full px-4 py-3 bg-[#141414] border border-[#1F1F1F] rounded-xl text-sm font-medium text-[#FAF8F5] placeholder:text-[#FAF8F5]/20 outline-none focus:border-[#8E6AA3] focus:ring-2 focus:ring-[#8E6AA3]/20 transition-all"
             />
           </div>
           <div>
@@ -711,7 +709,7 @@ function TabConfiguracion() {
                 value={apiKey}
                 onChange={(e) => setApiKey(e.target.value)}
                 placeholder={configActual?.pancakeApiKeyPreview ? `Actual: ${configActual.pancakeApiKeyPreview}` : "••••••••••••••••"}
-                className="w-full px-4 py-3 pr-11 bg-[#141414] border border-[#1F1F1F] rounded-xl text-sm font-medium text-[#FAF8F5] placeholder:text-[#FAF8F5]/20 outline-none focus:border-[#C9A962] focus:ring-2 focus:ring-[#C9A962]/20 transition-all"
+                className="w-full px-4 py-3 pr-11 bg-[#141414] border border-[#1F1F1F] rounded-xl text-sm font-medium text-[#FAF8F5] placeholder:text-[#FAF8F5]/20 outline-none focus:border-[#8E6AA3] focus:ring-2 focus:ring-[#8E6AA3]/20 transition-all"
               />
               <button
                 type="button"
@@ -775,7 +773,7 @@ function TabConfiguracion() {
           </div>
 
           {/* Conectar canales */}
-          <div className="bg-[#C9A962]/10 border border-[#C9A962]/20 rounded-xl px-4 py-3">
+          <div className="bg-[#8E6AA3]/10 border border-[#8E6AA3]/20 rounded-xl px-4 py-3">
             <p className="text-xs font-bold text-[#FAF8F5] mb-1">Para conectar los canales</p>
             <p className="text-xs text-[#888888] leading-relaxed">
               En Pancake → <span className="font-bold">Cuentas conectadas</span> → agrega tu WhatsApp Business, página de Facebook, Instagram o TikTok.
@@ -834,7 +832,7 @@ function TabConfiguracion() {
             </button>
           )}
           {!configActual?.configurado && (
-            <p className="text-xs text-[#C9A962] font-semibold">
+            <p className="text-xs text-[#8E6AA3] font-semibold">
               Guarda las credenciales de Pancake primero.
             </p>
           )}
@@ -919,10 +917,10 @@ function TarjetaMesaAdmin({
       etiq: "Ocup.",
     },
     proxima: {
-      bg: "bg-[#C9A962]/10",
-      borde: "border-[#C9A962]/25",
-      dot: "bg-[#C9A962]",
-      texto: "text-[#C9A962]",
+      bg: "bg-[#8E6AA3]/10",
+      borde: "border-[#8E6AA3]/25",
+      dot: "bg-[#8E6AA3]",
+      texto: "text-[#8E6AA3]",
       etiq: "Próx.",
     },
   }[estado];
@@ -958,7 +956,7 @@ function TarjetaResumenCompacta({
 }) {
   const estadoDot = {
     confirmada: "bg-green-400",
-    pendiente: "bg-[#C9A962] animate-pulse",
+    pendiente: "bg-[#8E6AA3] animate-pulse",
     cancelada: "bg-red-400",
   }[reserva.estado];
 
@@ -970,7 +968,7 @@ function TarjetaResumenCompacta({
           <span className="text-sm font-bold text-[#FAF8F5] truncate">
             {reserva.nombreCliente}
           </span>
-          <span className="text-xs text-[#C9A962] font-bold flex-shrink-0">{reserva.hora}</span>
+          <span className="text-xs text-[#8E6AA3] font-bold flex-shrink-0">{reserva.hora}</span>
           <span className="text-xs text-[#888888] flex-shrink-0">
             {formatearFechaEtiqueta(reserva.fecha)}
           </span>
@@ -1030,11 +1028,11 @@ function TarjetaReservaCompleta({
     },
     pendiente: {
       label: "Pendiente",
-      dot: "bg-[#C9A962] animate-pulse",
-      color: "text-[#C9A962]",
-      bg: "bg-[#C9A962]/10",
-      borde: "border-[#C9A962]/20",
-      cardBorde: "border-[#C9A962]/20",
+      dot: "bg-[#8E6AA3] animate-pulse",
+      color: "text-[#8E6AA3]",
+      bg: "bg-[#8E6AA3]/10",
+      borde: "border-[#8E6AA3]/20",
+      cardBorde: "border-[#8E6AA3]/20",
     },
     cancelada: {
       label: "Cancelada",
@@ -1126,7 +1124,7 @@ function DetalleItem({
 }) {
   return (
     <div className="flex items-start gap-2">
-      <Icon className="w-3.5 h-3.5 text-[#C9A962] flex-shrink-0 mt-0.5" />
+      <Icon className="w-3.5 h-3.5 text-[#8E6AA3] flex-shrink-0 mt-0.5" />
       <div>
         <p className="text-[9px] text-[#888888] font-bold uppercase tracking-wider">{etiqueta}</p>
         <p className={`text-xs font-semibold text-[#FAF8F5] ${capitalize ? "capitalize" : ""}`}>

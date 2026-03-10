@@ -57,9 +57,9 @@ export function MesaSVG({ mesa, seleccionada, onClick }: MesaSVGProps) {
   const esRedonda = capacidad <= 6;
 
   // Colores según estado
-  const mesaColor = seleccionada ? "#C9A962" : disponible ? "#D1C7B8" : "#E0DBD4";
-  const sillaColor = seleccionada ? "#B08A3E" : disponible ? "#BDB3A4" : "#D0CBC4";
-  const textoColor = seleccionada ? "#FFFFFF" : disponible ? "#5C4A3A" : "#A99F91";
+  const mesaColor = seleccionada ? "#8E6AA3" : disponible ? "#C4BAD4" : "#D9D0E3";
+  const sillaColor = seleccionada ? "#7A5691" : disponible ? "#B0A0CB" : "#C4BAD4";
+  const textoColor = seleccionada ? "#FFFFFF" : disponible ? "#4A3B5C" : "#9B8FB0";
 
   let vb: string;
   let sillas: { x: number; y: number; rot: number }[];
@@ -103,10 +103,10 @@ export function MesaSVG({ mesa, seleccionada, onClick }: MesaSVGProps) {
       disabled={!disponible}
       className={`group relative flex flex-col items-center gap-1.5 p-3 rounded-2xl border-2 transition-all duration-300 w-full ${
         seleccionada
-          ? "border-[#C9A962] bg-[#C9A962]/8 shadow-lg shadow-[#C9A962]/10"
+          ? "border-[#8E6AA3] bg-[#8E6AA3]/8 shadow-lg shadow-[#8E6AA3]/10"
           : disponible
-          ? "border-transparent bg-white/60 hover:bg-white hover:shadow-md hover:border-[#C9A962]/20 cursor-pointer active:scale-[0.97]"
-          : "border-transparent bg-[#F5F2ED]/60 opacity-50 cursor-not-allowed"
+          ? "border-transparent bg-white/60 hover:bg-white hover:shadow-md hover:border-[#8E6AA3]/20 cursor-pointer active:scale-[0.97]"
+          : "border-transparent bg-[#F0EBE3]/60 opacity-50 cursor-not-allowed"
       }`}
     >
       <svg
@@ -132,7 +132,7 @@ export function MesaSVG({ mesa, seleccionada, onClick }: MesaSVGProps) {
 
       <div className="text-center">
         <p className={`text-[11px] font-bold leading-tight ${
-          seleccionada ? "text-[#C9A962]" : disponible ? "text-[#2C1810]" : "text-[#A99F91]"
+          seleccionada ? "text-[#8E6AA3]" : disponible ? "text-[#2C1810]" : "text-[#A99F91]"
         }`}>
           {capacidad} {capacidad === 1 ? "persona" : "personas"}
         </p>
@@ -140,7 +140,7 @@ export function MesaSVG({ mesa, seleccionada, onClick }: MesaSVGProps) {
 
       {/* Badge de seleccion */}
       {seleccionada && (
-        <div className="absolute -top-1.5 -right-1.5 w-5 h-5 bg-[#C9A962] rounded-full flex items-center justify-center shadow-md">
+        <div className="absolute -top-1.5 -right-1.5 w-5 h-5 bg-[#8E6AA3] rounded-full flex items-center justify-center shadow-md">
           <Check className="w-3 h-3 text-white" strokeWidth={3} />
         </div>
       )}

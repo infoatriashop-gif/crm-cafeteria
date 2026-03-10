@@ -2,7 +2,8 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Coffee, Eye, EyeOff, Loader2, ArrowRight } from "lucide-react";
+import { Eye, EyeOff, Loader2, ArrowRight } from "lucide-react";
+import Image from "next/image";
 
 export default function LoginAdmin() {
   const router = useRouter();
@@ -42,8 +43,8 @@ export default function LoginAdmin() {
     <div className="min-h-screen bg-[#0F0F0F] flex flex-col font-[family-name:var(--font-manrope)] relative overflow-hidden">
 
       {/* Background decorations */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-[#C9A962]/5 rounded-full blur-[150px] -translate-y-1/2" />
-      <div className="absolute bottom-0 right-0 w-[300px] h-[300px] bg-[#C9A962]/3 rounded-full blur-[100px]" />
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-[#8E6AA3]/5 rounded-full blur-[150px] -translate-y-1/2" />
+      <div className="absolute bottom-0 right-0 w-[300px] h-[300px] bg-[#8E6AA3]/3 rounded-full blur-[100px]" />
 
       {/* Zona superior decorativa */}
       <div className="flex-1 flex items-center justify-center px-5 py-10 relative">
@@ -51,11 +52,9 @@ export default function LoginAdmin() {
 
           {/* Logo */}
           <div className="text-center mb-10">
-            <div className="w-16 h-16 bg-[#C9A962] rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg shadow-[#C9A962]/20 animate-pulse-gold">
-              <Coffee className="w-8 h-8 text-white" />
-            </div>
+            <Image src="/logo-simbolo.png" alt="Café Orquídea Real" width={64} height={64} className="rounded-2xl mx-auto mb-4" />
             <h1 className="text-2xl font-extrabold text-[#FAF8F5] tracking-tight font-[family-name:var(--font-playfair)]">
-              Cafe Aroma
+              Café Orquídea Real
             </h1>
             <p className="text-[#FAF8F5]/50 text-sm mt-1 font-medium">
               Panel de Administracion
@@ -81,10 +80,10 @@ export default function LoginAdmin() {
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="admin@cafearoma.mx"
+                  placeholder="admin@cafeorquideareal.co"
                   required
                   autoComplete="email"
-                  className="w-full px-4 py-3 bg-[#141414] border border-[#1F1F1F] rounded-xl text-sm font-medium text-[#FAF8F5] placeholder:text-[#FAF8F5]/20 outline-none focus:border-[#C9A962] focus:ring-2 focus:ring-[#C9A962]/20 transition-all"
+                  className="w-full px-4 py-3 bg-[#141414] border border-[#1F1F1F] rounded-xl text-sm font-medium text-[#FAF8F5] placeholder:text-[#FAF8F5]/20 outline-none focus:border-[#8E6AA3] focus:ring-2 focus:ring-[#8E6AA3]/20 transition-all"
                 />
               </div>
 
@@ -101,7 +100,7 @@ export default function LoginAdmin() {
                     placeholder="••••••••••"
                     required
                     autoComplete="current-password"
-                    className="w-full px-4 py-3 pr-11 bg-[#141414] border border-[#1F1F1F] rounded-xl text-sm font-medium text-[#FAF8F5] placeholder:text-[#FAF8F5]/20 outline-none focus:border-[#C9A962] focus:ring-2 focus:ring-[#C9A962]/20 transition-all"
+                    className="w-full px-4 py-3 pr-11 bg-[#141414] border border-[#1F1F1F] rounded-xl text-sm font-medium text-[#FAF8F5] placeholder:text-[#FAF8F5]/20 outline-none focus:border-[#8E6AA3] focus:ring-2 focus:ring-[#8E6AA3]/20 transition-all"
                   />
                   <button
                     type="button"
@@ -128,7 +127,7 @@ export default function LoginAdmin() {
               <button
                 type="submit"
                 disabled={cargando}
-                className="group w-full py-3.5 bg-[#C9A962] text-white font-bold rounded-xl hover:bg-[#B8943F] transition-all flex items-center justify-center gap-2 disabled:opacity-70 mt-2 shadow-lg shadow-[#C9A962]/15 hover:shadow-xl hover:shadow-[#C9A962]/25 active:scale-[0.98]"
+                className="group w-full py-3.5 bg-[#8E6AA3] text-white font-bold rounded-xl hover:bg-[#7A5691] transition-all flex items-center justify-center gap-2 disabled:opacity-70 mt-2 shadow-lg shadow-[#8E6AA3]/15 hover:shadow-xl hover:shadow-[#8E6AA3]/25 active:scale-[0.98]"
               >
                 {cargando ? (
                   <Loader2 className="w-4 h-4 animate-spin" />
@@ -142,7 +141,7 @@ export default function LoginAdmin() {
           {/* Link a la app publica */}
           <p className="text-center text-[#FAF8F5]/30 text-xs mt-6 animate-fade-up delay-400">
             Eres cliente?{" "}
-            <a href="/" className="text-[#C9A962] font-semibold hover:text-[#B8943F] transition-colors">
+            <a href="/" className="text-[#8E6AA3] font-semibold hover:text-[#7A5691] transition-colors">
               Ver reservas
             </a>
           </p>
