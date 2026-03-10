@@ -1,5 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
+import { obtenerConfigHero } from "@/lib/hero-config";
+import { HeroCarousel } from "@/components/hero-carousel";
 import {
   Coffee,
   Bell,
@@ -75,17 +77,22 @@ export default function Inicio() {
   const fechas = obtenerProximasFechas();
   const horarioHoy = obtenerHorarioHoy();
   const totalMesas = mesas.length;
+  const heroConfig = obtenerConfigHero();
 
   return (
     <div className="min-h-screen bg-[#F9F5EF] font-[family-name:var(--font-manrope)]">
 
       {/* ── NAVBAR MOBILE ─────────────────────────────── */}
-      <header className="md:hidden sticky top-0 z-50 glass border-b border-[#D9D0E3]/80 px-5 py-3.5 flex items-center justify-between animate-fade-down">
-        <div className="flex items-center gap-2.5">
-          <Image src="/logo-simbolo.png" alt="Café Orquídea Real" width={36} height={36} className="rounded-xl" />
-          <span className="font-[family-name:var(--font-playfair)] text-[#2C1810] text-lg tracking-tight">
-            Café Orquídea Real
-          </span>
+      <header className="md:hidden sticky top-0 z-50 glass border-b border-[#D9D0E3]/80 px-5 py-3 flex items-center justify-between animate-fade-down">
+        <div className="flex items-center">
+          <Image
+            src="/logo-cafeteria.png"
+            alt="Café Orquídea Real"
+            width={160}
+            height={43}
+            className="h-8 w-auto object-contain"
+            priority
+          />
         </div>
         <button className="w-9 h-9 bg-[#F0EBE3] rounded-xl flex items-center justify-center hover:bg-[#EBE3D8] transition-colors active:scale-95">
           <Bell className="w-4 h-4 text-[#6B5B7B]" />
@@ -95,11 +102,15 @@ export default function Inicio() {
       {/* ── NAVBAR DESKTOP ────────────────────────────── */}
       <nav className="hidden md:block sticky top-0 z-50 glass border-b border-[#D9D0E3]/60 animate-fade-down">
         <div className="max-w-7xl mx-auto px-14 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <Image src="/logo-simbolo.png" alt="Café Orquídea Real" width={40} height={40} className="rounded-xl" />
-            <span className="font-[family-name:var(--font-playfair)] text-[#2C1810] text-[22px] tracking-[0.5px]">
-              Café Orquídea Real
-            </span>
+          <div className="flex items-center">
+            <Image
+              src="/logo-cafeteria.png"
+              alt="Café Orquídea Real"
+              width={200}
+              height={54}
+              className="h-10 w-auto object-contain"
+              priority
+            />
           </div>
           <div className="flex items-center gap-8 text-sm text-[#6B5B7B]">
             <Link href="/" className="text-[#2C1810] font-semibold relative after:absolute after:bottom-[-4px] after:left-0 after:w-full after:h-0.5 after:bg-[#8E6AA3] after:rounded-full">Inicio</Link>
@@ -175,11 +186,14 @@ export default function Inicio() {
             <div className="md:order-2 animate-fade-up delay-100 md:delay-300">
               <div
                 className="relative overflow-hidden rounded-[24px] min-h-[280px] md:min-h-[440px] flex flex-col justify-end p-6 md:p-8 texture-grain"
-                style={{
-                  background:
-                    "radial-gradient(ellipse at 25% 30%, rgba(142,106,163,0.25) 0%, transparent 55%), radial-gradient(ellipse at 80% 20%, rgba(176,160,203,0.15) 0%, transparent 45%), linear-gradient(160deg, #3D2A1E 0%, #2C1810 50%, #1A0E08 100%)",
-                }}
               >
+                {/* Carousel de imágenes hero */}
+                <HeroCarousel
+                  imagenes={heroConfig.imagenes}
+                  intervalo={heroConfig.intervalo}
+                />
+                {/* Overlay oscuro para legibilidad del texto */}
+                <div className="absolute inset-0 bg-gradient-to-t from-[#1A0E08]/90 via-[#2C1810]/40 to-black/20" />
                 {/* Decorative circles */}
                 <div className="absolute top-8 right-12 w-[100px] h-[100px] rounded-full border border-[#D5A96C]/15 animate-float" />
                 <div className="absolute top-12 right-16 w-[60px] h-[60px] rounded-full border border-[#D5A96C]/10" />
@@ -187,17 +201,23 @@ export default function Inicio() {
                 <div className="absolute top-20 left-12 w-2 h-2 rounded-full bg-[#D5A96C]/25" />
                 <div className="absolute bottom-32 right-20 w-2 h-2 rounded-full bg-[#D5A96C]/15" />
 
-                {/* Coffee icon */}
-                <div className="absolute top-6 right-6 w-[56px] h-[56px] bg-[#D5A96C]/15 rounded-2xl flex items-center justify-center border border-[#D5A96C]/20 backdrop-blur-sm animate-pulse-gold">
-                  <Coffee className="w-7 h-7 text-[#D5A96C]" />
-                </div>
-
                 {/* Rating pill */}
-                <div className="absolute top-6 left-6 bg-black/30 backdrop-blur-sm rounded-xl px-3 py-2 flex items-center gap-1.5">
+                <div className="absolute top-6 right-6 bg-black/30 backdrop-blur-sm rounded-xl px-3 py-2 flex items-center gap-1.5">
                   {[1,2,3,4,5].map(i => (
                     <Star key={i} className="w-3 h-3 fill-[#D5A96C] text-[#D5A96C]" />
                   ))}
                   <span className="text-white text-xs font-semibold ml-1">4.9</span>
+                </div>
+
+                {/* Logo centrado en la parte superior del hero */}
+                <div className="absolute top-0 inset-x-0 flex justify-center items-center pt-8 md:pt-10 z-10">
+                  <Image
+                    src="/logo-cafeteria.png"
+                    alt="Café Orquídea Real"
+                    width={220}
+                    height={59}
+                    className="h-11 md:h-14 w-auto object-contain brightness-0 invert drop-shadow-[0_2px_8px_rgba(0,0,0,0.5)]"
+                  />
                 </div>
 
                 <div className="relative z-10">

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo, useEffect, useCallback } from "react";
+import { useState, useMemo, useEffect, useCallback, useRef } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
@@ -27,12 +27,20 @@ import {
   WifiOff,
   Loader2,
   AlertCircle,
+  ImageIcon,
+  Trash2,
+  Upload,
+  GripVertical,
+  Timer,
+  ArrowUp,
+  ArrowDown,
+  Plus,
 } from "lucide-react";
 import { mesas, reservasDemo, infoNegocio } from "@/lib/datos-demo";
 import type { Mesa } from "@/tipos";
 
 // ── Tipos locales ──────────────────────────────────────────────
-type TabAdmin = "resumen" | "mesas" | "reservas" | "config";
+type TabAdmin = "resumen" | "mesas" | "reservas" | "inicio" | "config";
 type FiltroReservas = "hoy" | "proximas" | "todas";
 type EstadoReserva = "pendiente" | "confirmada" | "cancelada";
 
@@ -220,6 +228,7 @@ export default function AdminPage() {
               { valor: "resumen", etiqueta: "Resumen", icon: LayoutDashboard },
               { valor: "mesas", etiqueta: "Mesas", icon: UtensilsCrossed },
               { valor: "reservas", etiqueta: "Reservas", icon: CalendarDays },
+              { valor: "inicio", etiqueta: "Inicio", icon: ImageIcon },
               { valor: "config", etiqueta: "Config.", icon: Settings },
             ] as const
           ).map(({ valor, etiqueta, icon: Icon }) => (
@@ -467,6 +476,9 @@ export default function AdminPage() {
             )}
           </>
         )}
+
+        {/* ── TAB: INICIO (IMÁGENES HERO) ─────────────────── */}
+        {tab === "inicio" && <TabImagenesHero />}
 
         {/* ── TAB: CONFIGURACIÓN ──────────────────────────── */}
         {tab === "config" && <TabConfiguracion />}
@@ -1131,6 +1143,325 @@ function DetalleItem({
           {valor}
         </p>
       </div>
+    </div>
+  );
+}
+
+// ── TAB: IMÁGENES HERO ─────────────────────────────────────────
+interface ImagenHeroLocal {
+  id: string;
+  nombre: string;
+  url: string;
+}
+
+interface ConfigHeroLocal {
+  imagenes: ImagenHeroLocal[];
+  intervalo: number;
+}
+
+function TabImagenesHero() {
+  const [config, setConfig] = useState<ConfigHeroLocal | null>(null);
+  const [cargando, setCargando] = useState(true);
+  const [subiendo, setSubiendo] = useState(false);
+  const [eliminando, setEliminando] = useState<string | null>(null);
+  const [guardandoIntervalo, setGuardandoIntervalo] = useState(false);
+  const [intervaloLocal, setIntervaloLocal] = useState(5000);
+  const [error, setError] = useState("");
+  const [exito, setExito] = useState("");
+  const [arrastrando, setArrastrando] = useState(false);
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  const cargar = useCallback(async () => {
+    setCargando(true);
+    try {
+      const res = await fetch("/api/admin/hero");
+      if (res.ok) {
+        const data: ConfigHeroLocal = await res.json();
+        setConfig(data);
+        setIntervaloLocal(data.intervalo);
+      }
+    } finally {
+      setCargando(false);
+    }
+  }, []);
+
+  useEffect(() => { cargar(); }, [cargar]);
+
+  const mostrarExito = (msg: string) => {
+    setExito(msg);
+    setTimeout(() => setExito(""), 3000);
+  };
+
+  const subirArchivos = async (archivos: FileList | File[]) => {
+    const lista = Array.from(archivos).filter((f) => f.type.startsWith("image/"));
+    if (!lista.length) { setError("Solo se permiten archivos de imagen"); return; }
+    setSubiendo(true);
+    setError("");
+    let subidos = 0;
+    for (const archivo of lista) {
+      const fd = new FormData();
+      fd.append("archivo", archivo);
+      try {
+        const res = await fetch("/api/admin/hero", { method: "POST", body: fd });
+        if (res.ok) subidos++;
+        else {
+          const d = await res.json();
+          setError(d.error ?? "Error subiendo imagen");
+        }
+      } catch {
+        setError("Error de conexión");
+      }
+    }
+    setSubiendo(false);
+    if (subidos > 0) {
+      mostrarExito(`${subidos} imagen${subidos > 1 ? "es" : ""} subida${subidos > 1 ? "s" : ""} correctamente`);
+      cargar();
+    }
+  };
+
+  const eliminar = async (id: string) => {
+    if (!config || config.imagenes.length <= 1) {
+      setError("Debe quedar al menos una imagen");
+      return;
+    }
+    setEliminando(id);
+    setError("");
+    try {
+      const res = await fetch(`/api/admin/hero?id=${id}`, { method: "DELETE" });
+      if (res.ok) {
+        mostrarExito("Imagen eliminada");
+        cargar();
+      } else {
+        const d = await res.json();
+        setError(d.error ?? "Error eliminando");
+      }
+    } catch { setError("Error de conexión"); }
+    finally { setEliminando(null); }
+  };
+
+  const mover = async (indice: number, direccion: -1 | 1) => {
+    if (!config) return;
+    const nuevas = [...config.imagenes];
+    const destino = indice + direccion;
+    if (destino < 0 || destino >= nuevas.length) return;
+    [nuevas[indice], nuevas[destino]] = [nuevas[destino], nuevas[indice]];
+    setConfig({ ...config, imagenes: nuevas });
+    await fetch("/api/admin/hero", {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ orden: nuevas.map((i) => i.id) }),
+    });
+  };
+
+  const guardarIntervalo = async () => {
+    setGuardandoIntervalo(true);
+    try {
+      const res = await fetch("/api/admin/hero", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ intervalo: intervaloLocal }),
+      });
+      if (res.ok) mostrarExito("Intervalo guardado");
+    } catch { setError("Error guardando intervalo"); }
+    finally { setGuardandoIntervalo(false); }
+  };
+
+  const onDrop = (e: React.DragEvent) => {
+    e.preventDefault();
+    setArrastrando(false);
+    subirArchivos(e.dataTransfer.files);
+  };
+
+  if (cargando) return (
+    <div className="flex items-center justify-center py-16">
+      <Loader2 className="w-6 h-6 text-[#8E6AA3] animate-spin" />
+    </div>
+  );
+
+  const total = config?.imagenes.length ?? 0;
+
+  return (
+    <div className="space-y-5">
+
+      {/* Header */}
+      <div className="flex items-center justify-between">
+        <div>
+          <h2 className="text-sm font-extrabold text-[#FAF8F5]">Imágenes del inicio</h2>
+          <p className="text-xs text-[#888888] mt-0.5">
+            {total === 1 ? "1 imagen · imagen estática" : `${total} imágenes · carrusel activo`}
+          </p>
+        </div>
+        <button
+          onClick={() => inputRef.current?.click()}
+          disabled={subiendo}
+          className="flex items-center gap-1.5 px-3.5 py-2 bg-[#8E6AA3] text-white text-xs font-bold rounded-xl hover:bg-[#7A5691] transition-colors disabled:opacity-60 shadow-md shadow-[#8E6AA3]/20"
+        >
+          {subiendo ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Plus className="w-3.5 h-3.5" />}
+          {subiendo ? "Subiendo..." : "Agregar"}
+        </button>
+      </div>
+
+      {/* Input oculto */}
+      <input
+        ref={inputRef}
+        type="file"
+        accept="image/*"
+        multiple
+        className="hidden"
+        onChange={(e) => e.target.files && subirArchivos(e.target.files)}
+      />
+
+      {/* Zona drag & drop */}
+      <div
+        onDragOver={(e) => { e.preventDefault(); setArrastrando(true); }}
+        onDragLeave={() => setArrastrando(false)}
+        onDrop={onDrop}
+        onClick={() => inputRef.current?.click()}
+        className={`border-2 border-dashed rounded-2xl p-6 flex flex-col items-center gap-2.5 cursor-pointer transition-all ${
+          arrastrando
+            ? "border-[#8E6AA3] bg-[#8E6AA3]/10"
+            : "border-[#1F1F1F] hover:border-[#8E6AA3]/50 hover:bg-[#1A1A1A]"
+        }`}
+      >
+        <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${arrastrando ? "bg-[#8E6AA3]/20" : "bg-[#1A1A1A]"}`}>
+          <Upload className={`w-5 h-5 ${arrastrando ? "text-[#8E6AA3]" : "text-[#888888]"}`} />
+        </div>
+        <div className="text-center">
+          <p className="text-xs font-bold text-[#FAF8F5]">
+            {arrastrando ? "Suelta aquí" : "Arrastra imágenes o haz clic"}
+          </p>
+          <p className="text-[10px] text-[#888888] mt-0.5">JPG, PNG, WebP · máx. 8 MB por imagen</p>
+        </div>
+      </div>
+
+      {/* Mensajes */}
+      {error && (
+        <div className="bg-red-900/20 border border-red-800/40 rounded-xl px-4 py-3 flex items-center gap-2">
+          <AlertCircle className="w-4 h-4 text-red-400 flex-shrink-0" />
+          <p className="text-xs text-red-400 font-medium">{error}</p>
+        </div>
+      )}
+      {exito && (
+        <div className="bg-green-900/20 border border-green-800/40 rounded-xl px-4 py-3 flex items-center gap-2">
+          <CheckCircle2 className="w-4 h-4 text-green-400 flex-shrink-0" />
+          <p className="text-xs text-green-400 font-medium">{exito}</p>
+        </div>
+      )}
+
+      {/* Lista de imágenes */}
+      {config && config.imagenes.length > 0 && (
+        <div className="space-y-2.5">
+          <p className="text-[10px] font-bold text-[#888888] uppercase tracking-wider">
+            Orden del carrusel
+          </p>
+          {config.imagenes.map((img, i) => (
+            <div
+              key={img.id}
+              className="bg-[#1A1A1A] border border-[#1F1F1F] rounded-2xl overflow-hidden flex items-center gap-3 pr-3"
+            >
+              {/* Preview */}
+              <div className="relative w-20 h-14 flex-shrink-0">
+                <Image
+                  src={img.url}
+                  alt={`Imagen ${i + 1}`}
+                  fill
+                  className="object-cover"
+                  sizes="80px"
+                />
+                <div className="absolute top-1 left-1 w-4 h-4 bg-black/60 rounded-md flex items-center justify-center">
+                  <span className="text-[8px] font-extrabold text-white">{i + 1}</span>
+                </div>
+              </div>
+
+              {/* Info */}
+              <div className="flex-1 min-w-0">
+                <p className="text-xs font-semibold text-[#FAF8F5] truncate">{img.nombre}</p>
+                {i === 0 && (
+                  <span className="text-[9px] font-bold text-[#8E6AA3] bg-[#8E6AA3]/10 border border-[#8E6AA3]/20 px-1.5 py-0.5 rounded-full mt-0.5 inline-block">
+                    Principal
+                  </span>
+                )}
+              </div>
+
+              {/* Controles */}
+              <div className="flex items-center gap-1">
+                <button
+                  onClick={() => mover(i, -1)}
+                  disabled={i === 0}
+                  className="w-7 h-7 flex items-center justify-center rounded-lg text-[#888888] hover:text-[#FAF8F5] hover:bg-white/6 transition-colors disabled:opacity-20 disabled:cursor-not-allowed"
+                  aria-label="Subir"
+                >
+                  <ArrowUp className="w-3.5 h-3.5" />
+                </button>
+                <button
+                  onClick={() => mover(i, 1)}
+                  disabled={i === config.imagenes.length - 1}
+                  className="w-7 h-7 flex items-center justify-center rounded-lg text-[#888888] hover:text-[#FAF8F5] hover:bg-white/6 transition-colors disabled:opacity-20 disabled:cursor-not-allowed"
+                  aria-label="Bajar"
+                >
+                  <ArrowDown className="w-3.5 h-3.5" />
+                </button>
+                <button
+                  onClick={() => eliminar(img.id)}
+                  disabled={eliminando === img.id || config.imagenes.length <= 1}
+                  className="w-7 h-7 flex items-center justify-center rounded-lg text-[#888888] hover:text-red-400 hover:bg-red-900/20 transition-colors disabled:opacity-20 disabled:cursor-not-allowed"
+                  aria-label="Eliminar"
+                >
+                  {eliminando === img.id
+                    ? <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                    : <Trash2 className="w-3.5 h-3.5" />
+                  }
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* Intervalo del carrusel */}
+      {total > 1 && (
+        <div className="bg-[#1A1A1A] border border-[#1F1F1F] rounded-2xl p-4 space-y-3">
+          <div className="flex items-center gap-2">
+            <Timer className="w-4 h-4 text-[#8E6AA3]" />
+            <p className="text-xs font-bold text-[#FAF8F5]">Velocidad del carrusel</p>
+          </div>
+          <div className="space-y-2">
+            <input
+              type="range"
+              min={2000}
+              max={15000}
+              step={500}
+              value={intervaloLocal}
+              onChange={(e) => setIntervaloLocal(Number(e.target.value))}
+              className="w-full accent-[#8E6AA3]"
+            />
+            <div className="flex items-center justify-between text-[10px] text-[#888888]">
+              <span>2s (rápido)</span>
+              <span className="font-bold text-[#FAF8F5]">{(intervaloLocal / 1000).toFixed(1)}s por imagen</span>
+              <span>15s (lento)</span>
+            </div>
+          </div>
+          <button
+            onClick={guardarIntervalo}
+            disabled={guardandoIntervalo}
+            className="w-full py-2.5 rounded-xl text-xs font-bold bg-[#141414] border border-[#1F1F1F] text-[#FAF8F5] hover:bg-[#1F1F1F] transition-colors flex items-center justify-center gap-2 disabled:opacity-60"
+          >
+            {guardandoIntervalo ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : null}
+            {guardandoIntervalo ? "Guardando..." : "Guardar intervalo"}
+          </button>
+        </div>
+      )}
+
+      {/* Nota */}
+      <div className="bg-white/4 rounded-2xl border border-white/8 px-4 py-3.5 flex items-start gap-3">
+        <AlertCircle className="w-4 h-4 text-[#888888] flex-shrink-0 mt-0.5" />
+        <p className="text-xs text-[#888888] leading-relaxed">
+          Los cambios se reflejan en tiempo real en la pantalla de inicio.
+          Para producción en Vercel, las imágenes deben migrarse a{" "}
+          <span className="text-[#FAF8F5] font-mono font-bold">Vercel Blob Storage</span>.
+        </p>
+      </div>
+
     </div>
   );
 }

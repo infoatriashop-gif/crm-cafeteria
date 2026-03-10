@@ -1,0 +1,10 @@
+{
+  "imagenes": [
+    {
+      "id": "default",
+      "nombre": "hero-cafeteria.png",
+      "url": "/hero-cafeteria.png"
+    }
+  ],
+  "intervalo": 5000
+}
